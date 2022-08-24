@@ -8,7 +8,7 @@ require 'pdf/reader'
 
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/cairo-unicode.pdf"
 
-PDF::Reader2.open(filename) do |reader|
+PDF2::Reader2.open(filename) do |reader|
   reader.pages.each do |page|
     puts page.text
   end

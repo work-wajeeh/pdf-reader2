@@ -25,9 +25,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-class PDF::Reader2
+class PDF2::Reader2
   ################################################################################
-  # An internal PDF::Reader2 class that helps to verify various parts of the PDF file
+  # An internal PDF2::Reader2 class that helps to verify various parts of the PDF file
   # are valid
   class Error # :nodoc:
     ################################################################################

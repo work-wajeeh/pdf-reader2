@@ -37,7 +37,7 @@ end
 
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/cairo-basic.pdf"
 
-PDF::Reader2.open(filename) do |reader|
+PDF2::Reader2.open(filename) do |reader|
   reader.pages.each do |page|
     receiver = BatesReceiver.new
     page.walk(receiver)

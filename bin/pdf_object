@@ -26,26 +26,26 @@ gen = gen.to_i
 # make magic happen
 begin
   obj = nil
-  PDF::Reader2.open(filename) do |pdf|
-    obj = pdf.objects[PDF::Reader2::Reference.new(id, gen)]
+  PDF2::Reader2.open(filename) do |pdf|
+    obj = pdf.objects[PDF2::Reader2::Reference.new(id, gen)]
   end
 
   case obj
   when Hash, Array
     puts obj.inspect
-  when PDF::Reader2::Stream
+  when PDF2::Reader2::Stream
     puts obj.hash.inspect
     puts obj.unfiltered_data
   else
     puts obj
   end
-rescue PDF::Reader2::InvalidObjectError
+rescue PDF2::Reader2::InvalidObjectError
   $stderr.puts "Error retreiving object #{id}, gen #{gen}. Does it exist?"
   exit 1
-rescue PDF::Reader2::MalformedPDFError => e
+rescue PDF2::Reader2::MalformedPDFError => e
   $stderr.puts "Malformed PDF file: #{e.message}"
   exit 1
-rescue PDF::Reader2::UnsupportedFeatureError => e
-  $stderr.puts "PDF file implements a feature unsupported by PDF::Reader2: #{e.message}"
+rescue PDF2::Reader2::UnsupportedFeatureError => e
+  $stderr.puts "PDF file implements a feature unsupported by PDF2::Reader2: #{e.message}"
   exit 1
 end

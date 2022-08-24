@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader2
+class PDF2::Reader2
   # A simple receiver that prints all operaters and parameters in the content
   # stream of a single page.
   #

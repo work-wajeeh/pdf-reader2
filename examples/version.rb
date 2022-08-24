@@ -8,6 +8,6 @@ require 'pdf/reader'
 
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/cairo-basic.pdf"
 
-PDF::Reader2.open(filename) do |reader|
+PDF2::Reader2.open(filename) do |reader|
   puts reader.pdf_version
 end

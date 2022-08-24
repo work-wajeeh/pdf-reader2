@@ -4,7 +4,7 @@
 
 require 'ttfunk'
 
-class PDF::Reader2
+class PDF2::Reader2
 
   # Font descriptors are outlined in Section 9.8, PDF 32000-1:2008, pp 281-288
   class FontDescriptor

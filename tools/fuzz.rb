@@ -145,12 +145,12 @@ end
 def read(f)
   print_status "Processing '#{f}'"
   begin
-    reader = PDF::Reader2.new f
-  rescue PDF::Reader2::MalformedPDFError
+    reader = PDF2::Reader2.new f
+  rescue PDF2::Reader2::MalformedPDFError
     print_status "Could not parse PDF '#{f}': PDF is malformed"
     return
-  rescue PDF::Reader2::UnsupportedFeatureError
-    print_status "Could not parse PDF '#{f}': PDF::Reader2::UnsupportedFeatureError"
+  rescue PDF2::Reader2::UnsupportedFeatureError
+    print_status "Could not parse PDF '#{f}': PDF2::Reader2::UnsupportedFeatureError"
     return
   end
   print_good 'Processing complete'
@@ -158,10 +158,10 @@ def read(f)
   print_status "Parsing '#{f}'"
   begin
     parse reader
-  rescue PDF::Reader2::UnsupportedFeatureError
-    print_status "Could not parse PDF '#{f}': PDF::Reader2::UnsupportedFeatureError"
+  rescue PDF2::Reader2::UnsupportedFeatureError
+    print_status "Could not parse PDF '#{f}': PDF2::Reader2::UnsupportedFeatureError"
     return
-  rescue PDF::Reader2::MalformedPDFError
+  rescue PDF2::Reader2::MalformedPDFError
     print_status "Could not parse PDF '#{f}': PDF is malformed"
     return
   end

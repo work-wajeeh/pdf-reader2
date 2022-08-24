@@ -3,7 +3,7 @@
 # frozen_string_literal: true
 
 #
-class PDF::Reader2 # :nodoc:
+class PDF2::Reader2 # :nodoc:
   module Filter # :nodoc:
     # implementation of the run length stream filter
     class RunLength

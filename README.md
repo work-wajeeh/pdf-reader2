@@ -1,6 +1,6 @@
 # pdf-reader2
 
-The PDF::Reader2 library implements a PDF parser conforming as much as possible
+The PDF2::Reader2 library implements a PDF parser conforming as much as possible
 to the PDF specification from Adobe.
 
 It provides programmatic access to the contents of a PDF file with a high
@@ -25,12 +25,12 @@ The recommended installation method is via Rubygems.
 
 # Usage
 
-Begin by creating a PDF::Reader2 instance that points to a PDF file. Document
+Begin by creating a PDF2::Reader2 instance that points to a PDF file. Document
 level information (metadata, page count, bookmarks, etc) is available via
 this object.
 
 ```ruby
-    reader = PDF::Reader2.new("somefile.pdf")
+    reader = PDF2::Reader2.new("somefile.pdf")
 
     puts reader.pdf_version
     puts reader.info
@@ -38,14 +38,14 @@ this object.
     puts reader.page_count
  ```
 
-PDF::Reader2.new accepts an IO stream or a filename. Here's an example with
+PDF2::Reader2.new accepts an IO stream or a filename. Here's an example with
 an IO stream:
 
 ```ruby
     require 'open-uri'
 
     io     = open('http://example.com/somefile.pdf')
-    reader = PDF::Reader2.new(io)
+    reader = PDF2::Reader2.new(io)
     puts reader.info
  ```
 
@@ -55,7 +55,7 @@ particularly important on windows and MRI >= 1.9.2.
 
 ```ruby
     File.open("somefile.pdf", "rb") do |io|
-      reader = PDF::Reader2.new(io)
+      reader = PDF2::Reader2.new(io)
       puts reader.info
     end
  ```
@@ -64,7 +64,7 @@ PDF is a page based file format, so most visible information is available via
 page-based iteration
 
 ```ruby
-    reader = PDF::Reader2.new("somefile.pdf")
+    reader = PDF2::Reader2.new("somefile.pdf")
 
     reader.pages.each do |page|
       puts page.fonts
@@ -74,7 +74,7 @@ page-based iteration
 ```
 
 If you need to access the full program for rendering a page, use the walk() method
-of PDF::Reader2::Page.
+of PDF2::Reader2::Page.
 
 ```ruby
     class RedGreenBlue
@@ -83,7 +83,7 @@ of PDF::Reader2::Page.
       end
     end
 
-    reader   = PDF::Reader2.new("somefile.pdf")
+    reader   = PDF2::Reader2.new("somefile.pdf")
     page     = reader.page(1)
     receiver = RedGreenBlue.new
     page.walk(receiver)
@@ -93,20 +93,20 @@ For low level access to the objects in a PDF file, use the ObjectHash class like
 so:
 
 ```ruby
-    reader  = PDF::Reader2.new("somefile.pdf")
+    reader  = PDF2::Reader2.new("somefile.pdf")
     puts reader.objects.inspect
 ```
 
 # Text Encoding
 
 Regardless of the internal encoding used in the PDF all text will be converted
-to UTF-8 before it is passed back from PDF::Reader2.
+to UTF-8 before it is passed back from PDF2::Reader2.
 
 Strings that contain binary data (like font blobs) will be marked as such.
 
 # Former API
 
-Version 1.0.0 of PDF::Reader2 introduced a new page-based API that provides
+Version 1.0.0 of PDF2::Reader2 introduced a new page-based API that provides
 efficient and easy access to any page.
 
 The pre-1.0 API was deprecated during the 1.x release series, and has been
@@ -122,14 +122,14 @@ file should be valid, or that a corrupt file didn't raise an exception, please
 forward a copy of the file to the maintainers (preferably via the google group)
 and we will attempt to improve the code.
 
-UnsupportedFeatureError - The PDF uses a feature that PDF::Reader2 doesn't currently
+UnsupportedFeatureError - The PDF uses a feature that PDF2::Reader2 doesn't currently
 support. Again, we welcome submissions of PDF files that exhibit these features to help
 us with future code improvements.
 
 MalformedPDFError has some subclasses if you want to detect finer grained issues. If you
 don't, 'rescue MalformedPDFError' will catch all the subclassed errors as well.
 
-Any other exceptions should be considered bugs in either PDF::Reader2 (please
+Any other exceptions should be considered bugs in either PDF2::Reader2 (please
 report it!).
 
 # PDF Integrity
@@ -155,7 +155,7 @@ more detail.
 
 # Mailing List
 
-Any questions or feedback should be sent to the PDF::Reader2 google group. It's
+Any questions or feedback should be sent to the PDF2::Reader2 google group. It's
 better that any answers be available for others instead of hiding in someone's
 inbox.
 
@@ -182,12 +182,12 @@ Another way of enabling native Ascii85 decoding is to place `gem 'ascii85_native
 # Known Limitations
 
 Occasionally some text cannot be extracted properly due to the way it has been
-stored, or the use of invalid bytes. In these cases PDF::Reader2 will output a
+stored, or the use of invalid bytes. In these cases PDF2::Reader2 will output a
 little UTF-8 friendly box to indicate an unrecognisable character.
 
 # Resources
 
-* PDF::Reader2 Code Repository: http://github.com/yob/pdf-reader2
+* PDF2::Reader2 Code Repository: http://github.com/yob/pdf-reader2
 
 * PDF Specification: https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf
 

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader2
+class PDF2::Reader2
   module Filter # :nodoc:
     # some filter implementations support preprocessing of the  data to
     # improve compression

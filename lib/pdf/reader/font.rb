@@ -29,7 +29,7 @@
 
 require 'pdf/reader/width_calculator'
 
-class PDF::Reader2
+class PDF2::Reader2
   # Represents a single font PDF object and provides some useful methods
   # for extracting info. Mainly used for converting text to UTF-8.
   #
@@ -48,7 +48,7 @@ class PDF::Reader2
       extract_descendants(obj)
       @width_calc = build_width_calculator
 
-      @encoding ||= PDF::Reader2::Encoding.new(:StandardEncoding)
+      @encoding ||= PDF2::Reader2::Encoding.new(:StandardEncoding)
     end
 
     def to_utf8(params)
@@ -115,37 +115,37 @@ class PDF::Reader2
     def default_encoding(font_name)
       case font_name.to_s
       when "Symbol" then
-        PDF::Reader2::Encoding.new(:SymbolEncoding)
+        PDF2::Reader2::Encoding.new(:SymbolEncoding)
       when "ZapfDingbats" then
-        PDF::Reader2::Encoding.new(:ZapfDingbatsEncoding)
+        PDF2::Reader2::Encoding.new(:ZapfDingbatsEncoding)
       else
-        PDF::Reader2::Encoding.new(:StandardEncoding)
+        PDF2::Reader2::Encoding.new(:StandardEncoding)
       end
     end
 
     def build_width_calculator
       if @subtype == :Type0
-        PDF::Reader2::WidthCalculator::TypeZero.new(self)
+        PDF2::Reader2::WidthCalculator::TypeZero.new(self)
       elsif @subtype == :Type1
         if @font_descriptor.nil?
-          PDF::Reader2::WidthCalculator::BuiltIn.new(self)
+          PDF2::Reader2::WidthCalculator::BuiltIn.new(self)
         else
-          PDF::Reader2::WidthCalculator::TypeOneOrThree .new(self)
+          PDF2::Reader2::WidthCalculator::TypeOneOrThree .new(self)
         end
       elsif @subtype == :Type3
-        PDF::Reader2::WidthCalculator::TypeOneOrThree.new(self)
+        PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(self)
       elsif @subtype == :TrueType
         if @font_descriptor
-          PDF::Reader2::WidthCalculator::TrueType.new(self)
+          PDF2::Reader2::WidthCalculator::TrueType.new(self)
         else
           # A TrueType font that isn't embedded. Most readers look for a version on the
           # local system and fallback to a substitute. For now, we go straight to a substitute
-          PDF::Reader2::WidthCalculator::BuiltIn.new(self)
+          PDF2::Reader2::WidthCalculator::BuiltIn.new(self)
         end
       elsif @subtype == :CIDFontType0 || @subtype == :CIDFontType2
-        PDF::Reader2::WidthCalculator::Composite.new(self)
+        PDF2::Reader2::WidthCalculator::Composite.new(self)
       else
-        PDF::Reader2::WidthCalculator::TypeOneOrThree.new(self)
+        PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(self)
       end
     end
 
@@ -153,9 +153,9 @@ class PDF::Reader2
       if obj[:Encoding].is_a?(Symbol)
         # one of the standard encodings, referenced by name
         # TODO pass in a standard shape, always a Hash
-        PDF::Reader2::Encoding.new(obj[:Encoding])
-      elsif obj[:Encoding].is_a?(Hash) || obj[:Encoding].is_a?(PDF::Reader2::Stream)
-        PDF::Reader2::Encoding.new(obj[:Encoding])
+        PDF2::Reader2::Encoding.new(obj[:Encoding])
+      elsif obj[:Encoding].is_a?(Hash) || obj[:Encoding].is_a?(PDF2::Reader2::Stream)
+        PDF2::Reader2::Encoding.new(obj[:Encoding])
       elsif obj[:Encoding].nil?
         default_encoding(@basefont)
       else
@@ -180,7 +180,7 @@ class PDF::Reader2
         # ToUnicode is optional for Type1 and Type3
         stream = @ohash.deref_stream(obj[:ToUnicode])
         if stream
-          @tounicode = PDF::Reader2::CMap.new(stream.unfiltered_data)
+          @tounicode = PDF2::Reader2::CMap.new(stream.unfiltered_data)
         end
       end
     end
@@ -198,7 +198,7 @@ class PDF::Reader2
         # create a font descriptor object if we can, in other words, unless this is
         # a CID Font
         fd = @ohash.deref_hash(obj[:FontDescriptor])
-        @font_descriptor = PDF::Reader2::FontDescriptor.new(@ohash, fd)
+        @font_descriptor = PDF2::Reader2::FontDescriptor.new(@ohash, fd)
       else
         @font_descriptor = nil
       end
@@ -211,7 +211,7 @@ class PDF::Reader2
       if obj[:DescendantFonts]
         descendants = @ohash.deref_array(obj[:DescendantFonts])
         @descendantfonts = descendants.map { |desc|
-          PDF::Reader2::Font.new(@ohash, @ohash.deref_hash(desc))
+          PDF2::Reader2::Font.new(@ohash, @ohash.deref_hash(desc))
         }
       else
         @descendantfonts = []
@@ -222,11 +222,11 @@ class PDF::Reader2
       case params
       when Integer
         [
-          @tounicode.decode(params) || PDF::Reader2::Encoding::UNKNOWN_CHAR
+          @tounicode.decode(params) || PDF2::Reader2::Encoding::UNKNOWN_CHAR
         ].flatten.pack("U*")
       when String
         params.unpack(encoding.unpack).map { |c|
-          @tounicode.decode(c) || PDF::Reader2::Encoding::UNKNOWN_CHAR
+          @tounicode.decode(c) || PDF2::Reader2::Encoding::UNKNOWN_CHAR
         }.flatten.pack("U*")
       when Array
         params.collect { |param| to_utf8_via_cmap(param) }.join("")

@@ -12,7 +12,7 @@
 
 require 'thread'
 
-class PDF::Reader2
+class PDF2::Reader2
 
   # Throughout the pdf-reader2 codebase, repeated calculations which can benefit
   # from caching are made In some cases, caching and reusing results can not

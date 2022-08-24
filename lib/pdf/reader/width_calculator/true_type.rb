@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader2
+class PDF2::Reader2
   module WidthCalculator
     # Calculates the width of a glyph in a TrueType font
     class TrueType

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader2
+class PDF2::Reader2
   # co-ordinate systems in PDF files are specified using a 3x3 matrix that looks
   # something like this:
   #

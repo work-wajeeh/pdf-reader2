@@ -1,13 +1,13 @@
 # typed: false
 # coding: utf-8
 
-describe PDF::Reader2, "column specs" do
+describe PDF2::Reader2, "column specs" do
 
   context "page 1" do
     it "correctly extracts the headline" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to match(/Some Headline/)
       end
@@ -15,7 +15,7 @@ describe PDF::Reader2, "column specs" do
     it "correctly extracts the first few lines" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         page = reader.page(1)
         ft = page.text
         expect(ft).to match(/ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu/)
@@ -30,7 +30,7 @@ describe PDF::Reader2, "column specs" do
     it "aligns text from the second column" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         page = reader.page(1)
         ft = page.text
         # The following lines are in the second column, and their position with in the
@@ -54,7 +54,7 @@ describe PDF::Reader2, "column specs" do
     it "correctly aligns text in column 1" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         ft = reader.page(2).text
 
         # The following lines are in the first column of the page prior to the interruption
@@ -72,7 +72,7 @@ describe PDF::Reader2, "column specs" do
     it "correctly aligns text in column 2" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         ft = reader.page(2).text
 
         # The following lines are in the second column of the page prior to the interruption
@@ -91,7 +91,7 @@ describe PDF::Reader2, "column specs" do
     it "correctly aligns text in column 3 before the interruption" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         ft = reader.page(2).text
 
         # The following lines are in the third column of the page prior to the interruption
@@ -110,7 +110,7 @@ describe PDF::Reader2, "column specs" do
     it "correctly aligns text in column 3 during the interruption" do
       filename = pdf_spec_file("column_integration")
 
-      PDF::Reader2.open(filename) do |reader|
+      PDF2::Reader2.open(filename) do |reader|
         ft = reader.page(2).text
 
         #the following lines are in the third column of the page _during_ the interruption

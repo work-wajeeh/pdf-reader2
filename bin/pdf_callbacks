@@ -6,12 +6,12 @@ $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
 
 require 'pdf/reader'
 
-receiver = PDF::Reader2::PrintReceiver.new
+receiver = PDF2::Reader2::PrintReceiver.new
 
 if ARGV.empty?
-  browser = PDF::Reader2.new(StringIO.new(ARGF.read))
+  browser = PDF2::Reader2.new(StringIO.new(ARGF.read))
 else
-  browser = PDF::Reader2.new(ARGV[0])
+  browser = PDF2::Reader2.new(ARGV[0])
 end
 browser.pages.each do |page|
   puts

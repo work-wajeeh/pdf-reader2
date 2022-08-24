@@ -12,7 +12,7 @@ module PDF
     # pages. They're generally used as a space efficient way to store
     # repetative content (like logos, header, footers, etc).
     #
-    # This behaves and looks much like a limited PDF::Reader2::Page class.
+    # This behaves and looks much like a limited PDF2::Reader2::Page class.
     #
     class FormXObject
       extend Forwardable
@@ -39,20 +39,20 @@ module PDF
       #
       # The keys are the font labels used within the form content stream.
       #
-      # The values are a PDF::Reader2::Font instances that provide access
+      # The values are a PDF2::Reader2::Font instances that provide access
       # to most available metrics for each font.
       #
       def font_objects
         raw_fonts = @objects.deref_hash(fonts)
         ::Hash[raw_fonts.map { |label, font|
-          [label, PDF::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
+          [label, PDF2::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
         }]
       end
 
       # processes the raw content stream for this form in sequential order and
       # passes callbacks to the receiver objects.
       #
-      # See the comments on PDF::Reader2::Page#walk for more detail.
+      # See the comments on PDF2::Reader2::Page#walk for more detail.
       #
       def walk(*receivers)
         receivers = receivers.map { |receiver|
