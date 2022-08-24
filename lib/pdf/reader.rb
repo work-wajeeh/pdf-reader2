@@ -42,11 +42,11 @@ module Pdf
   # makes sense to traverse the information using page based iteration.
   #
   # In addition to the documentation here, check out the
-  # Pdf2::Reader2::Page class.
+  # Pdf::Reader2::Page class.
   #
   # == File Metadata
   #
-  #   reader = Pdf2::Reader2.new("somefile.pdf")
+  #   reader = Pdf::Reader2.new("somefile.pdf")
   #
   #   puts reader.pdf_version
   #   puts reader.info
@@ -55,7 +55,7 @@ module Pdf
   #
   # == Iterating over page content
   #
-  #   reader = Pdf2::Reader2.new("somefile.pdf")
+  #   reader = Pdf::Reader2.new("somefile.pdf")
   #
   #   reader.pages.each do |page|
   #     puts page.fonts
@@ -65,22 +65,22 @@ module Pdf
   #
   # == Extracting all text
   #
-  #   reader = Pdf2::Reader2.new("somefile.pdf")
+  #   reader = Pdf::Reader2.new("somefile.pdf")
   #
   #   reader.pages.map(&:text)
   #
   # == Extracting content from a single page
   #
-  #   reader = Pdf2::Reader2.new("somefile.pdf")
+  #   reader = Pdf::Reader2.new("somefile.pdf")
   #
   #   page = reader.page(1)
   #   puts page.fonts
   #   puts page.images
   #   puts page.text
   #
-  # == Low level callbacks (ala current version of Pdf2::Reader2)
+  # == Low level callbacks (ala current version of Pdf::Reader2)
   #
-  #   reader = Pdf2::Reader2.new("somefile.pdf")
+  #   reader = Pdf::Reader2.new("somefile.pdf")
   #
   #   page = reader.page(1)
   #   page.walk(receiver)
@@ -90,7 +90,7 @@ module Pdf
   # Depending on the algorithm it may be possible to parse an encrypted file.
   # For standard Pdf encryption you'll need the :password option
   #
-  #   reader = Pdf2::Reader2.new("somefile.pdf", :password => "apples")
+  #   reader = Pdf::Reader2.new("somefile.pdf", :password => "apples")
   #
   class Reader
 
@@ -102,23 +102,23 @@ module Pdf
     # input can be an IO-ish object (StringIO, File, etc) containing a Pdf
     # or a filename
     #
-    #   reader = Pdf2::Reader2.new("somefile.pdf")
+    #   reader = Pdf::Reader2.new("somefile.pdf")
     #
     #   File.open("somefile.pdf","rb") do |file|
-    #     reader = Pdf2::Reader2.new(file)
+    #     reader = Pdf::Reader2.new(file)
     #   end
     #
     # If the source file is encrypted you can provide a password for decrypting
     #
-    #   reader = Pdf2::Reader2.new("somefile.pdf", :password => "apples")
+    #   reader = Pdf::Reader2.new("somefile.pdf", :password => "apples")
     #
     # Using this method directly is supported, but it's more common to use
-    # `Pdf2::Reader2.open`
+    # `Pdf::Reader2.open`
     #
     def initialize(input, opts = {})
-      @cache   = Pdf2::Reader2::ObjectCache.new
+      @cache   = Pdf::Reader2::ObjectCache.new
       opts.merge!(:cache => @cache)
-      @objects = Pdf2::Reader2::ObjectHash.new(input, opts)
+      @objects = Pdf::Reader2::ObjectHash.new(input, opts)
     end
 
     # Return a Hash with some basic information about the Pdf file
@@ -161,24 +161,24 @@ module Pdf
     # syntactic sugar for opening a Pdf file and the most common approach. Accepts the
     # same arguments as new().
     #
-    #   Pdf2::Reader2.open("somefile.pdf") do |reader|
+    #   Pdf::Reader2.open("somefile.pdf") do |reader|
     #     puts reader.pdf_version
     #   end
     #
     # or
     #
-    #   Pdf2::Reader2.open("somefile.pdf", :password => "apples") do |reader|
+    #   Pdf::Reader2.open("somefile.pdf", :password => "apples") do |reader|
     #     puts reader.pdf_version
     #   end
     #
     def self.open(input, opts = {}, &block)
-      yield Pdf2::Reader2.new(input, opts)
+      yield Pdf::Reader2.new(input, opts)
     end
 
-    # returns an array of Pdf2::Reader2::Page objects, one for each
+    # returns an array of Pdf::Reader2::Page objects, one for each
     # page in the source Pdf.
     #
-    #   reader = Pdf2::Reader2.new("somefile.pdf")
+    #   reader = Pdf::Reader2.new("somefile.pdf")
     #
     #   reader.pages.each do |page|
     #     puts page.fonts
@@ -186,7 +186,7 @@ module Pdf
     #     puts page.text
     #   end
     #
-    # See the docs for Pdf2::Reader2::Page to read more about the
+    # See the docs for Pdf::Reader2::Page to read more about the
     # methods available on each page
     #
     def pages
@@ -194,23 +194,23 @@ module Pdf
 
       (1..self.page_count).map do |num|
         begin
-          Pdf2::Reader2::Page.new(@objects, num, :cache => @cache)
+          Pdf::Reader2::Page.new(@objects, num, :cache => @cache)
         rescue InvalidPageError
           raise MalformedPdfError, "Missing data for page: #{num}"
         end
       end
     end
 
-    # returns a single Pdf2::Reader2::Page for the specified page.
+    # returns a single Pdf::Reader2::Page for the specified page.
     # Use this instead of pages method when you need to access just a single
     # page
     #
-    #   reader = Pdf2::Reader2.new("somefile.pdf")
+    #   reader = Pdf::Reader2.new("somefile.pdf")
     #   page   = reader.page(10)
     #
     #   puts page.text
     #
-    # See the docs for Pdf2::Reader2::Page to read more about the
+    # See the docs for Pdf::Reader2::Page to read more about the
     # methods available on each page
     #
     def page(num)
@@ -218,7 +218,7 @@ module Pdf
       if num < 1 || num > self.page_count
         raise InvalidPageError, "Valid pages are 1 .. #{self.page_count}"
       end
-      Pdf2::Reader2::Page.new(@objects, num, :cache => @cache)
+      Pdf::Reader2::Page.new(@objects, num, :cache => @cache)
     end
 
     private

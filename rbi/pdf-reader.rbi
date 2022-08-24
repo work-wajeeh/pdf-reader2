@@ -1,13 +1,13 @@
 # typed: strong
 module Pdf
   class Reader
-    sig { returns(Pdf2::Reader2::ObjectHash) }
+    sig { returns(Pdf::Reader2::ObjectHash) }
     attr_reader :objects
 
     sig { params(input: T.any(String, Tempfile, IO), opts: T::Hash[T.untyped, T.untyped]).void }
     def initialize(input, opts = {})
-      @cache = T.let(T.unsafe(nil), Pdf2::Reader2::ObjectCache)
-      @objects = T.let(T.unsafe(nil), Pdf2::Reader2::ObjectHash)
+      @cache = T.let(T.unsafe(nil), Pdf::Reader2::ObjectCache)
+      @objects = T.let(T.unsafe(nil), Pdf::Reader2::ObjectHash)
       @page_count = T.let(T.unsafe(nil), T.nilable(Integer))
       @root = T.let(T.unsafe(nil), T.nilable(T.nilable(T::Hash[Symbol, T.untyped])))
     end
@@ -24,13 +24,13 @@ module Pdf
     sig { returns(Float) }
     def pdf_version; end
 
-    sig { params(input: T.any(String, Tempfile, IO), opts: T::Hash[T.untyped, T.untyped], block: T.proc.params(arg0: Pdf2::Reader2).void).returns(T.untyped) }
+    sig { params(input: T.any(String, Tempfile, IO), opts: T::Hash[T.untyped, T.untyped], block: T.proc.params(arg0: Pdf::Reader2).void).returns(T.untyped) }
     def self.open(input, opts = {}, &block); end
 
-    sig { returns(T::Array[Pdf2::Reader2::Page]) }
+    sig { returns(T::Array[Pdf::Reader2::Page]) }
     def pages; end
 
-    sig { params(num: Integer).returns(Pdf2::Reader2::Page) }
+    sig { params(num: Integer).returns(Pdf::Reader2::Page) }
     def page(num); end
 
     sig { params(obj: T.untyped).returns(T.untyped) }
@@ -54,7 +54,7 @@ module Pdf
         @encrypt_key = T.let(T.unsafe(nil), String)
       end
 
-      sig { params(buf: String, ref: Pdf2::Reader2::Reference).returns(String) }
+      sig { params(buf: String, ref: Pdf::Reader2::Reference).returns(String) }
       def decrypt(buf, ref); end
     end
 
@@ -65,12 +65,12 @@ module Pdf
         @cipher = T.let(T.unsafe(nil), String)
       end
 
-      sig { params(buf: String, ref: Pdf2::Reader2::Reference).returns(String) }
+      sig { params(buf: String, ref: Pdf::Reader2::Reference).returns(String) }
       def decrypt(buf, ref); end
     end
 
     class BoundingRectangleRunsFilter
-      sig { params(runs: T::Array[Pdf2::Reader2::TextRun], rect: Pdf2::Reader2::Rectangle).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(runs: T::Array[Pdf::Reader2::TextRun], rect: Pdf::Reader2::Rectangle).returns(T::Array[Pdf::Reader2::TextRun]) }
       def self.runs_within_rect(runs, rect); end
     end
 
@@ -96,7 +96,7 @@ module Pdf
       sig { params(io: T.any(StringIO, Tempfile, IO), opts: T::Hash[Symbol, T.untyped]).void }
       def initialize(io, opts = {})
         @pos = T.let(T.unsafe(nil), Integer)
-        @tokens = T.let(T.unsafe(nil), T::Array[T.any(String, Pdf2::Reader2::Reference)])
+        @tokens = T.let(T.unsafe(nil), T::Array[T.any(String, Pdf::Reader2::Reference)])
         @io = T.let(T.unsafe(nil), T.any(StringIO, Tempfile, IO))
         @in_content_stream = T.let(T.unsafe(nil), T::Boolean)
       end
@@ -107,7 +107,7 @@ module Pdf
       sig { params(bytes: Integer, opts: T::Hash[Symbol, T.untyped]).returns(T.nilable(String)) }
       def read(bytes, opts = {}); end
 
-      sig { returns(T.any(NilClass, String, Pdf2::Reader2::Reference)) }
+      sig { returns(T.any(NilClass, String, Pdf::Reader2::Reference)) }
       def token; end
 
       sig { returns(Integer) }
@@ -186,7 +186,7 @@ module Pdf
       sig { params(c: Integer).returns(T::Array[Integer]) }
       def decode(c); end
 
-      sig { params(instructions: String).returns(Pdf2::Reader2::Parser) }
+      sig { params(instructions: String).returns(Pdf::Reader2::Parser) }
       def build_parser(instructions); end
 
       sig { params(str: String).returns(T::Array[Integer]) }
@@ -220,7 +220,7 @@ module Pdf
         @string_cache = T.let(T.unsafe(nil), T::Hash[Integer, String])
         @map_file = T.let(T.unsafe(nil), T.nilable(String))
         @differences = T.let(T.unsafe(nil), T.nilable(T::Hash[Integer, Integer]))
-        @glyphlist = T.let(T.unsafe(nil), T.nilable(Pdf2::Reader2::GlyphHash))
+        @glyphlist = T.let(T.unsafe(nil), T.nilable(Pdf::Reader2::GlyphHash))
       end
 
       sig { params(diff: T::Array[T.any(Integer, Symbol)]).returns(T::Hash[Integer, Integer]) }
@@ -259,7 +259,7 @@ module Pdf
       sig { params(enc: T.untyped).returns(T.nilable(String)) }
       def get_mapping_file(enc); end
 
-      sig { returns(Pdf2::Reader2::GlyphHash) }
+      sig { returns(Pdf::Reader2::GlyphHash) }
       def glyphlist; end
 
       sig { params(file: String).void }
@@ -305,13 +305,13 @@ module Pdf
       sig { returns(T.nilable(Symbol)) }
       attr_accessor :subtype
 
-      sig { returns(Pdf2::Reader2::Encoding) }
+      sig { returns(Pdf::Reader2::Encoding) }
       attr_accessor :encoding
 
-      sig { returns(T::Array[Pdf2::Reader2::Font]) }
+      sig { returns(T::Array[Pdf::Reader2::Font]) }
       attr_accessor :descendantfonts
 
-      sig { returns(Pdf2::Reader2::CMap) }
+      sig { returns(Pdf::Reader2::CMap) }
       attr_accessor :tounicode
 
       sig { returns(T::Array[Integer]) }
@@ -326,7 +326,7 @@ module Pdf
       sig { returns(T.nilable(Symbol)) }
       attr_reader :basefont
 
-      sig { returns(T.nilable(Pdf2::Reader2::FontDescriptor)) }
+      sig { returns(T.nilable(Pdf::Reader2::FontDescriptor)) }
       attr_reader :font_descriptor
 
       sig { returns(T::Array[Numeric]) }
@@ -335,7 +335,7 @@ module Pdf
       sig { returns(Numeric) }
       attr_reader :cid_default_width
 
-      sig { params(ohash: Pdf2::Reader2::ObjectHash, obj: T::Hash[Symbol, T.untyped]).void }
+      sig { params(ohash: Pdf::Reader2::ObjectHash, obj: T::Hash[Symbol, T.untyped]).void }
       def initialize(ohash, obj); end
 
       sig { params(params: T.any(Integer, String, T::Array[T.untyped])).returns(String) }
@@ -347,17 +347,17 @@ module Pdf
       sig { params(code_point: T.any(String, Integer)).returns(T.untyped) }
       def glyph_width(code_point); end
 
-      sig { params(font_name: Symbol).returns(Pdf2::Reader2::Encoding) }
+      sig { params(font_name: Symbol).returns(Pdf::Reader2::Encoding) }
       def default_encoding(font_name); end
 
       sig {
         returns(
           T.any(
-            Pdf2::Reader2::WidthCalculator::BuiltIn,
-            Pdf2::Reader2::WidthCalculator::Composite,
-            Pdf2::Reader2::WidthCalculator::TrueType,
-            Pdf2::Reader2::WidthCalculator::TypeOneOrThree,
-            Pdf2::Reader2::WidthCalculator::TypeZero,
+            Pdf::Reader2::WidthCalculator::BuiltIn,
+            Pdf::Reader2::WidthCalculator::Composite,
+            Pdf::Reader2::WidthCalculator::TrueType,
+            Pdf::Reader2::WidthCalculator::TypeOneOrThree,
+            Pdf::Reader2::WidthCalculator::TypeZero,
           )
         )
       }
@@ -428,7 +428,7 @@ module Pdf
       sig { returns(Integer) }
       attr_reader :font_flags
 
-      sig { params(ohash: Pdf2::Reader2::ObjectHash, fd_hash: T::Hash[T.untyped, T.untyped]).void }
+      sig { params(ohash: Pdf::Reader2::ObjectHash, fd_hash: T::Hash[T.untyped, T.untyped]).void }
       def initialize(ohash, fd_hash); end
 
       sig { params(char_code: Integer).returns(Numeric) }
@@ -569,7 +569,7 @@ module Pdf
       sig { params(data: String).returns(String) }
       def self.decode(data); end
 
-      sig { params(string_table: Pdf2::Reader2::LZW::StringTable, some_code: T.nilable(Integer), other_code: T.nilable(Integer)).returns(String) }
+      sig { params(string_table: Pdf::Reader2::LZW::StringTable, some_code: T.nilable(Integer), other_code: T.nilable(Integer)).returns(String) }
       def self.create_new_string(string_table, some_code, other_code); end
     end
 
@@ -650,37 +650,37 @@ module Pdf
 
       sig { returns(
         T.any(
-          Pdf2::Reader2::NullSecurityHandler,
-          Pdf2::Reader2::AesV2SecurityHandler,
-          Pdf2::Reader2::AesV3SecurityHandler,
-          Pdf2::Reader2::Rc4SecurityHandler,
+          Pdf::Reader2::NullSecurityHandler,
+          Pdf::Reader2::AesV2SecurityHandler,
+          Pdf::Reader2::AesV3SecurityHandler,
+          Pdf::Reader2::Rc4SecurityHandler,
       )) }
       attr_reader :sec_handler
 
       sig { params(input: T.any(IO, Tempfile, StringIO, String), opts: T::Hash[Symbol, T.untyped]).void }
       def initialize(input, opts = {})
         @io = T.let(T.unsafe(nil), T.any(IO, Tempfile, StringIO))
-        @xref = T.let(T.unsafe(nil), Pdf2::Reader2::XRef)
+        @xref = T.let(T.unsafe(nil), Pdf::Reader2::XRef)
         @pdf_version = T.let(T.unsafe(nil), Float)
         @trailer = T.let(T.unsafe(nil), T::Hash[Symbol, T.untyped])
-        @cache = T.let(T.unsafe(nil), Pdf2::Reader2::ObjectCache)
+        @cache = T.let(T.unsafe(nil), Pdf::Reader2::ObjectCache)
         @sec_handler = T.let(T.unsafe(nil), T.any(
-          Pdf2::Reader2::NullSecurityHandler,
-          Pdf2::Reader2::AesV2SecurityHandler,
-          Pdf2::Reader2::AesV3SecurityHandler,
-          Pdf2::Reader2::Rc4SecurityHandler,
+          Pdf::Reader2::NullSecurityHandler,
+          Pdf::Reader2::AesV2SecurityHandler,
+          Pdf::Reader2::AesV3SecurityHandler,
+          Pdf::Reader2::Rc4SecurityHandler,
         ))
-        @page_references = T.let(T.unsafe(nil), T.nilable(T::Array[T.any(Pdf2::Reader2::Reference, T::Hash[Symbol, T.untyped])]))
-        @object_streams = T.let(T.unsafe(nil), T.nilable(T::Hash[Pdf2::Reader2::Reference, Pdf2::Reader2::ObjectStream]))
+        @page_references = T.let(T.unsafe(nil), T.nilable(T::Array[T.any(Pdf::Reader2::Reference, T::Hash[Symbol, T.untyped])]))
+        @object_streams = T.let(T.unsafe(nil), T.nilable(T::Hash[Pdf::Reader2::Reference, Pdf::Reader2::ObjectStream]))
       end
 
-      sig { params(ref: T.any(Integer, Pdf2::Reader2::Reference)).returns(T.nilable(Symbol)) }
+      sig { params(ref: T.any(Integer, Pdf::Reader2::Reference)).returns(T.nilable(Symbol)) }
       def obj_type(ref); end
 
-      sig { params(ref: T.any(Integer, Pdf2::Reader2::Reference)).returns(T::Boolean) }
+      sig { params(ref: T.any(Integer, Pdf::Reader2::Reference)).returns(T::Boolean) }
       def stream?(ref); end
 
-      sig { params(key: T.any(Integer, Pdf2::Reader2::Reference)).returns(T.untyped) }
+      sig { params(key: T.any(Integer, Pdf::Reader2::Reference)).returns(T.untyped) }
       def [](key); end
 
       sig { params(key: T.untyped).returns(T.untyped) }
@@ -707,13 +707,13 @@ module Pdf
       sig { params(key: T.untyped).returns(T.nilable(Numeric)) }
       def deref_number(key); end
 
-      sig { params(key: T.untyped).returns(T.nilable(Pdf2::Reader2::Stream)) }
+      sig { params(key: T.untyped).returns(T.nilable(Pdf::Reader2::Stream)) }
       def deref_stream(key); end
 
       sig { params(key: T.untyped).returns(T.nilable(String)) }
       def deref_string(key); end
 
-      sig { params(key: T.untyped).returns(T.any(Pdf2::Reader2::Stream, T::Array[T.untyped], NilClass)) }
+      sig { params(key: T.untyped).returns(T.any(Pdf::Reader2::Stream, T::Array[T.untyped], NilClass)) }
       def deref_stream_or_array(key); end
 
       sig { params(key: T.untyped).returns(T.untyped) }
@@ -752,7 +752,7 @@ module Pdf
       sig { returns(String) }
       def to_s; end
 
-      sig { returns(T::Array[Pdf2::Reader2::Reference]) }
+      sig { returns(T::Array[Pdf::Reader2::Reference]) }
       def keys; end
 
       sig { returns(T.untyped) }
@@ -764,7 +764,7 @@ module Pdf
       sig { returns(T.untyped) }
       def to_a; end
 
-      sig { returns(T::Array[T.any(Pdf2::Reader2::Reference, T::Hash[Symbol, T.untyped])]) }
+      sig { returns(T::Array[T.any(Pdf::Reader2::Reference, T::Hash[Symbol, T.untyped])]) }
       def page_references; end
 
       sig { returns(T::Boolean) }
@@ -785,7 +785,7 @@ module Pdf
       sig { params(ref: T.untyped, obj: T.untyped).returns(T.untyped) }
       def decrypt(ref, obj); end
 
-      sig { params(offset: Integer).returns(Pdf2::Reader2::Buffer) }
+      sig { params(offset: Integer).returns(Pdf::Reader2::Buffer) }
       def new_buffer(offset = 0); end
 
       sig { returns(T.untyped) }
@@ -794,7 +794,7 @@ module Pdf
       sig { returns(T.untyped) }
       def object_streams; end
 
-      sig { params(obj: T.any(Pdf2::Reader2::Reference, T::Hash[Symbol, T.untyped])).returns(T::Array[T.any(Pdf2::Reader2::Reference, T::Hash[Symbol, T.untyped])]) }
+      sig { params(obj: T.any(Pdf::Reader2::Reference, T::Hash[Symbol, T.untyped])).returns(T::Array[T.any(Pdf::Reader2::Reference, T::Hash[Symbol, T.untyped])]) }
       def get_page_objects(obj); end
 
       sig { returns(Float) }
@@ -808,17 +808,17 @@ module Pdf
     end
 
     class ObjectStream
-      sig { params(stream: Pdf2::Reader2::Stream).void }
+      sig { params(stream: Pdf::Reader2::Stream).void }
       def initialize(stream)
         @dict = T.let(T.unsafe(nil), T::Hash[Symbol, T.untyped])
         @data = T.let(T.unsafe(nil), String)
         @offsets = T.let(T.unsafe(nil), T.nilable(T::Hash[Integer, Integer]))
-        @buffer = T.let(T.unsafe(nil), T.nilable(Pdf2::Reader2::Buffer))
+        @buffer = T.let(T.unsafe(nil), T.nilable(Pdf::Reader2::Buffer))
       end
 
       sig {
         params(objid: Integer).returns(
-          T.any(Pdf2::Reader2::Reference, Pdf2::Reader2::Token, Numeric, String, Symbol, T::Array[T.untyped], T::Hash[T.untyped, T.untyped], NilClass)
+          T.any(Pdf::Reader2::Reference, Pdf::Reader2::Token, Numeric, String, Symbol, T::Array[T.untyped], T::Hash[T.untyped, T.untyped], NilClass)
         )
       }
       def [](objid); end
@@ -832,22 +832,22 @@ module Pdf
       sig { returns(Integer) }
       def first; end
 
-      sig { returns(Pdf2::Reader2::Buffer) }
+      sig { returns(Pdf::Reader2::Buffer) }
       def buffer; end
     end
 
     class OverlappingRunsFilter
       OVERLAPPING_THRESHOLD = T.let(T.unsafe(nil), Float)
 
-      sig { params(runs: T::Array[Pdf2::Reader2::TextRun]).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(runs: T::Array[Pdf::Reader2::TextRun]).returns(T::Array[Pdf::Reader2::TextRun]) }
       def self.exclude_redundant_runs(runs); end
 
-      sig { params(sweep_line_status: T::Array[Pdf2::Reader2::TextRun], event_point: EventPoint).returns(T::Boolean) }
+      sig { params(sweep_line_status: T::Array[Pdf::Reader2::TextRun], event_point: EventPoint).returns(T::Boolean) }
       def self.detect_intersection(sweep_line_status, event_point); end
     end
 
     class NoTextFilter
-      sig { params(runs: T::Array[Pdf2::Reader2::TextRun]).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(runs: T::Array[Pdf::Reader2::TextRun]).returns(T::Array[Pdf::Reader2::TextRun]) }
       def self.exclude_empty_strings(runs); end
     end
 
@@ -855,13 +855,13 @@ module Pdf
       sig { returns(Numeric) }
       attr_reader :x
 
-      sig { returns(Pdf2::Reader2::TextRun) }
+      sig { returns(Pdf::Reader2::TextRun) }
       attr_reader :run
 
-      sig { params(x: Numeric, run: Pdf2::Reader2::TextRun).void }
+      sig { params(x: Numeric, run: Pdf::Reader2::TextRun).void }
       def initialize(x, run)
         @x = T.let(T.unsafe(nil), Numeric)
-        @run = T.let(T.unsafe(nil), Pdf2::Reader2::TextRun)
+        @run = T.let(T.unsafe(nil), Pdf::Reader2::TextRun)
       end
 
       sig { returns(T::Boolean) }
@@ -869,24 +869,24 @@ module Pdf
     end
 
     class Page
-      sig { returns(Pdf2::Reader2::ObjectHash) }
+      sig { returns(Pdf::Reader2::ObjectHash) }
       attr_reader :objects
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       attr_reader :page_object
 
-      sig { returns(T.any(Pdf2::Reader2::ObjectCache, T::Hash[T.untyped, T.untyped])) }
+      sig { returns(T.any(Pdf::Reader2::ObjectCache, T::Hash[T.untyped, T.untyped])) }
       attr_reader :cache
 
-      sig { params(objects: Pdf2::Reader2::ObjectHash, pagenum: Integer, options: T::Hash[Symbol, T.untyped]).void }
+      sig { params(objects: Pdf::Reader2::ObjectHash, pagenum: Integer, options: T::Hash[Symbol, T.untyped]).void }
       def initialize(objects, pagenum, options = {})
-        @objects = T.let(T.unsafe(nil), Pdf2::Reader2::ObjectHash)
+        @objects = T.let(T.unsafe(nil), Pdf::Reader2::ObjectHash)
         @pagenum = T.let(T.unsafe(nil), Integer)
         @page_object = T.let(T.unsafe(nil), T::Hash[Symbol, T.untyped])
-        @cache = T.let(T.unsafe(nil), T.any(Pdf2::Reader2::ObjectCache, T::Hash[T.untyped, T.untyped]))
+        @cache = T.let(T.unsafe(nil), T.any(Pdf::Reader2::ObjectCache, T::Hash[T.untyped, T.untyped]))
         @attributes = T.let(T.unsafe(nil), T.nilable(T::Hash[Symbol, T.untyped]))
         @root = T.let(T.unsafe(nil), T.nilable(T::Hash[Symbol, T.untyped]))
-        @resources = T.let(T.unsafe(nil), T.nilable(Pdf2::Reader2::Resources))
+        @resources = T.let(T.unsafe(nil), T.nilable(Pdf::Reader2::Resources))
       end
 
       sig { returns(Integer) }
@@ -910,7 +910,7 @@ module Pdf
       sig { returns(T::Array[Numeric]) }
       def origin; end
 
-      sig { params(opts: T::Hash[Symbol, T.untyped]).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(opts: T::Hash[Symbol, T.untyped]).returns(T::Array[Pdf::Reader2::TextRun]) }
       def runs(opts = {}); end
 
       sig { params(opts: T::Hash[Symbol, T.untyped]).returns(String) }
@@ -928,13 +928,13 @@ module Pdf
       sig { returns(T::Hash[Symbol, T::Array[Numeric]]) }
       def boxes; end
 
-      sig { returns(T::Hash[Symbol, Pdf2::Reader2::Rectangle]) }
+      sig { returns(T::Hash[Symbol, Pdf::Reader2::Rectangle]) }
       def rectangles; end
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def root; end
 
-      sig { returns(Pdf2::Reader2::Resources) }
+      sig { returns(Pdf::Reader2::Resources) }
       def resources; end
 
       sig { params(receivers: T::Array[T.untyped], instructions: String).void }
@@ -956,10 +956,10 @@ module Pdf
     class PageLayout
       DEFAULT_FONT_SIZE = T.let(T.unsafe(nil), Numeric)
 
-      sig { params(runs: T::Array[Pdf2::Reader2::TextRun], mediabox: T.any(T::Array[Numeric], Pdf2::Reader2::Rectangle)).void }
+      sig { params(runs: T::Array[Pdf::Reader2::TextRun], mediabox: T.any(T::Array[Numeric], Pdf::Reader2::Rectangle)).void }
       def initialize(runs, mediabox)
-        @mediabox = T.let(T.unsafe(nil), Pdf2::Reader2::Rectangle)
-        @runs = T.let(T.unsafe(nil), T::Array[Pdf2::Reader2::TextRun])
+        @mediabox = T.let(T.unsafe(nil), Pdf::Reader2::Rectangle)
+        @runs = T.let(T.unsafe(nil), T::Array[Pdf::Reader2::TextRun])
         @mean_font_size = T.let(T.unsafe(nil), Numeric)
         @median_glyph_width = T.let(T.unsafe(nil), Numeric)
         @x_offset = T.let(T.unsafe(nil), Numeric)
@@ -997,7 +997,7 @@ module Pdf
       sig { params(runs: T.untyped).returns(T.untyped) }
       def merge_runs(runs); end
 
-      sig { params(chars: T::Array[Pdf2::Reader2::TextRun]).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(chars: T::Array[Pdf::Reader2::TextRun]).returns(T::Array[Pdf::Reader2::TextRun]) }
       def group_chars_into_runs(chars); end
 
       sig { params(haystack: T.untyped, needle: T.untyped, index: T.untyped).returns(T.untyped) }
@@ -1178,7 +1178,7 @@ module Pdf
       sig { params(str: String).void }
       def move_to_next_line_and_show_text(str); end
 
-      sig { params(opts: T::Hash[Symbol, T.untyped]).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(opts: T::Hash[Symbol, T.untyped]).returns(T::Array[Pdf::Reader2::TextRun]) }
       def runs(opts = {}); end
 
       sig { params(aw: Numeric, ac: Numeric, string: String).void }
@@ -1199,14 +1199,14 @@ module Pdf
     end
 
     class Parser
-      sig { params(buffer: Pdf2::Reader2::Buffer, objects: T.nilable(Pdf2::Reader2::ObjectHash)).void }
+      sig { params(buffer: Pdf::Reader2::Buffer, objects: T.nilable(Pdf::Reader2::ObjectHash)).void }
       def initialize(buffer, objects=nil); end
 
       sig {
         params(
-          operators: T::Hash[T.any(String, Pdf2::Reader2::Token), Symbol]
+          operators: T::Hash[T.any(String, Pdf::Reader2::Token), Symbol]
         ).returns(
-          T.any(Pdf2::Reader2::Reference, Pdf2::Reader2::Token, Numeric, String, Symbol, T::Array[T.untyped], T::Hash[T.untyped, T.untyped], NilClass)
+          T.any(Pdf::Reader2::Reference, Pdf::Reader2::Token, Numeric, String, Symbol, T::Array[T.untyped], T::Hash[T.untyped, T.untyped], NilClass)
         )
       }
       def parse_token(operators={}); end
@@ -1216,7 +1216,7 @@ module Pdf
          id: Integer,
          gen: Integer
         ).returns(
-          T.any(Pdf2::Reader2::Reference, Pdf2::Reader2::Token, Pdf2::Reader2::Stream, Numeric, String, Symbol, T::Array[T.untyped], T::Hash[T.untyped, T.untyped], NilClass)
+          T.any(Pdf::Reader2::Reference, Pdf::Reader2::Token, Pdf::Reader2::Stream, Numeric, String, Symbol, T::Array[T.untyped], T::Hash[T.untyped, T.untyped], NilClass)
         )
       }
       def object(id, gen); end
@@ -1236,7 +1236,7 @@ module Pdf
       sig { returns(String) }
       def string; end
 
-      sig { params(dict: T::Hash[Symbol, T.untyped]).returns(Pdf2::Reader2::Stream) }
+      sig { params(dict: T::Hash[Symbol, T.untyped]).returns(Pdf::Reader2::Stream) }
       def stream(dict); end
     end
 
@@ -1258,7 +1258,7 @@ module Pdf
       sig { returns(Numeric) }
       def y; end
 
-      sig { params(other: Pdf2::Reader2::Point).returns(T::Boolean) }
+      sig { params(other: Pdf::Reader2::Point).returns(T::Boolean) }
       def ==(other); end
 
     end
@@ -1289,7 +1289,7 @@ module Pdf
 
     class Rectangle
 
-      sig { params(arr: T::Array[Numeric]).returns(Pdf2::Reader2::Rectangle) }
+      sig { params(arr: T::Array[Numeric]).returns(Pdf::Reader2::Rectangle) }
       def self.from_array(arr); end
 
       sig do
@@ -1302,22 +1302,22 @@ module Pdf
       end
 
       def initialize(x1, y1, x2, y2)
-        @bottom_left = T.let(T.unsafe(nil), Pdf2::Reader2::Point)
-        @bottom_right = T.let(T.unsafe(nil), Pdf2::Reader2::Point)
-        @top_left = T.let(T.unsafe(nil), Pdf2::Reader2::Point)
-        @top_right = T.let(T.unsafe(nil), Pdf2::Reader2::Point)
+        @bottom_left = T.let(T.unsafe(nil), Pdf::Reader2::Point)
+        @bottom_right = T.let(T.unsafe(nil), Pdf::Reader2::Point)
+        @top_left = T.let(T.unsafe(nil), Pdf::Reader2::Point)
+        @top_right = T.let(T.unsafe(nil), Pdf::Reader2::Point)
       end
 
-      sig { returns(Pdf2::Reader2::Point) }
+      sig { returns(Pdf::Reader2::Point) }
       def bottom_left; end
 
-      sig { returns(Pdf2::Reader2::Point) }
+      sig { returns(Pdf::Reader2::Point) }
       def bottom_right; end
 
-      sig { returns(Pdf2::Reader2::Point) }
+      sig { returns(Pdf::Reader2::Point) }
       def top_left; end
 
-      sig { returns(Pdf2::Reader2::Point) }
+      sig { returns(Pdf::Reader2::Point) }
       def top_right; end
 
       sig { returns(Numeric) }
@@ -1332,10 +1332,10 @@ module Pdf
       sig { params(degrees: Integer).void }
       def apply_rotation(degrees); end
 
-      sig { params(point: Pdf2::Reader2::Point).void }
+      sig { params(point: Pdf::Reader2::Point).void }
       def contains?(point); end
 
-      sig { params(other: Pdf2::Reader2::Rectangle).void }
+      sig { params(other: Pdf::Reader2::Rectangle).void }
       def ==(other); end
 
       sig { params(x1: Numeric, y1: Numeric, x2: Numeric, y2: Numeric).void }
@@ -1355,7 +1355,7 @@ module Pdf
         @gen = T.let(T.unsafe(nil), Integer)
       end
 
-      sig { returns(T::Array[Pdf2::Reader2::Reference]) }
+      sig { returns(T::Array[Pdf::Reader2::Reference]) }
       def to_a; end
 
       sig { returns(Integer) }
@@ -1402,9 +1402,9 @@ module Pdf
 
     class Resources
 
-      sig { params(objects: Pdf2::Reader2::ObjectHash, resources: T::Hash[T.untyped, T.untyped]).void }
+      sig { params(objects: Pdf::Reader2::ObjectHash, resources: T::Hash[T.untyped, T.untyped]).void }
       def initialize(objects, resources)
-        @objects = T.let(T.unsafe(nil), Pdf2::Reader2::ObjectHash)
+        @objects = T.let(T.unsafe(nil), Pdf::Reader2::ObjectHash)
         @resources = T.let(T.unsafe(nil), T::Hash[Symbol, T.untyped])
       end
 
@@ -1429,7 +1429,7 @@ module Pdf
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def shadings; end
 
-      sig { returns(T::Hash[Symbol, Pdf2::Reader2::Stream]) }
+      sig { returns(T::Hash[Symbol, Pdf::Reader2::Stream]) }
       def xobjects; end
     end
 
@@ -1522,7 +1522,7 @@ module Pdf
       sig { returns(String) }
       attr_reader :text
 
-      sig { returns(Pdf2::Reader2::Point) }
+      sig { returns(Pdf::Reader2::Point) }
       attr_reader :origin
 
       sig do
@@ -1535,7 +1535,7 @@ module Pdf
         ).void
       end
       def initialize(x, y, width, font_size, text)
-        @origin = T.let(T.unsafe(nil), Pdf2::Reader2::Point)
+        @origin = T.let(T.unsafe(nil), Pdf::Reader2::Point)
         @width = T.let(T.unsafe(nil), Numeric)
         @font_size = T.let(T.unsafe(nil), Numeric)
         @text = T.let(T.unsafe(nil), String)
@@ -1562,10 +1562,10 @@ module Pdf
       sig { returns(Numeric) }
       def mean_character_width; end
 
-      sig { params(other: Pdf2::Reader2::TextRun).returns(T::Boolean) }
+      sig { params(other: Pdf::Reader2::TextRun).returns(T::Boolean) }
       def mergable?(other); end
 
-      sig { params(other: Pdf2::Reader2::TextRun).returns(Pdf2::Reader2::TextRun) }
+      sig { params(other: Pdf::Reader2::TextRun).returns(Pdf::Reader2::TextRun) }
       def +(other); end
 
       sig { returns(String) }
@@ -1644,7 +1644,7 @@ module Pdf
           d: Numeric,
           e: Numeric,
           f: Numeric
-        ).returns(Pdf2::Reader2::TransformationMatrix)
+        ).returns(Pdf::Reader2::TransformationMatrix)
       end
       def multiply!(a, b, c, d, e, f); end
 
@@ -1732,7 +1732,7 @@ module Pdf
       sig { params(obj: T.untyped).returns(T::Hash[Symbol, T.untyped]) }
       def self.cast_to_pdf_dict!(obj); end
 
-      sig { params(obj: T.untyped).returns(T::Hash[Symbol, Pdf2::Reader2::Stream]) }
+      sig { params(obj: T.untyped).returns(T::Hash[Symbol, Pdf::Reader2::Stream]) }
       def self.cast_to_pdf_dict_with_stream_values!(obj); end
     end
 
@@ -1742,7 +1742,7 @@ module Pdf
         @wrapped = T.let(T.unsafe(nil), T.untyped)
       end
 
-      sig { params(page: Pdf2::Reader2::Page).void }
+      sig { params(page: Pdf::Reader2::Page).void }
       def page=(page); end
 
       sig { params(args: T.untyped).void }
@@ -1882,7 +1882,7 @@ module Pdf
     end
 
     class ZeroWidthRunsFilter
-      sig { params(runs: T::Array[Pdf2::Reader2::TextRun]).returns(T::Array[Pdf2::Reader2::TextRun]) }
+      sig { params(runs: T::Array[Pdf::Reader2::TextRun]).returns(T::Array[Pdf::Reader2::TextRun]) }
       def self.exclude_zero_width_runs(runs); end
     end
 
@@ -1977,11 +1977,11 @@ module Pdf
       class BuiltIn
         BUILTINS = T.let(T.unsafe(nil), T::Array[Symbol])
 
-        @@all_metrics = T.let(T.unsafe(nil), T.nilable(Pdf2::Reader2::SynchronizedCache))
+        @@all_metrics = T.let(T.unsafe(nil), T.nilable(Pdf::Reader2::SynchronizedCache))
 
-        sig { params(font: Pdf2::Reader2::Font).void }
+        sig { params(font: Pdf::Reader2::Font).void }
         def initialize(font)
-          @font = T.let(T.unsafe(nil), Pdf2::Reader2::Font)
+          @font = T.let(T.unsafe(nil), Pdf::Reader2::Font)
           @metrics = T.let(T.unsafe(nil), AFM::Font)
         end
 
@@ -1996,10 +1996,10 @@ module Pdf
       end
 
       class Composite
-        sig { params(font: Pdf2::Reader2::Font).void }
+        sig { params(font: Pdf::Reader2::Font).void }
         def initialize(font)
-          @font = T.let(T.unsafe(nil), Pdf2::Reader2::Font)
-          @widths = T.let(T.unsafe(nil), Pdf2::Reader2::CidWidths)
+          @font = T.let(T.unsafe(nil), Pdf::Reader2::Font)
+          @widths = T.let(T.unsafe(nil), Pdf::Reader2::CidWidths)
         end
 
         sig { params(code_point: T.nilable(Integer)).returns(Numeric) }
@@ -2007,9 +2007,9 @@ module Pdf
       end
 
       class TrueType
-        sig { params(font: Pdf2::Reader2::Font).void }
+        sig { params(font: Pdf::Reader2::Font).void }
         def initialize(font)
-          @font = T.let(T.unsafe(nil), Pdf2::Reader2::Font)
+          @font = T.let(T.unsafe(nil), Pdf::Reader2::Font)
           @missing_width = T.let(T.unsafe(nil), Numeric)
         end
 
@@ -2024,9 +2024,9 @@ module Pdf
       end
 
       class TypeOneOrThree
-        sig { params(font: Pdf2::Reader2::Font).void }
+        sig { params(font: Pdf::Reader2::Font).void }
         def initialize(font)
-          @font = T.let(T.unsafe(nil), Pdf2::Reader2::Font)
+          @font = T.let(T.unsafe(nil), Pdf::Reader2::Font)
           @missing_width = T.let(T.unsafe(nil), Numeric)
         end
 
@@ -2035,9 +2035,9 @@ module Pdf
       end
 
       class TypeZero
-        sig { params(font: Pdf2::Reader2::Font).void }
+        sig { params(font: Pdf::Reader2::Font).void }
         def initialize(font)
-          @font = T.let(T.unsafe(nil), Pdf2::Reader2::Font)
+          @font = T.let(T.unsafe(nil), Pdf::Reader2::Font)
         end
 
         sig { params(code_point: T.nilable(Integer)).returns(Numeric) }

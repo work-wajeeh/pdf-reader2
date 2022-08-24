@@ -82,7 +82,7 @@ module Pdf
         if obj.is_a?(Hash)
           result = Hash.new
           obj.each do |k, v|
-            raise MalformedPdfError, "Expected a stream" unless v.is_a?(Pdf2::Reader2::Stream)
+            raise MalformedPdfError, "Expected a stream" unless v.is_a?(Pdf::Reader2::Stream)
             result[cast_to_symbol!(k)] = v
           end
           result

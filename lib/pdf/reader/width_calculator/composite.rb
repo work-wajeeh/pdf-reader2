@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class Pdf2::Reader2
+class Pdf::Reader2
   module WidthCalculator
     # CIDFontType0 or CIDFontType2 use DW (integer) and W (array) to determine
     # codepoint widths, note that CIDFontType2 will contain a true type font
@@ -14,7 +14,7 @@ class Pdf2::Reader2
 
       def initialize(font)
         @font = font
-        @widths = Pdf2::Reader2::CidWidths.new(@font.cid_default_width, @font.cid_widths)
+        @widths = Pdf::Reader2::CidWidths.new(@font.cid_default_width, @font.cid_widths)
       end
 
       def glyph_width(code_point)

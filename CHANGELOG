@@ -3,7 +3,7 @@ v2.10.0 (12th May 2022)
 - Expanded sorbet type annotations
 
 v2.9.2 (20th February 2022)
-- Fix Pdf2::Reader2::ObjectHash#page_references to return an Array of Pdf2::Reader2::Reference (http://github.com/yob/pdf-reader2/pull/444)
+- Fix Pdf::Reader2::ObjectHash#page_references to return an Array of Pdf::Reader2::Reference (http://github.com/yob/pdf-reader2/pull/444)
 
 v2.9.1 (4th February 2022)
 - Fix exception in Page#walk introduced in 2.9.0 (http://github.com/yob/pdf-reader2/pull/442)
@@ -15,8 +15,8 @@ v2.9.0 (24th January 2022)
 - For sorbet users, additional type annotations are included in the gem
 
 v2.8.0 (28th Decemeber 2021)
-- Add Pdf2::Reader2::Page#runs for extracting text from a page with positioning metadata (http://github.com/yob/pdf-reader2/pull/411)
-- Add options to Pdf2::Reader2::Page#text to make some behaviour configurable (http://github.com/yob/pdf-reader2/pull/411)
+- Add Pdf::Reader2::Page#runs for extracting text from a page with positioning metadata (http://github.com/yob/pdf-reader2/pull/411)
+- Add options to Pdf::Reader2::Page#text to make some behaviour configurable (http://github.com/yob/pdf-reader2/pull/411)
     - including extracting the text for only part of the page
 - Improve text positioning and extraction for Type3 fonts (http://github.com/yob/pdf-reader2/pull/412)
 - Skip extracting text that is positioned outside the page (http://github.com/yob/pdf-reader2/pull/413)
@@ -28,10 +28,10 @@ v2.7.0 (13th December 2021)
     now be typed checked by sorbet
 - Fix glyph positioning in some rotation scenarios (http://github.com/yob/pdf-reader2/pull/403)
   - Improved text extraction on some rotated pages, and rotated text on normal pages
-- Add Pdf2::Reader2::Page#rectangles (http://github.com/yob/pdf-reader2/pull/402)
+- Add Pdf::Reader2::Page#rectangles (http://github.com/yob/pdf-reader2/pull/402)
   - Returns page boxes (MediaBox, etc) with rotation applied, and as PORO rather than arrays of numbers
-- Add Pdf2::Reader2::Page#origin (http://github.com/yob/pdf-reader2/pull/400)
-- Add Pdf2::Reader2::Page#{height,width} (http://github.com/yob/pdf-reader2/pull/399)
+- Add Pdf::Reader2::Page#origin (http://github.com/yob/pdf-reader2/pull/400)
+- Add Pdf::Reader2::Page#{height,width} (http://github.com/yob/pdf-reader2/pull/399)
 - Overlap filter should only drop characters that overlap *and* match (http://github.com/yob/pdf-reader2/pull/401)
 
 v2.6.0 (12th November 2021)
@@ -164,12 +164,12 @@ v0.12.0.alpha (28th August 2011)
 - small breaking changes to the page-based API - it's alpha for a reason
   - resource related methods on Page object return raw Pdf objects
   - if the caller wants the resources wrapped in a more convenient
-    Ruby object (like Pdf2::Reader2::Font or Pdf2::Reader2::FormXObject) will
+    Ruby object (like Pdf::Reader2::Font or Pdf::Reader2::FormXObject) will
     need to do so themselves
 - add support for RunLengthDecode filters (thanks Bernerd Schaefer)
 - add support for standard Pdf encryption (thanks Evan Brunner)
 - add support for decoding stream with TIFF prediction
-- new Pdf2::Reader2::FormXObject class to simplify working with form XObjects
+- new Pdf::Reader2::FormXObject class to simplify working with form XObjects
 
 v0.11.0.alpha (19th July 2011)
 - introduce experimental new page-based API
@@ -181,7 +181,7 @@ v0.10.0 (6th July 2011)
   - massive time saving when dealing with multiple receivers
 
 v0.9.3 (2nd July 2011)
-- add Pdf2::Reader2::Reference#hash method
+- add Pdf::Reader2::Reference#hash method
   - improves behaviour of Reference objects when tehy're used as Hash keys
 
 v0.9.2 (24th April 2011)
@@ -213,7 +213,7 @@ v0.9.0 (19th November 2010)
 - Add support for de-filtering some LZW compressed streams
   - thanks to Jose Ignacio Rubio Iradi for the patch
 - some small speed improvements
-- API CHANGE: Pdf::Hash renamed to Pdf2::Reader2::ObjectHash
+- API CHANGE: Pdf::Hash renamed to Pdf::Reader2::ObjectHash
   - having a class named Hash was confusing for users
 
 v0.8.6 (27th August 2010)
@@ -291,7 +291,7 @@ v0.7.3 (11th June 2008)
 v0.7.2 (20th May 2008)
 - Throw an UnsupportedFeatureError if we try to open an encrypted/secure Pdf
 - Correctly handle page content instruction sets with trailing whitespace
-- Represent Pdf Streams with a new object, Pdf2::Reader2::Stream
+- Represent Pdf Streams with a new object, Pdf::Reader2::Stream
   - their really wasn't any point in separating the stream content from it's associated dict. You need both
     parts to correctly interpret the content
 
@@ -301,7 +301,7 @@ v0.7.1 (6th May 2008)
   correctly when translating text into UTF-8
 
 v0.7 (6th May 2008)
-- API INCOMPATIBLE CHANGE: any hashes that are passed to callbacks use symbols as keys instead of Pdf2::Reader2::Name instances.
+- API INCOMPATIBLE CHANGE: any hashes that are passed to callbacks use symbols as keys instead of Pdf::Reader2::Name instances.
 - Improved support for converting text in some Pdf files to unicode
 - Behave as expected if the Contents key in a Page Dict is a reference
 - Include some basic metadata callbacks
@@ -309,7 +309,7 @@ v0.7 (6th May 2008)
 - Small fixes to improve 1.9 compatibility
 - Improved our Zlib deflating to make it slightly more robust - still some more issues to work out though
 - Throw an UnsupportedFeatureError if a pdf that uses XRef streams is opened
-- Added an option to Pdf2::Reader2#file and Pdf2::Reader2#string to enable parsing of only parts of a Pdf file(ie. only metadata, etc)
+- Added an option to Pdf::Reader2#file and Pdf::Reader2#string to enable parsing of only parts of a Pdf file(ie. only metadata, etc)
 
 v0.6.2 (22nd March 2008)
 - Catch low level errors when applying filters to a content stream and raise a MalformedPdfError instead.

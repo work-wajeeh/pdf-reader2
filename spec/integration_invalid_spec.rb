@@ -4,13 +4,13 @@
 # A set of integration specs that assert we raise expected errors when trying to parse Pdfs that
 # are invalid. Usually they have some form of corruption that we're unable to compensate for
 
-describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
+describe Pdf::Reader2, "integration specs with invalid Pdf files" do
 
   context "Empty file" do
     it "raises an exception" do
       expect {
-        Pdf2::Reader2.new(StringIO.new(""))
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+        Pdf::Reader2.new(StringIO.new(""))
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -19,9 +19,9 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
 
     it "raises an exception" do
       expect {
-        reader = Pdf2::Reader2.new(filename)
+        reader = Pdf::Reader2.new(filename)
         reader.page(1).text
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -29,8 +29,8 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     let(:filename) { pdf_spec_file("trailer_root_is_not_a_dict") }
 
     it "raises an exception if trailer Root is not a dict" do
-      Pdf2::Reader2.open(filename) do |reader|
-        expect { reader.page(1) }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      Pdf::Reader2.open(filename) do |reader|
+        expect { reader.page(1) }.to raise_error(Pdf::Reader2::MalformedPdfError)
       end
     end
   end
@@ -39,8 +39,8 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     let(:filename) { pdf_spec_file("invalid_pages") }
 
     it "raises a MalformedPdfError when an InvalidPageError is raised internally" do
-      Pdf2::Reader2.open(filename) do |reader|
-        expect { reader.pages }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      Pdf::Reader2.open(filename) do |reader|
+        expect { reader.pages }.to raise_error(Pdf::Reader2::MalformedPdfError)
       end
     end
   end
@@ -52,9 +52,9 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "doesn't hang when extracting doc info" do
       Timeout::timeout(3) do
         expect {
-          reader = Pdf2::Reader2.new(filename)
+          reader = Pdf::Reader2.new(filename)
           reader.info
-        }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+        }.to raise_error(Pdf::Reader2::MalformedPdfError)
       end
     end
   end
@@ -65,7 +65,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -75,7 +75,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -90,7 +90,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     end
 
     it "has zero pages" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page_count).to eq 0
         expect(reader.pages).to eq []
       end
@@ -103,7 +103,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -113,7 +113,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -123,7 +123,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -133,7 +133,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -143,7 +143,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -153,7 +153,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -163,7 +163,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -173,7 +173,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -183,7 +183,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -193,7 +193,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -203,7 +203,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -213,7 +213,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -223,7 +223,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -233,7 +233,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -243,7 +243,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -253,7 +253,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -290,7 +290,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::UnsupportedFeatureError)
+      }.to raise_error(Pdf::Reader2::UnsupportedFeatureError)
     end
   end
 
@@ -300,7 +300,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -310,7 +310,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
     it "raises MalformedPdfError when parsed" do
       expect {
         parse_pdf(filename)
-      }.to raise_error(Pdf2::Reader2::MalformedPdfError)
+      }.to raise_error(Pdf::Reader2::MalformedPdfError)
     end
   end
 
@@ -322,7 +322,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
         parse_pdf(filename)
       }.to_not raise_error
 
-      Pdf2::Reader2.open(filename) do |pdf|
+      Pdf::Reader2.open(filename) do |pdf|
         expect(pdf.page(1).text).to eql(
           "The xref offset for the root object (obj 2) is a few bytes too low"
         )
@@ -338,7 +338,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
         parse_pdf(filename)
       }.to_not raise_error
 
-      Pdf2::Reader2.open(filename) do |pdf|
+      Pdf::Reader2.open(filename) do |pdf|
         expect(pdf.page(1).text).to eql(
           "Object 4 (content stream) is missing the endobj token"
         )
@@ -348,7 +348,7 @@ describe Pdf2::Reader2, "integration specs with invalid Pdf files" do
 
   # a very basic sanity check that we can open this file and extract interesting data
   def parse_pdf(filename)
-    Pdf2::Reader2.open(filename) do |reader|
+    Pdf::Reader2.open(filename) do |reader|
       reader.pdf_version
       reader.info
       reader.metadata

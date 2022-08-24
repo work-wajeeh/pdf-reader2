@@ -9,23 +9,23 @@
 # Where possible, specs that unit test correctly should be written in addition to
 # these
 
-describe Pdf2::Reader2, "integration specs" do
+describe Pdf::Reader2, "integration specs" do
 
   context "cairo-unicode-short" do
     let(:filename) { pdf_spec_file("cairo-unicode-short") }
 
     it "extracts unicode strings correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eql("Chunky Bacon")
       end
     end
 
     it "extracts unicode strings correctly from part of the page" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(
-          page.text(rect: Pdf2::Reader2::Rectangle.new(29, 779, 100, 800))
+          page.text(rect: Pdf::Reader2::Rectangle.new(29, 779, 100, 800))
         ).to eql("Chunky")
       end
     end
@@ -43,37 +43,37 @@ describe Pdf2::Reader2, "integration specs" do
     # k 87.3393, 779.89
     # y 97.3745, 775.4526
     it "extracts individual chars with correct positions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         some_runs = page.runs(
           merge: false,
-          rect: Pdf2::Reader2::Rectangle.new(29, 779, 100, 800)
+          rect: Pdf::Reader2::Rectangle.new(29, 779, 100, 800)
         )
         expect(some_runs.size).to eql(6)
         expect(some_runs[0].text).to eql("C")
-        expect(some_runs[0].origin).to be_close_to(Pdf2::Reader2::Point.new(30,779.89))
+        expect(some_runs[0].origin).to be_close_to(Pdf::Reader2::Point.new(30,779.89))
         expect(some_runs[1].text).to eql("h")
-        expect(some_runs[1].origin).to be_close_to(Pdf2::Reader2::Point.new(44.89,779.89))
+        expect(some_runs[1].origin).to be_close_to(Pdf::Reader2::Point.new(44.89,779.89))
         expect(some_runs[2].text).to eql("u")
-        expect(some_runs[2].origin).to be_close_to(Pdf2::Reader2::Point.new(58.39, 779.89))
+        expect(some_runs[2].origin).to be_close_to(Pdf::Reader2::Point.new(58.39, 779.89))
         expect(some_runs[3].text).to eql("n")
-        expect(some_runs[3].origin).to be_close_to(Pdf2::Reader2::Point.new(71.89, 779.89))
+        expect(some_runs[3].origin).to be_close_to(Pdf::Reader2::Point.new(71.89, 779.89))
         expect(some_runs[4].text).to eql("k")
-        expect(some_runs[4].origin).to be_close_to(Pdf2::Reader2::Point.new(85.40, 779.89))
+        expect(some_runs[4].origin).to be_close_to(Pdf::Reader2::Point.new(85.40, 779.89))
         expect(some_runs[5].text).to eql("y")
-        expect(some_runs[5].origin).to be_close_to(Pdf2::Reader2::Point.new(96.73, 779.89))
+        expect(some_runs[5].origin).to be_close_to(Pdf::Reader2::Point.new(96.73, 779.89))
       end
     end
 
     it "is portrait orientation" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("portrait")
       end
     end
 
     it "returns correct page dimensions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # A4 portrait
         expect(page.width).to be_within(0.1).of(595.28)
@@ -82,9 +82,9 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "returns correct origin" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
-        expect(page.origin).to eq Pdf2::Reader2::Point.new(0,0)
+        expect(page.origin).to eq Pdf::Reader2::Point.new(0,0)
       end
     end
   end
@@ -93,7 +93,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("vertical-text-in-identity-v") }
 
     it "interprets Identity-V encoded strings correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text.split.map(&:strip)).to eql(%w{V e r t i c a l T e x t})
       end
@@ -104,7 +104,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("adobe_sample") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("This is a sample Pdf file")
         expect(page.text).to include("If you can read this, you already have Adobe Acrobat")
@@ -116,7 +116,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("dutch") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.pages.size).to eql(3)
 
         page = reader.page(1)
@@ -133,7 +133,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("difference_table") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eql("Goiás")
       end
@@ -144,7 +144,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("difference_table2") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eql("This Pdf contains ligatures,for example in “ﬁle”and “ﬂoor”.")
       end
@@ -155,7 +155,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("content_stream_trailing_whitespace") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to match(/Tax\s+Invoice/)
       end
@@ -166,7 +166,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("content_stream_cr_only") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("This is a weird Pdf file")
       end
@@ -177,7 +177,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("content_stream_missing_final_operator") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to match(/Locatrix/)
         expect(reader.page(2).text).to match(/Ubuntu/)
       end
@@ -190,7 +190,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("hard_lock_under_osx") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text[0,1]).to eql("’")
       end
     end
@@ -200,20 +200,20 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("content_stream_with_length_as_ref") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("Hello World")
       end
     end
   end
 
-  # Pdf2::Reader2::XRef#object was saving an incorrect position when seeking. We
+  # Pdf::Reader2::XRef#object was saving an incorrect position when seeking. We
   # were saving the current pos of the underlying IO stream, then seeking back
   # to it. This was fine, except when there was still content in the buffer.
   context "Pdf with a stream length specified via indirect object and uses windows line breaks" do
     let(:filename) { pdf_spec_file("content_stream_with_length_as_ref_and_windows_breaks") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("Hello World")
       end
     end
@@ -228,7 +228,7 @@ describe Pdf2::Reader2, "integration specs" do
     # If not, maybe it'd be good to drop this spec, and replace it with one that confirms the text
     # position if a few key characters
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         lines = reader.page(1).text.split("\n")
         expect(lines[0].strip).to eq("E")
         expect(lines[1].strip).to eq("t Iu")
@@ -240,7 +240,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("inline_image_single_line_content_stream") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text.strip[0,7]).to eql("WORKING")
       end
     end
@@ -250,7 +250,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("inline_data_followed_by_ei") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("ID followed by EI on same line\n__END__")
       end
     end
@@ -260,7 +260,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("form_xobject") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("James Healy")
         expect(reader.page(2).text).to eql("James Healy")
       end
@@ -271,7 +271,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("form_xobject_more") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to include("Some regular content")
         expect(reader.page(1).text).to include("James Healy")
         expect(reader.page(2).text).to include("€10")
@@ -284,7 +284,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("indirect_xobject") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).not_to be_nil
       end
     end
@@ -294,7 +294,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("form_xobject_recursive") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to include("this form XObject contains a reference to itself")
       end
     end
@@ -304,7 +304,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("split_params_and_operator") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to include("My name is")
         expect(reader.page(1).text).to include("James Healy")
       end
@@ -317,7 +317,7 @@ describe Pdf2::Reader2, "integration specs" do
     # This text is rotated at 45 degrees, which isn't particularly easy to map to plain text
     # It would be nice if all the "Hello World" characters were at least visible though
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("    r\n loo\nHe")
       end
     end
@@ -327,7 +327,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("oo3") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to include("test")
       end
     end
@@ -337,7 +337,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("content_stream_begins_with_newline") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("This file has a content stream that begins with \\n\\n")
       end
     end
@@ -350,13 +350,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -371,13 +371,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -394,7 +394,7 @@ describe Pdf2::Reader2, "integration specs" do
 
     context "with no user pass" do
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename) do |reader|
+        Pdf::Reader2.open(filename) do |reader|
           expect(reader.page(1).text).to eql("WOOOOO DOCUMENT!")
         end
       end
@@ -410,7 +410,7 @@ describe Pdf2::Reader2, "integration specs" do
 
     context "with no user pass" do
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename) do |reader|
+        Pdf::Reader2.open(filename) do |reader|
           expect(reader.page(1).text).to eql("This sample file is encrypted with no user password")
         end
       end
@@ -427,7 +427,7 @@ describe Pdf2::Reader2, "integration specs" do
 
     context "with no user pass" do
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename) do |reader|
+        Pdf::Reader2.open(filename) do |reader|
           expect(reader.page(1).text).to eql(
             "This encryped file breaks compatability with the Pdf spec " \
             "because it has no document ID"
@@ -448,13 +448,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -468,13 +468,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -487,10 +487,10 @@ describe Pdf2::Reader2, "integration specs" do
     context "with no pass" do
       it "raises an exception" do
         expect {
-          Pdf2::Reader2.open(filename) do |reader|
+          Pdf::Reader2.open(filename) do |reader|
             reader.page(1).text
           end
-        }.to raise_error(Pdf2::Reader2::EncryptedPdfError)
+        }.to raise_error(Pdf::Reader2::EncryptedPdfError)
       end
     end
   end
@@ -504,13 +504,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -524,13 +524,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -550,13 +550,13 @@ describe Pdf2::Reader2, "integration specs" do
     context "with the user pass" do
       let(:pass) { "apples" }
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -570,13 +570,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -597,13 +597,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :CreationDate=>"D:20110814231057+10'00'",
             :Creator=>"Writer",
@@ -618,13 +618,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :CreationDate=>"D:20110814231057+10'00'",
             :Creator=>"Writer",
@@ -646,13 +646,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :CreationDate=>"D:20110814231057+10'00'",
             :Creator=>"Writer",
@@ -668,13 +668,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :CreationDate=>"D:20110814231057+10'00'",
             :Creator=>"Writer",
@@ -696,13 +696,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
                                      :Author => "Gyuchang Jun",
                                      :CreationDate => "D:20170312093033+00'00'",
@@ -717,13 +717,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
                                      :Author => "Gyuchang Jun",
                                      :CreationDate => "D:20170312093033+00'00'",
@@ -745,13 +745,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
                                      :Author => "Gyuchang Jun",
                                      :CreationDate => "D:20170312093033+00'00'",
@@ -767,13 +767,13 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to include("This sample file is encrypted")
         end
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
                                      :Author => "Gyuchang Jun",
                                      :CreationDate => "D:20170312093033+00'00'",
@@ -795,14 +795,14 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to start_with(
             "This sample file is encrypted with a user password"
           )
         end
       end
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -817,14 +817,14 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to start_with(
             "This sample file is encrypted with a user password"
           )
         end
       end
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -845,7 +845,7 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "apples" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to start_with(
             "This sample file is encrypted with a user password"
           )
@@ -853,7 +853,7 @@ describe Pdf2::Reader2, "integration specs" do
       end
 
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -868,14 +868,14 @@ describe Pdf2::Reader2, "integration specs" do
       let(:pass) { "password" }
 
       it "correctly extracts text" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.page(1).text).to start_with(
             "This sample file is encrypted with a user password"
           )
         end
       end
       it "correctly extracts info" do
-        Pdf2::Reader2.open(filename, :password => pass) do |reader|
+        Pdf::Reader2.open(filename, :password => pass) do |reader|
           expect(reader.info).to eq(
             :Creator=>"Writer",
             :Producer=>"LibreOffice 3.3",
@@ -893,13 +893,13 @@ describe Pdf2::Reader2, "integration specs" do
     }
 
     it "correctly extracts text" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eq("This text is encrypted")
       end
     end
 
     it "correctly parses indirect objects" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect { reader.objects.values }.not_to raise_error
       end
     end
@@ -909,10 +909,10 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("inline_image") }
 
     it "extracts inline images correctly" do
-      @browser = Pdf2::Reader2.new(filename)
+      @browser = Pdf::Reader2.new(filename)
       @page    = @browser.page(1)
 
-      receiver = Pdf2::Reader2::RegisterReceiver.new
+      receiver = Pdf::Reader2::RegisterReceiver.new
       @page.walk(receiver)
 
       callbacks = receiver.series(:begin_inline_image, :begin_inline_image_data, :end_inline_image)
@@ -941,7 +941,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("content_stream_as_array") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to include("Arkansas Declaration Relating")
       end
     end
@@ -951,7 +951,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("junk_prefix") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eql("This Pdf contains junk before the %-Pdf marker")
       end
@@ -962,7 +962,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("junk_prefix_1024") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eql("This Pdf contains junk before the %-Pdf marker")
       end
@@ -981,7 +981,7 @@ describe Pdf2::Reader2, "integration specs" do
       # prior to commit d37b4bf52e243dfb999fa0cda791449c50f6d16d
       # the fi would be returned as f
 
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         m = /raffic/.match(page.text)
         expect(m[0].to_s).to eql("raffic")
@@ -1002,7 +1002,7 @@ describe Pdf2::Reader2, "integration specs" do
       #
       # prior to commit d37b4bf52e243dfb999fa0cda791449c50f6d16d
       # pdf-reader2 would return Nil instead of the correct unicode character
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # 𝑵𝑨𝑺𝑪𝑨𝑹
         utf8_str = [0x1d475, 0x1d468, 0x1d47a, 0x1d46a, 0x1d468, 0x1d479].pack("U*")
@@ -1015,7 +1015,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("standard_font_with_a_difference") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("The following word uses a ligature: ﬁve")
       end
@@ -1026,7 +1026,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("type1-arial") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("This text uses a Type1 font that isn't embedded")
       end
@@ -1037,7 +1037,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("truetype-arial") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to start_with("This text uses a TrueType font that isn't embedded")
       end
@@ -1048,7 +1048,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("type3_font") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("a\nb\nc")
       end
@@ -1059,7 +1059,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("type3_font_with_rare_font_matrix") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("ParallelGenetic Algorithms")
       end
@@ -1073,7 +1073,7 @@ describe Pdf2::Reader2, "integration specs" do
     # that will always work. It works for the sample file I have though, so that's better than
     # nothing
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("abc")
       end
@@ -1087,7 +1087,7 @@ describe Pdf2::Reader2, "integration specs" do
     #      rubbish. I've added this to ensure we don't throw an exception with
     #      rotated text. It's a start.
     it "extracts text without raising an exception" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text.split("\n").map(&:strip).slice(0,2)).to eq(["0","9"])
       end
@@ -1098,7 +1098,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("TJ_starts_with_a_number") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text[0,18]).to eq("This file has a TJ")
       end
@@ -1109,7 +1109,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("TJ_and_char_spacing") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text[15,17]).to eq("The big brown fox")
       end
@@ -1120,21 +1120,21 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("mediabox_missing") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text[0,54]).to eq("This page is missing the compulsory MediaBox attribute")
       end
     end
 
     it "is portrait orientation" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("portrait")
       end
     end
 
     it "returns correct page dimensions (defaults to portrait US letter)" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.width).to be_within(0.1).of(612)
         expect(page.height).to be_within(0.1).of(792)
@@ -1146,7 +1146,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("standard_font_with_no_difference") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("This page uses contains a €")
       end
@@ -1157,7 +1157,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("zapf") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("✄☎✇")
       end
@@ -1168,7 +1168,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("symbol") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("θρ")
       end
@@ -1179,7 +1179,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("clearscan") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("This document was scanned and then OCRd with Adobe ClearScan")
       end
@@ -1190,7 +1190,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("times-with-control-character") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("This text includes an ASCII control")
       end
@@ -1201,7 +1201,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("pages_object_missing_type") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("The top level Pages object has no Type")
       end
@@ -1212,7 +1212,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("kids-as-direct-objects") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("page 1")
       end
@@ -1223,7 +1223,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("minimal") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("Hello World")
       end
@@ -1234,7 +1234,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("minimal-xref-1") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("Hello World")
       end
@@ -1245,7 +1245,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("octal101") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("A ]A[")
       end
@@ -1256,7 +1256,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("octal74") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("< ]<8[")
       end
@@ -1267,7 +1267,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("textwrapcr") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("aaaa bbbb")
       end
@@ -1278,7 +1278,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("textwraplf") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("aaaa bbbb")
       end
@@ -1289,7 +1289,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("textwrapcrlf") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("aaaabbbb")
       end
@@ -1300,7 +1300,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("textwraplfcr") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("aaaabbbb")
       end
@@ -1311,7 +1311,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("indirect_mediabox") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq("The MediaBox for this page is specified via an indirect object")
       end
@@ -1325,7 +1325,7 @@ describe Pdf2::Reader2, "integration specs" do
     }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq(text)
       end
@@ -1339,7 +1339,7 @@ describe Pdf2::Reader2, "integration specs" do
     }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq(text)
       end
@@ -1353,7 +1353,7 @@ describe Pdf2::Reader2, "integration specs" do
     }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq(text)
       end
@@ -1373,37 +1373,37 @@ describe Pdf2::Reader2, "integration specs" do
     # d -416.918, -68.018
     # e -410.978, -68.018
     it "extracts individual chars with correct positions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         some_runs = page.runs(
           merge: false,
-          rect: Pdf2::Reader2::Rectangle.new(-438, -68, -405, -62)
+          rect: Pdf::Reader2::Rectangle.new(-438, -68, -405, -62)
         )
         expect(some_runs.size).to eql(6)
         expect(some_runs[0].text).to eql("u")
-        expect(some_runs[0].origin).to be_close_to(Pdf2::Reader2::Point.new(-437.24, -67.9))
+        expect(some_runs[0].origin).to be_close_to(Pdf::Reader2::Point.new(-437.24, -67.9))
         expect(some_runs[1].text).to eql("p")
-        expect(some_runs[1].origin).to be_close_to(Pdf2::Reader2::Point.new(-431.24, -67.9))
+        expect(some_runs[1].origin).to be_close_to(Pdf::Reader2::Point.new(-431.24, -67.9))
         expect(some_runs[2].text).to eql("s")
-        expect(some_runs[2].origin).to be_close_to(Pdf2::Reader2::Point.new(-425.34, -67.9))
+        expect(some_runs[2].origin).to be_close_to(Pdf::Reader2::Point.new(-425.34, -67.9))
         expect(some_runs[3].text).to eql("i")
-        expect(some_runs[3].origin).to be_close_to(Pdf2::Reader2::Point.new(-420.65, -67.9))
+        expect(some_runs[3].origin).to be_close_to(Pdf::Reader2::Point.new(-420.65, -67.9))
         expect(some_runs[4].text).to eql("d")
-        expect(some_runs[4].origin).to be_close_to(Pdf2::Reader2::Point.new(-417.35, -67.9))
+        expect(some_runs[4].origin).to be_close_to(Pdf::Reader2::Point.new(-417.35, -67.9))
         expect(some_runs[5].text).to eql("e")
-        expect(some_runs[5].origin).to be_close_to(Pdf2::Reader2::Point.new(-411.26, -67.9))
+        expect(some_runs[5].origin).to be_close_to(Pdf::Reader2::Point.new(-411.26, -67.9))
       end
     end
 
     it "is portrait orientation" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("portrait")
       end
     end
 
     it "returns correct page dimensions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # A4 portrait
         expect(page.width).to be_within(0.1).of(595.30)
@@ -1412,7 +1412,7 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "returns correct origin" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.origin.x).to be_within(0.1).of(-595.30)
         expect(page.origin.y).to be_within(0.1).of(-841.88)
@@ -1428,7 +1428,7 @@ describe Pdf2::Reader2, "integration specs" do
     }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq(text)
       end
@@ -1447,33 +1447,33 @@ describe Pdf2::Reader2, "integration specs" do
     # s -550.68, 750.76
     #
     it "extracts individual chars with correct positions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         some_runs = page.runs(
           merge: false,
-          rect: Pdf2::Reader2::Rectangle.new(-572, 749, -545, 760)
+          rect: Pdf::Reader2::Rectangle.new(-572, 749, -545, 760)
         )
         expect(some_runs.size).to eql(4)
         expect(some_runs[0].text).to eql("T")
-        expect(some_runs[0].origin).to be_close_to(Pdf2::Reader2::Point.new(-570.24, 750.95))
+        expect(some_runs[0].origin).to be_close_to(Pdf::Reader2::Point.new(-570.24, 750.95))
         expect(some_runs[1].text).to eql("h")
-        expect(some_runs[1].origin).to be_close_to(Pdf2::Reader2::Point.new(-561.95, 750.95))
+        expect(some_runs[1].origin).to be_close_to(Pdf::Reader2::Point.new(-561.95, 750.95))
         expect(some_runs[2].text).to eql("i")
-        expect(some_runs[2].origin).to be_close_to(Pdf2::Reader2::Point.new(-554.40, 750.95))
+        expect(some_runs[2].origin).to be_close_to(Pdf::Reader2::Point.new(-554.40, 750.95))
         expect(some_runs[3].text).to eql("s")
-        expect(some_runs[3].origin).to be_close_to(Pdf2::Reader2::Point.new(-551.39, 750.95))
+        expect(some_runs[3].origin).to be_close_to(Pdf::Reader2::Point.new(-551.39, 750.95))
       end
     end
 
     it "is portrait orientation" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("portrait")
       end
     end
 
     it "returns correct page dimensions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # A4 portrait
         expect(page.width).to be_within(0.1).of(595.30)
@@ -1482,7 +1482,7 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "returns correct origin" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.origin.x).to be_within(0.1).of(-595.30)
         expect(page.origin.y).to be_within(0.1).of(0)
@@ -1495,7 +1495,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:text) { "This page is rotated 270 degrees" }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq(text)
       end
@@ -1514,33 +1514,33 @@ describe Pdf2::Reader2, "integration specs" do
     # s -303.408, 533.832
     #
     it "extracts individual chars with correct positions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         some_runs = page.runs(
           merge: false,
-          rect: Pdf2::Reader2::Rectangle.new(-322, 534, -300, 550)
+          rect: Pdf::Reader2::Rectangle.new(-322, 534, -300, 550)
         )
         expect(some_runs.size).to eql(4)
         expect(some_runs[0].text).to eql("T")
-        expect(some_runs[0].origin).to be_close_to(Pdf2::Reader2::Point.new(-320.2, 534.5))
+        expect(some_runs[0].origin).to be_close_to(Pdf::Reader2::Point.new(-320.2, 534.5))
         expect(some_runs[1].text).to eql("h")
-        expect(some_runs[1].origin).to be_close_to(Pdf2::Reader2::Point.new(-312.86, 534.5))
+        expect(some_runs[1].origin).to be_close_to(Pdf::Reader2::Point.new(-312.86, 534.5))
         expect(some_runs[2].text).to eql("i")
-        expect(some_runs[2].origin).to be_close_to(Pdf2::Reader2::Point.new(-306.19, 534.5))
+        expect(some_runs[2].origin).to be_close_to(Pdf::Reader2::Point.new(-306.19, 534.5))
         expect(some_runs[3].text).to eql("s")
-        expect(some_runs[3].origin).to be_close_to(Pdf2::Reader2::Point.new(-303.532, 534.5))
+        expect(some_runs[3].origin).to be_close_to(Pdf::Reader2::Point.new(-303.532, 534.5))
       end
     end
 
     it "is portrait orientation" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("portrait")
       end
     end
 
     it "returns correct page dimensions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # A4 portrait
         expect(page.width).to be_within(0.1).of(595.30)
@@ -1549,7 +1549,7 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "returns correct origin" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.origin.x).to be_within(0.1).of(-595.30)
         expect(page.origin.y).to be_within(0.1).of(0)
@@ -1566,7 +1566,7 @@ describe Pdf2::Reader2, "integration specs" do
     }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to eq(text)
       end
@@ -1585,33 +1585,33 @@ describe Pdf2::Reader2, "integration specs" do
     # s 304.626, -45.658
     #
     it "extracts individual chars with correct positions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         some_runs = page.runs(
           merge: false,
-          rect: Pdf2::Reader2::Rectangle.new(285, -47, 310, -35)
+          rect: Pdf::Reader2::Rectangle.new(285, -47, 310, -35)
         )
         expect(some_runs.size).to eql(4)
         expect(some_runs[0].text).to eql("T")
-        expect(some_runs[0].origin).to be_close_to(Pdf2::Reader2::Point.new(287.33, -45.49))
+        expect(some_runs[0].origin).to be_close_to(Pdf::Reader2::Point.new(287.33, -45.49))
         expect(some_runs[1].text).to eql("h")
-        expect(some_runs[1].origin).to be_close_to(Pdf2::Reader2::Point.new(294.66, -45.49))
+        expect(some_runs[1].origin).to be_close_to(Pdf::Reader2::Point.new(294.66, -45.49))
         expect(some_runs[2].text).to eql("i")
-        expect(some_runs[2].origin).to be_close_to(Pdf2::Reader2::Point.new(301.33, -45.49))
+        expect(some_runs[2].origin).to be_close_to(Pdf::Reader2::Point.new(301.33, -45.49))
         expect(some_runs[3].text).to eql("s")
-        expect(some_runs[3].origin).to be_close_to(Pdf2::Reader2::Point.new(304, -45.49))
+        expect(some_runs[3].origin).to be_close_to(Pdf::Reader2::Point.new(304, -45.49))
       end
     end
 
     it "is portrait landscape" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("landscape")
       end
     end
 
     it "returns correct page dimensions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # A4 landscape
         expect(page.width).to be_within(0.1).of(842)
@@ -1620,7 +1620,7 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "returns correct origin" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.origin.x).to be_within(0.1).of(0)
         expect(page.origin.y).to be_within(0.1).of(-595)
@@ -1632,7 +1632,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("rotate-90-then-undo-with-br-text") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.text).to include("This Pdf ha  sRotate:90 in the page")
         expect(page.text).to include("metadata to get a landscape layout")
@@ -1653,33 +1653,33 @@ describe Pdf2::Reader2, "integration specs" do
     # e 235.682, -523.578
     #
     it "extracts individual chars with correct positions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         some_runs = page.runs(
           merge: false,
-          rect: Pdf2::Reader2::Rectangle.new(212, -524, 239, -520)
+          rect: Pdf::Reader2::Rectangle.new(212, -524, 239, -520)
         )
         expect(some_runs.size).to eql(4)
         expect(some_runs[0].text).to eql("p")
-        expect(some_runs[0].origin).to be_close_to(Pdf2::Reader2::Point.new(215.06, -523.41))
+        expect(some_runs[0].origin).to be_close_to(Pdf::Reader2::Point.new(215.06, -523.41))
         expect(some_runs[1].text).to eql("a")
-        expect(some_runs[1].origin).to be_close_to(Pdf2::Reader2::Point.new(221.73, -523.41))
+        expect(some_runs[1].origin).to be_close_to(Pdf::Reader2::Point.new(221.73, -523.41))
         expect(some_runs[2].text).to eql("g")
-        expect(some_runs[2].origin).to be_close_to(Pdf2::Reader2::Point.new(228.41, -523.41))
+        expect(some_runs[2].origin).to be_close_to(Pdf::Reader2::Point.new(228.41, -523.41))
         expect(some_runs[3].text).to eql("e")
-        expect(some_runs[3].origin).to be_close_to(Pdf2::Reader2::Point.new(235.08, -523.41))
+        expect(some_runs[3].origin).to be_close_to(Pdf::Reader2::Point.new(235.08, -523.41))
       end
     end
 
     it "is landscape orientation" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.orientation).to eql("landscape")
       end
     end
 
     it "returns correct page dimensions" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         # A4 landscape
         expect(page.width).to be_within(0.1).of(842)
@@ -1688,7 +1688,7 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "returns correct origin" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
         expect(page.origin.x).to be_within(0.1).of(0)
         expect(page.origin.y).to be_within(0.1).of(-595)
@@ -1700,7 +1700,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("prev0") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql("aaaa bbbb")
       end
     end
@@ -1710,7 +1710,7 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("stream-with-indirect-filters") }
 
     it "extracts text correctly" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         expect(reader.page(1).text).to eql(
           "The content stream for this page stores the filter in an indirect object"
         )
@@ -1722,15 +1722,15 @@ describe Pdf2::Reader2, "integration specs" do
     let(:filename) { pdf_spec_file("text_outside_cropbox_and_mediabox") }
 
     it "returns the correct rectangles for the page 1" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         page = reader.page(1)
-        expect(page.rectangles[:MediaBox]).to eq(Pdf2::Reader2::Rectangle.new(0, 0, 612, 792))
-        expect(page.rectangles[:CropBox]).to eq(Pdf2::Reader2::Rectangle.new(100, 100, 412, 592))
+        expect(page.rectangles[:MediaBox]).to eq(Pdf::Reader2::Rectangle.new(0, 0, 612, 792))
+        expect(page.rectangles[:CropBox]).to eq(Pdf::Reader2::Rectangle.new(100, 100, 412, 592))
       end
     end
 
     it "by default only extracts text inside the CropBox" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         text = reader.page(1).text
         expect(text).to include("This text is inside the CropBox")
         expect(text).to_not include("Between CropBox and MediaBox")
@@ -1739,7 +1739,7 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "by default only extracts runs inside the CropBox" do
-      Pdf2::Reader2.open(filename) do |reader|
+      Pdf::Reader2.open(filename) do |reader|
         text_from_runs = reader.page(1).runs.map(&:text).join(" ")
         expect(text_from_runs).to include("This text is inside the CropBox")
         expect(text_from_runs).to_not include("Between CropBox and MediaBox")
@@ -1748,8 +1748,8 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "can extract text between CropBox and MediaBox with a custom option" do
-      Pdf2::Reader2.open(filename) do |reader|
-        text = reader.page(1).text(rect: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792))
+      Pdf::Reader2.open(filename) do |reader|
+        text = reader.page(1).text(rect: Pdf::Reader2::Rectangle.new(0, 0, 612, 792))
         expect(text).to include("This text is inside the CropBox")
         expect(text).to include("Between CropBox and MediaBox")
         expect(text).to_not include("Outside MediaBox")
@@ -1757,8 +1757,8 @@ describe Pdf2::Reader2, "integration specs" do
     end
 
     it "can extract runs between CropBox and MediaBox with a custom option" do
-      mediabox = Pdf2::Reader2::Rectangle.new(0, 0, 612, 792)
-      Pdf2::Reader2.open(filename) do |reader|
+      mediabox = Pdf::Reader2::Rectangle.new(0, 0, 612, 792)
+      Pdf::Reader2.open(filename) do |reader|
         text_from_runs = reader.page(1).runs(rect: mediabox).map(&:text).join(" ")
         expect(text_from_runs).to include("This text is inside the CropBox")
         expect(text_from_runs).to include("Between CropBox and MediaBox")
@@ -1766,14 +1766,14 @@ describe Pdf2::Reader2, "integration specs" do
       end
     end
 
-    # This currently doesn't work - Pdf2::Reader2::PageLayout skips text that's outside the MediaBox
+    # This currently doesn't work - Pdf::Reader2::PageLayout skips text that's outside the MediaBox
     # I'm not sure we want it to work either, but I'm adding it as a pending spec for completeness
     # while I consider the best options
     it "can extract text outside the MediaBox with a custom option"
 
     it "can extract runs outside the MediaBox with a custom option" do
-      larger_than_mediabox = Pdf2::Reader2::Rectangle.new(0, 0, 900, 900)
-      Pdf2::Reader2.open(filename) do |reader|
+      larger_than_mediabox = Pdf::Reader2::Rectangle.new(0, 0, 900, 900)
+      Pdf::Reader2.open(filename) do |reader|
         text_from_runs = reader.page(1).runs(rect: larger_than_mediabox).map(&:text).join(" ")
         expect(text_from_runs).to include("This text is inside the CropBox")
         expect(text_from_runs).to include("Between CropBox and MediaBox")

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class Pdf2::Reader2
+class Pdf::Reader2
   module WidthCalculator
     # Calculates the width of a glyph in a Type One or Type Three
     class TypeOneOrThree

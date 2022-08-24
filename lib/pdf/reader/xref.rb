@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class Pdf2::Reader2
+class Pdf::Reader2
   ################################################################################
-  # An internal Pdf2::Reader2 class that represents the XRef table in a Pdf file as a
+  # An internal Pdf::Reader2 class that represents the XRef table in a Pdf file as a
   # hash-like object.
   #
   # An Xref table is a map of object identifiers and byte offsets. Any time a particular
@@ -39,7 +39,7 @@ class Pdf2::Reader2
   # Hash keys are object ids, values are either:
   #
   # * a byte offset where the object starts (regular Pdf objects)
-  # * a Pdf2::Reader2::Reference instance that points to a stream that contains the
+  # * a Pdf::Reader2::Reference instance that points to a stream that contains the
   #   desired object (Pdf objects embedded in an object stream)
   #
   # The class behaves much like a standard Ruby hash, including the use of
@@ -71,7 +71,7 @@ class Pdf2::Reader2
     ################################################################################
     # returns the byte offset for the specified Pdf object.
     #
-    # ref - a Pdf2::Reader2::Reference object containing an object ID and revision number
+    # ref - a Pdf::Reader2::Reference object containing an object ID and revision number
     def [](ref)
       @xref.fetch(ref.id, {}).fetch(ref.gen)
     rescue
@@ -83,7 +83,7 @@ class Pdf2::Reader2
       ids = @xref.keys.sort
       ids.each do |id|
         gen = @xref.fetch(id, {}).keys.sort[-1]
-        yield Pdf2::Reader2::Reference.new(id, gen.to_i)
+        yield Pdf::Reader2::Reference.new(id, gen.to_i)
       end
     end
     ################################################################################
@@ -116,11 +116,11 @@ class Pdf2::Reader2
         # Maybe we should be parsing the ObjectHash second argument to the Parser here,
         # to handle the case where an XRef Stream has the Length specified via an
         # indirect object
-        stream = Pdf2::Reader2::Parser.new(buf).object(tok_one.to_i, tok_two.to_i)
+        stream = Pdf::Reader2::Parser.new(buf).object(tok_one.to_i, tok_two.to_i)
         return load_xref_stream(stream)
       end
 
-      raise Pdf2::Reader2::MalformedPdfError,
+      raise Pdf::Reader2::MalformedPdfError,
         "xref table not found at offset #{offset} (#{tok_one} != xref)"
     end
     ################################################################################
@@ -170,8 +170,8 @@ class Pdf2::Reader2
     # Read an XRef stream from the underlying buffer instead of a traditional xref table.
     #
     def load_xref_stream(stream)
-      unless stream.is_a?(Pdf2::Reader2::Stream) && stream.hash[:Type] == :XRef
-        raise Pdf2::Reader2::MalformedPdfError, "xref stream not found when expected"
+      unless stream.is_a?(Pdf::Reader2::Stream) && stream.hash[:Type] == :XRef
+        raise Pdf::Reader2::MalformedPdfError, "xref stream not found when expected"
       end
       trailer = Hash[stream.hash.select { |key, value|
         [:Size, :Prev, :Root, :Encrypt, :Info, :ID].include?(key)
@@ -179,7 +179,7 @@ class Pdf2::Reader2
 
       widths = stream.hash[:W]
 
-      Pdf2::Reader2::Error.validate_type_as_malformed(widths, "xref stream widths", Array)
+      Pdf::Reader2::Error.validate_type_as_malformed(widths, "xref stream widths", Array)
 
       entry_length = widths.inject(0) { |s, w|
         unless w.is_a?(Integer)
@@ -203,7 +203,7 @@ class Pdf2::Reader2
           if f1 == 1 && f2 > 0
             store(objid, f3, f2 + @junk_offset)
           elsif f1 == 2 && f2 > 0
-            store(objid, 0, Pdf2::Reader2::Reference.new(f2, 0))
+            store(objid, 0, Pdf::Reader2::Reference.new(f2, 0))
           end
         end
       end
@@ -240,7 +240,7 @@ class Pdf2::Reader2
     # at the same time without worrying about clearing the buffers contents.
     #
     def new_buffer(offset = 0)
-      Pdf2::Reader2::Buffer.new(@io, :seek => offset)
+      Pdf::Reader2::Buffer.new(@io, :seek => offset)
     end
     ################################################################################
     # Stores an offset value for a particular Pdf object ID and revision number

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class Pdf2::Reader2
+class Pdf::Reader2
 
   # provides a wrapper around a Pdf stream object that contains other objects in it.
   # This is done for added compression and is described as an "Object Stream" in the spec.
@@ -17,8 +17,8 @@ class Pdf2::Reader2
       if offsets[objid].nil?
         nil
       else
-        buf = Pdf2::Reader2::Buffer.new(StringIO.new(@data), :seek => offsets[objid])
-        parser = Pdf2::Reader2::Parser.new(buf)
+        buf = Pdf::Reader2::Buffer.new(StringIO.new(@data), :seek => offsets[objid])
+        parser = Pdf::Reader2::Parser.new(buf)
         parser.parse_token
       end
     end
@@ -44,7 +44,7 @@ class Pdf2::Reader2
     end
 
     def buffer
-      @buffer ||= Pdf2::Reader2::Buffer.new(StringIO.new(@data))
+      @buffer ||= Pdf::Reader2::Buffer.new(StringIO.new(@data))
     end
 
   end

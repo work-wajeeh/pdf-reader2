@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe Pdf2::Reader2::Filter::Flate do
+describe Pdf::Reader2::Filter::Flate do
   describe "#filter" do
     context "an RFC1950 (zlib) deflated stream" do
       let(:deflated_path) {
@@ -9,7 +9,7 @@ describe Pdf2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = Pdf2::Reader2::Filter::Flate.new
+        filter = Pdf::Reader2::Filter::Flate.new
         expect(filter.filter(deflated_data)).to eql("hello world, 2020 is quite the year")
       end
     end
@@ -20,7 +20,7 @@ describe Pdf2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = Pdf2::Reader2::Filter::Flate.new
+        filter = Pdf::Reader2::Filter::Flate.new
         result = filter.filter(deflated_data)
         expect(result).to start_with("q")
         expect(result).to end_with("ET\n")
@@ -33,7 +33,7 @@ describe Pdf2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = Pdf2::Reader2::Filter::Flate.new
+        filter = Pdf::Reader2::Filter::Flate.new
         expect(filter.filter(deflated_data)).to eql("hello world, 2020 is quite the year")
       end
     end
@@ -46,7 +46,7 @@ describe Pdf2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = Pdf2::Reader2::Filter::Flate.new
+        filter = Pdf::Reader2::Filter::Flate.new
         expect(filter.filter(deflated_data)).to eql("hello world, 2020 is quite the year")
       end
     end
@@ -62,7 +62,7 @@ describe Pdf2::Reader2::Filter::Flate do
       let(:depredicted_data) { binread(depredicted_path) }
 
       it "inflates the data" do
-        filter = Pdf2::Reader2::Filter::Flate.new(
+        filter = Pdf::Reader2::Filter::Flate.new(
           :Columns => 5,
           :Predictor => 12
         )
@@ -77,7 +77,7 @@ describe Pdf2::Reader2::Filter::Flate do
       }
 
       it "inflates the data" do
-        filter = Pdf2::Reader2::Filter::Flate.new(
+        filter = Pdf::Reader2::Filter::Flate.new(
           :Columns => 5,
           :Predictor => 2,
           :Colors => 3

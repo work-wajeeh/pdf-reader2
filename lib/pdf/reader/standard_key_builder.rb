@@ -3,7 +3,7 @@
 require 'digest/md5'
 require 'rc4'
 
-class Pdf2::Reader2
+class Pdf::Reader2
 
   # Processes the Encrypt dict from an encrypted Pdf and a user provided
   # password and returns a key that can decrypt the file.
@@ -52,7 +52,7 @@ class Pdf2::Reader2
       encrypt_key   = auth_owner_pass(pass)
       encrypt_key ||= auth_user_pass(pass)
 
-      raise Pdf2::Reader2::EncryptedPdfError, "Invalid password (#{pass})" if encrypt_key.nil?
+      raise Pdf::Reader2::EncryptedPdfError, "Invalid password (#{pass})" if encrypt_key.nil?
       encrypt_key
     end
 

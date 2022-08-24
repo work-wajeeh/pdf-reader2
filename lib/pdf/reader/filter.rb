@@ -27,7 +27,7 @@
 #
 ################################################################################
 
-class Pdf2::Reader2
+class Pdf::Reader2
   ################################################################################
   # Various parts of a Pdf file can be passed through a filter before being stored to provide
   # support for features like compression and encryption. This class is for decoding that
@@ -39,19 +39,19 @@ class Pdf2::Reader2
     # creates a new filter for decoding content.
     #
     # Filters that are only used to encode image data are accepted, but the data is
-    # returned untouched. At this stage Pdf2::Reader2 has no need to decode images.
+    # returned untouched. At this stage Pdf::Reader2 has no need to decode images.
     #
     def self.with(name, options = {})
       case name
-      when :ASCII85Decode, :A85   then Pdf2::Reader2::Filter::Ascii85.new(options)
-      when :ASCIIHexDecode, :AHx  then Pdf2::Reader2::Filter::AsciiHex.new(options)
-      when :CCITTFaxDecode, :CCF  then Pdf2::Reader2::Filter::Null.new(options)
-      when :DCTDecode, :DCT       then Pdf2::Reader2::Filter::Null.new(options)
-      when :FlateDecode, :Fl      then Pdf2::Reader2::Filter::Flate.new(options)
-      when :JBIG2Decode           then Pdf2::Reader2::Filter::Null.new(options)
-      when :JPXDecode             then Pdf2::Reader2::Filter::Null.new(options)
-      when :LZWDecode, :LZW       then Pdf2::Reader2::Filter::Lzw.new(options)
-      when :RunLengthDecode, :RL  then Pdf2::Reader2::Filter::RunLength.new(options)
+      when :ASCII85Decode, :A85   then Pdf::Reader2::Filter::Ascii85.new(options)
+      when :ASCIIHexDecode, :AHx  then Pdf::Reader2::Filter::AsciiHex.new(options)
+      when :CCITTFaxDecode, :CCF  then Pdf::Reader2::Filter::Null.new(options)
+      when :DCTDecode, :DCT       then Pdf::Reader2::Filter::Null.new(options)
+      when :FlateDecode, :Fl      then Pdf::Reader2::Filter::Flate.new(options)
+      when :JBIG2Decode           then Pdf::Reader2::Filter::Null.new(options)
+      when :JPXDecode             then Pdf::Reader2::Filter::Null.new(options)
+      when :LZWDecode, :LZW       then Pdf::Reader2::Filter::Lzw.new(options)
+      when :RunLengthDecode, :RL  then Pdf::Reader2::Filter::RunLength.new(options)
       else
         raise UnsupportedFeatureError, "Unknown filter: #{name}"
       end

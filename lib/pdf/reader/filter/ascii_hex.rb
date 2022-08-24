@@ -3,7 +3,7 @@
 # frozen_string_literal: true
 
 #
-class Pdf2::Reader2
+class Pdf::Reader2
   module Filter # :nodoc:
     # implementation of the AsciiHex stream filter
     class AsciiHex

@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe Pdf2::Reader2::ObjectStream do
+describe Pdf::Reader2::ObjectStream do
   describe "#[]" do
 
     before(:each) do
@@ -10,8 +10,8 @@ describe Pdf2::Reader2::ObjectStream do
     end
 
     it "provides access to 2 embedded objects" do
-      stream = Pdf2::Reader2::Stream.new(@hash, @data)
-      obj_stream = Pdf2::Reader2::ObjectStream.new(stream)
+      stream = Pdf::Reader2::Stream.new(@hash, @data)
+      obj_stream = Pdf::Reader2::ObjectStream.new(stream)
 
       expect(obj_stream[29]).to be_a_kind_of(::Hash)
       expect(obj_stream[30]).to be_a_kind_of(::Hash)
@@ -21,8 +21,8 @@ describe Pdf2::Reader2::ObjectStream do
     end
 
     it "returns nil for objects it doesn't contain" do
-      stream = Pdf2::Reader2::Stream.new(@hash, @data)
-      obj_stream = Pdf2::Reader2::ObjectStream.new(stream)
+      stream = Pdf::Reader2::Stream.new(@hash, @data)
+      obj_stream = Pdf::Reader2::ObjectStream.new(stream)
 
       expect(obj_stream[1]).to be_nil
     end
@@ -37,8 +37,8 @@ describe Pdf2::Reader2::ObjectStream do
     end
 
     it "returns the number of embedded objects" do
-      stream = Pdf2::Reader2::Stream.new(@hash, @data)
-      obj_stream = Pdf2::Reader2::ObjectStream.new(stream)
+      stream = Pdf::Reader2::Stream.new(@hash, @data)
+      obj_stream = Pdf::Reader2::ObjectStream.new(stream)
 
       expect(obj_stream.size).to eql(2)
     end

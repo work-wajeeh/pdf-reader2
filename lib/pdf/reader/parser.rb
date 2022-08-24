@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class Pdf2::Reader2
+class Pdf::Reader2
   ################################################################################
-  # An internal Pdf2::Reader2 class that reads objects from the Pdf file and converts
+  # An internal Pdf::Reader2 class that reads objects from the Pdf file and converts
   # them into useable ruby objects (hash's, arrays, true, false, etc)
   class Parser
 
@@ -58,10 +58,10 @@ class Pdf2::Reader2
     }
 
     ################################################################################
-    # Create a new parser around a Pdf2::Reader2::Buffer object
+    # Create a new parser around a Pdf::Reader2::Buffer object
     #
-    # buffer - a Pdf2::Reader2::Buffer object that contains Pdf data
-    # objects  - a Pdf2::Reader2::ObjectHash object that can return objects from the Pdf file
+    # buffer - a Pdf::Reader2::Buffer object that contains Pdf data
+    # objects  - a Pdf::Reader2::ObjectHash object that can return objects from the Pdf file
     def initialize(buffer, objects=nil)
       @buffer = buffer
       @objects  = objects
@@ -76,7 +76,7 @@ class Pdf2::Reader2
 
       if STRATEGIES.has_key? token
         STRATEGIES[token].call(self, token)
-      elsif token.is_a? Pdf2::Reader2::Reference
+      elsif token.is_a? Pdf::Reader2::Reference
         token
       elsif operators.has_key? token
         Token.new(token)
@@ -127,7 +127,7 @@ class Pdf2::Reader2
         key = parse_token
         break if key.kind_of?(Token) and key == ">>"
         raise MalformedPdfError, "unterminated dict" if @buffer.empty?
-        Pdf2::Reader2::Error.validate_type_as_malformed(key, "Dictionary key", Symbol)
+        Pdf::Reader2::Error.validate_type_as_malformed(key, "Dictionary key", Symbol)
 
         value = parse_token
         value.kind_of?(Token) and Error.str_assert_not(value, ">>")
@@ -223,7 +223,7 @@ class Pdf2::Reader2
         length = dict[:Length] || 0
       end
 
-      Pdf2::Reader2::Error.validate_type_as_malformed(length, "length", Numeric)
+      Pdf::Reader2::Error.validate_type_as_malformed(length, "length", Numeric)
 
       data = @buffer.read(length, :skip_eol => true)
 
@@ -233,7 +233,7 @@ class Pdf2::Reader2
       # matter if it's missing, and other readers seems to handle its absence just fine
       # Error.str_assert(parse_token, "endobj")
 
-      Pdf2::Reader2::Stream.new(dict, data)
+      Pdf::Reader2::Stream.new(dict, data)
     end
     ################################################################################
   end

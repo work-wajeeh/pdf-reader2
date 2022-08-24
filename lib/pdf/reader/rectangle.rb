@@ -31,7 +31,7 @@ module Pdf
           raise ArgumentError, "Only 4-element Arrays can be converted to a Rectangle"
         end
 
-        Pdf2::Reader2::Rectangle.new(
+        Pdf::Reader2::Rectangle.new(
           arr[0].to_f,
           arr[1].to_f,
           arr[2].to_f,
@@ -91,19 +91,19 @@ module Pdf
       private
 
       def set_corners(x1, y1, x2, y2)
-        @bottom_left = Pdf2::Reader2::Point.new(
+        @bottom_left = Pdf::Reader2::Point.new(
           [x1, x2].min,
           [y1, y2].min,
         )
-        @bottom_right = Pdf2::Reader2::Point.new(
+        @bottom_right = Pdf::Reader2::Point.new(
           [x1, x2].max,
           [y1, y2].min,
         )
-        @top_left = Pdf2::Reader2::Point.new(
+        @top_left = Pdf::Reader2::Point.new(
           [x1, x2].min,
           [y1, y2].max,
         )
-        @top_right = Pdf2::Reader2::Point.new(
+        @top_right = Pdf::Reader2::Point.new(
           [x1, x2].max,
           [y1, y2].max,
         )

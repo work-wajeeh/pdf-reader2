@@ -5,7 +5,7 @@
 require 'pdf/reader/overlapping_runs_filter'
 require 'pdf/reader/zero_width_runs_filter'
 
-class Pdf2::Reader2
+class Pdf::Reader2
 
   # Takes a collection of TextRun objects and renders them into a single
   # string that best approximates the way they'd appear on a render Pdf page.
@@ -18,8 +18,8 @@ class Pdf2::Reader2
 
     def initialize(runs, mediabox)
       # mediabox is a 4-element array for now, but it'd be nice to switch to a
-      # Pdf2::Reader2::Rectangle at some point
-      Pdf2::Reader2::Error.validate_not_nil(mediabox, "mediabox")
+      # Pdf::Reader2::Rectangle at some point
+      Pdf::Reader2::Error.validate_not_nil(mediabox, "mediabox")
 
       @mediabox = process_mediabox(mediabox)
       @runs = runs
@@ -114,7 +114,7 @@ class Pdf2::Reader2
         msg = "Passing the mediabox to PageLayout as an Array is deprecated," +
           " please use a Rectangle instead"
         $stderr.puts msg
-        Pdf2::Reader2::Rectangle.from_array(mediabox)
+        Pdf::Reader2::Rectangle.from_array(mediabox)
       else
         mediabox
       end

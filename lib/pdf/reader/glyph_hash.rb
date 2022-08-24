@@ -27,7 +27,7 @@
 #
 ################################################################################
 
-class Pdf2::Reader2
+class Pdf::Reader2
   # A Hash-like object that can convert glyph names into a unicode codepoint.
   # The mapping is read from a data file on disk the first time it's needed.
   #

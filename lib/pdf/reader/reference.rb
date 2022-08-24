@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class Pdf2::Reader2
+class Pdf::Reader2
   ################################################################################
-  # An internal Pdf2::Reader2 class that represents an indirect reference to a Pdf Object
+  # An internal Pdf::Reader2 class that represents an indirect reference to a Pdf Object
   class Reference
     attr_reader :id
     attr_reader :gen
@@ -52,7 +52,7 @@ class Pdf2::Reader2
     # returns true if the provided object points to the same Pdf Object as the
     # current object
     def ==(obj)
-      return false unless obj.kind_of?(Pdf2::Reader2::Reference)
+      return false unless obj.kind_of?(Pdf::Reader2::Reference)
 
       self.hash == obj.hash
     end

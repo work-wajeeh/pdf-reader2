@@ -4,7 +4,7 @@
 
 require 'tempfile'
 
-class Pdf2::Reader2
+class Pdf::Reader2
   # Provides low level access to the objects in a Pdf file via a hash-like
   # object.
   #
@@ -22,11 +22,11 @@ class Pdf2::Reader2
   #
   # == Basic Usage
   #
-  #     h = Pdf2::Reader2::ObjectHash.new("somefile.pdf")
+  #     h = Pdf::Reader2::ObjectHash.new("somefile.pdf")
   #     h[1]
   #     => 3469
   #
-  #     h[Pdf2::Reader2::Reference.new(1,0)]
+  #     h[Pdf::Reader2::Reference.new(1,0)]
   #     => 3469
   #
   class ObjectHash
@@ -45,10 +45,10 @@ class Pdf2::Reader2
     #
     def initialize(input, opts = {})
       @io          = extract_io_from(input)
-      @xref        = Pdf2::Reader2::XRef.new(@io)
+      @xref        = Pdf::Reader2::XRef.new(@io)
       @pdf_version = read_version
       @trailer     = @xref.trailer
-      @cache       = opts[:cache] || Pdf2::Reader2::ObjectCache.new
+      @cache       = opts[:cache] || Pdf::Reader2::ObjectCache.new
       @sec_handler = NullSecurityHandler.new
       @sec_handler = SecurityHandlerFactory.build(
         deref(trailer[:Encrypt]),
@@ -66,23 +66,23 @@ class Pdf2::Reader2
 
     # returns true if the supplied references points to an object with a stream
     def stream?(ref)
-      self.has_key?(ref) && self[ref].is_a?(Pdf2::Reader2::Stream)
+      self.has_key?(ref) && self[ref].is_a?(Pdf::Reader2::Stream)
     end
 
-    # Access an object from the Pdf. key can be an int or a Pdf2::Reader2::Reference
+    # Access an object from the Pdf. key can be an int or a Pdf::Reader2::Reference
     # object.
     #
     # If an int is used, the object with that ID and a generation number of 0 will
     # be returned.
     #
-    # If a Pdf2::Reader2::Reference object is used the exact ID and generation number
+    # If a Pdf::Reader2::Reference object is used the exact ID and generation number
     # can be specified.
     #
     def [](key)
       return default if key.to_i <= 0
 
-      unless key.is_a?(Pdf2::Reader2::Reference)
-        key = Pdf2::Reader2::Reference.new(key.to_i, 0)
+      unless key.is_a?(Pdf::Reader2::Reference)
+        key = Pdf::Reader2::Reference.new(key.to_i, 0)
       end
 
       @cache[key] ||= fetch_object(key) || fetch_object_stream(key)
@@ -90,15 +90,15 @@ class Pdf2::Reader2
       return default
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     def object(key)
-      key.is_a?(Pdf2::Reader2::Reference) ? self[key] : key
+      key.is_a?(Pdf::Reader2::Reference) ? self[key] : key
     end
     alias :deref :object
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return an Array or nil. If the dereference results in
@@ -114,7 +114,7 @@ class Pdf2::Reader2
       }
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return an Array of Numerics or nil. If the dereference results in
@@ -142,7 +142,7 @@ class Pdf2::Reader2
       }
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return a Hash or nil. If the dereference results in
@@ -158,7 +158,7 @@ class Pdf2::Reader2
       }
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return a Pdf name (Symbol) or nil. If the dereference results in
@@ -182,7 +182,7 @@ class Pdf2::Reader2
       obj
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return an Integer or nil. If the dereference results in
@@ -206,7 +206,7 @@ class Pdf2::Reader2
       obj
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return a Numeric or nil. If the dereference results in
@@ -232,10 +232,10 @@ class Pdf2::Reader2
       obj
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
-    # Guaranteed to only return a Pdf2::Reader2::Stream or nil. If the dereference results in
+    # Guaranteed to only return a Pdf::Reader2::Stream or nil. If the dereference results in
     # any other type then a MalformedPdfError exception will raise. Useful when
     # expecting a stream and no other type will do.
     def deref_stream(key)
@@ -244,13 +244,13 @@ class Pdf2::Reader2
       return obj if obj.nil?
 
       obj.tap { |obj|
-        if !obj.is_a?(Pdf2::Reader2::Stream)
+        if !obj.is_a?(Pdf::Reader2::Stream)
           raise MalformedPdfError, "expected object to be a Stream or nil"
         end
       }
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return a String or nil. If the dereference results in
@@ -274,7 +274,7 @@ class Pdf2::Reader2
       obj
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
     # Guaranteed to only return a Pdf Name (symbol), Array or nil. If the dereference results in
@@ -292,10 +292,10 @@ class Pdf2::Reader2
       }
     end
 
-    # If key is a Pdf2::Reader2::Reference object, lookup the corresponding
+    # If key is a Pdf::Reader2::Reference object, lookup the corresponding
     # object in the Pdf and return it. Otherwise return key untouched.
     #
-    # Guaranteed to only return a Pdf2::Reader2::Stream, Array or nil. If the dereference results in
+    # Guaranteed to only return a Pdf::Reader2::Stream, Array or nil. If the dereference results in
     # any other type then a MalformedPdfError exception will raise. Useful when
     # expecting a stream or Array and no other type will do.
     def deref_stream_or_array(key)
@@ -304,14 +304,14 @@ class Pdf2::Reader2
       return obj if obj.nil?
 
       obj.tap { |obj|
-        if !obj.is_a?(Pdf2::Reader2::Stream) && !obj.is_a?(Array)
+        if !obj.is_a?(Pdf::Reader2::Stream) && !obj.is_a?(Array)
           raise MalformedPdfError, "expected object to be an Array or Stream"
         end
       }
     end
 
     # Recursively dereferences the object refered to be +key+. If +key+ is not
-    # a Pdf2::Reader2::Reference, the key is returned unchanged.
+    # a Pdf::Reader2::Reference, the key is returned unchanged.
     #
     def deref!(key)
       deref_internal!(key, {})
@@ -333,13 +333,13 @@ class Pdf2::Reader2
       }
     end
 
-    # Access an object from the Pdf. key can be an int or a Pdf2::Reader2::Reference
+    # Access an object from the Pdf. key can be an int or a Pdf::Reader2::Reference
     # object.
     #
     # If an int is used, the object with that ID and a generation number of 0 will
     # be returned.
     #
-    # If a Pdf2::Reader2::Reference object is used the exact ID and generation number
+    # If a Pdf::Reader2::Reference object is used the exact ID and generation number
     # can be specified.
     #
     # local_default is the object that will be returned if the requested key doesn't
@@ -395,12 +395,12 @@ class Pdf2::Reader2
     end
 
     # return true if the specified key exists in the file. key
-    # can be an int or a Pdf2::Reader2::Reference
+    # can be an int or a Pdf::Reader2::Reference
     #
     def has_key?(check_key)
       # TODO update from O(n) to O(1)
       each_key do |key|
-        if check_key.kind_of?(Pdf2::Reader2::Reference)
+        if check_key.kind_of?(Pdf::Reader2::Reference)
           return true if check_key == key
         else
           return true if check_key.to_i == key.id
@@ -424,7 +424,7 @@ class Pdf2::Reader2
     alias :value? :has_key?
 
     def to_s
-      "<Pdf2::Reader2::ObjectHash size: #{self.size}>"
+      "<Pdf::Reader2::ObjectHash size: #{self.size}>"
     end
 
     # return an array of all keys in the file
@@ -459,7 +459,7 @@ class Pdf2::Reader2
       ret
     end
 
-    # returns an array of Pdf2::Reader2::References. Each reference in the
+    # returns an array of Pdf::Reader2::References. Each reference in the
     # array points a Page object, one for each page in the Pdf. The first
     # reference is page 1, second reference is page 2, etc.
     #
@@ -496,11 +496,11 @@ class Pdf2::Reader2
     # parse a object that's embedded in an object stream in the Pdf
     #
     def fetch_object_stream(key)
-      if xref[key].is_a?(Pdf2::Reader2::Reference)
+      if xref[key].is_a?(Pdf::Reader2::Reference)
         container_key = xref[key]
         stream = deref_stream(container_key)
         raise MalformedPdfError, "Object Stream cannot be nil" if stream.nil?
-        object_streams[container_key] ||= Pdf2::Reader2::ObjectStream.new(stream)
+        object_streams[container_key] ||= Pdf::Reader2::ObjectStream.new(stream)
         object_streams[container_key][key.id]
       end
     end
@@ -510,7 +510,7 @@ class Pdf2::Reader2
     # doesn't need to be part of the public API.
     #
     def deref_internal!(key, seen)
-      seen_key = key.is_a?(Pdf2::Reader2::Reference) ? key : key.object_id
+      seen_key = key.is_a?(Pdf::Reader2::Reference) ? key : key.object_id
 
       return seen[seen_key] if seen.key?(seen_key)
 
@@ -521,8 +521,8 @@ class Pdf2::Reader2
           seen[seen_key][k] = deref_internal!(value, seen)
         end
         seen[seen_key]
-      when Pdf2::Reader2::Stream
-        seen[seen_key] ||= Pdf2::Reader2::Stream.new({}, object.data)
+      when Pdf::Reader2::Stream
+        seen[seen_key] ||= Pdf::Reader2::Stream.new({}, object.data)
         object.hash.each do |k,value|
           seen[seen_key].hash[k] = deref_internal!(value, seen)
         end
@@ -540,7 +540,7 @@ class Pdf2::Reader2
 
     def decrypt(ref, obj)
       case obj
-      when Pdf2::Reader2::Stream then
+      when Pdf::Reader2::Stream then
         # Pdf 32000-1:2008 7.5.8.2: "The cross-reference stream shall not be encrypted [...]."
         # Therefore we shouldn't try to decrypt it.
         obj.data = sec_handler.decrypt(obj.data, ref) unless obj.hash[:Type] == :XRef
@@ -560,7 +560,7 @@ class Pdf2::Reader2
     end
 
     def new_buffer(offset = 0)
-      Pdf2::Reader2::Buffer.new(@io, :seek => offset)
+      Pdf::Reader2::Buffer.new(@io, :seek => offset)
     end
 
     def xref

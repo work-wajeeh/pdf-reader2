@@ -75,7 +75,7 @@ end
 extractor = ExtractFonts::Extractor.new
 
 ARGV.each do |arg|
-  Pdf2::Reader2.open(arg) do |reader|
+  Pdf::Reader2.open(arg) do |reader|
     page = reader.page(1)
     extractor.page(page)
   end

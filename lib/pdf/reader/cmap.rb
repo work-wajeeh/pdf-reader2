@@ -27,7 +27,7 @@
 #
 ################################################################################
 
-class Pdf2::Reader2
+class Pdf::Reader2
 
   # wraps a string containing a Pdf CMap and provides convenience methods for
   # extracting various useful information.

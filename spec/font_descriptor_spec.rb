@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe Pdf2::Reader2::FontDescriptor do
+describe Pdf::Reader2::FontDescriptor do
   describe "initialisation" do
     let!(:dict) do
       {
@@ -23,8 +23,8 @@ describe Pdf2::Reader2::FontDescriptor do
         :FontFamily   => "BoldItalic"
       }
     end
-    let!(:objects) { Pdf2::Reader2::ObjectHash.allocate }
-    subject        { Pdf2::Reader2::FontDescriptor.new(objects, dict)}
+    let!(:objects) { Pdf::Reader2::ObjectHash.allocate }
+    subject        { Pdf::Reader2::FontDescriptor.new(objects, dict)}
 
     it "sets the correct instance vars" do
       expect(subject.ascent).to            eq(10)

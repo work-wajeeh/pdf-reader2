@@ -4,7 +4,7 @@
 
 require 'forwardable'
 
-class Pdf2::Reader2
+class Pdf::Reader2
   # A Hash-like object that wraps the array of glyph widths in a CID font
   # and gives us a nice way to query it for specific widths.
   #

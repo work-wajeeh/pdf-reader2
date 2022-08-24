@@ -42,7 +42,7 @@ module ExtractImages
             ExtractImages::Raw.new(stream).save("#{page.number}-#{count}-#{name}.tif")
           end
         when :Form then
-          count = process_page(Pdf2::Reader2::FormXObject.new(page, stream), count)
+          count = process_page(Pdf::Reader2::FormXObject.new(page, stream), count)
         end
       end
       count
@@ -225,7 +225,7 @@ end
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/adobe_sample.pdf"
 extractor = ExtractImages::Extractor.new
 
-Pdf2::Reader2.open(filename) do |reader|
+Pdf::Reader2.open(filename) do |reader|
   page = reader.page(1)
   extractor.page(page)
 end

@@ -10,7 +10,7 @@
 require 'rubygems'
 require 'pdf/reader'
 
-reader = Pdf2::Reader2.new(ARGV[0])
+reader = Pdf::Reader2.new(ARGV[0])
 
 require "benchmark"
 

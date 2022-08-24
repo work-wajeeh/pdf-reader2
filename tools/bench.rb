@@ -16,7 +16,7 @@ require 'pdf/reader'
 # Extract all the text from a large Pdf
 
 def extract_text
-  Pdf2::Reader2.open("#{$project_root}/spec/data/no_text_spaces.pdf") do |reader|
+  Pdf::Reader2.open("#{$project_root}/spec/data/no_text_spaces.pdf") do |reader|
     reader.pages.each do |page|
       page.text
     end

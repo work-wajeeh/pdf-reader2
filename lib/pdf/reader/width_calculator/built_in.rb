@@ -5,7 +5,7 @@
 require 'afm'
 require 'pdf/reader/synchronized_cache'
 
-class Pdf2::Reader2
+class Pdf::Reader2
   module WidthCalculator
 
     # Type1 fonts can be one of 14 "built in" standard fonts. In these cases,
@@ -23,7 +23,7 @@ class Pdf2::Reader2
 
       def initialize(font)
         @font = font
-        @@all_metrics ||= Pdf2::Reader2::SynchronizedCache.new
+        @@all_metrics ||= Pdf::Reader2::SynchronizedCache.new
 
         basefont = extract_basefont(font.basefont)
         metrics_path = File.join(File.dirname(__FILE__), "..","afm","#{basefont}.afm")

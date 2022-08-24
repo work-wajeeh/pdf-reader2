@@ -114,7 +114,7 @@ module Pdf
       def invoke_xobject(label)
         @state.invoke_xobject(label) do |xobj|
           case xobj
-          when Pdf2::Reader2::FormXObject then
+          when Pdf::Reader2::FormXObject then
             xobj.walk(self)
           end
         end
@@ -123,9 +123,9 @@ module Pdf
       private
 
       def internal_show_text(string)
-        Pdf2::Reader2::Error.validate_type_as_malformed(string, "string", String)
+        Pdf::Reader2::Error.validate_type_as_malformed(string, "string", String)
         if @state.current_font.nil?
-          raise Pdf2::Reader2::MalformedPdfError, "current font is invalid"
+          raise Pdf::Reader2::MalformedPdfError, "current font is invalid"
         end
         glyphs = @state.current_font.unpack(string)
         glyphs.each_with_index do |glyph_code, index|

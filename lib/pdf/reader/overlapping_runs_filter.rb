@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 # typed: strict
 
-class Pdf2::Reader2
+class Pdf::Reader2
   # remove duplicates from a collection of TextRun objects. This can be helpful when a Pdf
   # uses slightly offset overlapping characters to achieve a fake 'bold' effect.
   class OverlappingRunsFilter

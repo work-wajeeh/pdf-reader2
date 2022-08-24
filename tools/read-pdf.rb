@@ -44,12 +44,12 @@ def read(doc)
   print_status "Processing '#{doc}'"
   begin
     @fname = doc
-    reader = Pdf2::Reader2.new(@fname)
-  rescue Pdf2::Reader2::MalformedPdfError
+    reader = Pdf::Reader2.new(@fname)
+  rescue Pdf::Reader2::MalformedPdfError
     print_error "Could not parse Pdf '#{doc}': Pdf is malformed"
     exit 1
-  rescue Pdf2::Reader2::UnsupportedFeatureError 
-    print_error "Could not parse Pdf '#{doc}': Pdf2::Reader2::UnsupportedFeatureError"
+  rescue Pdf::Reader2::UnsupportedFeatureError 
+    print_error "Could not parse Pdf '#{doc}': Pdf::Reader2::UnsupportedFeatureError"
     exit 1
   end
   print_good 'Processing complete'
@@ -57,10 +57,10 @@ def read(doc)
   print_status "Parsing '#{@fname}'"
   begin
     parse reader
-  rescue Pdf2::Reader2::UnsupportedFeatureError
-    print_error "Could not parse Pdf '#{doc}': Pdf2::Reader2::UnsupportedFeatureError"
+  rescue Pdf::Reader2::UnsupportedFeatureError
+    print_error "Could not parse Pdf '#{doc}': Pdf::Reader2::UnsupportedFeatureError"
     exit 1
-  rescue Pdf2::Reader2::MalformedPdfError
+  rescue Pdf::Reader2::MalformedPdfError
     print_error "Could not parse Pdf '#{doc}': Pdf is malformed"
     exit 1
   end

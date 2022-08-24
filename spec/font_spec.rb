@@ -1,13 +1,13 @@
 # typed: false
 # coding: utf-8
 
-describe Pdf2::Reader2::Font do
+describe Pdf::Reader2::Font do
 
-  let(:object_hash) { Pdf2::Reader2::ObjectHash.allocate }
+  let(:object_hash) { Pdf::Reader2::ObjectHash.allocate }
 
   describe "to_utf8()" do
     context "with no ToUnicode CMap" do
-      let(:font) { Pdf2::Reader2::Font.new(object_hash, {}) }
+      let(:font) { Pdf::Reader2::Font.new(object_hash, {}) }
 
       it "delegates to an Encoding object to convert strings to utf-8" do
         encoding = double
@@ -40,7 +40,7 @@ describe Pdf2::Reader2::Font do
     end
 
     context "with a ToUnicode CMap" do
-      let(:font) { Pdf2::Reader2::Font.new(object_hash, {}) }
+      let(:font) { Pdf::Reader2::Font.new(object_hash, {}) }
 
       it "delegates to a CMap object to convert strings to utf-8" do
         cmap = double
@@ -76,7 +76,7 @@ describe Pdf2::Reader2::Font do
           :Type      => :Font
         }
       end
-      let(:font) { Pdf2::Reader2::Font.new(object_hash, raw) }
+      let(:font) { Pdf::Reader2::Font.new(object_hash, raw) }
 
       it "unpacks a binary string into ints" do
         expect(font.unpack("\x41\x42")).to eq([65,66])
@@ -94,7 +94,7 @@ describe Pdf2::Reader2::Font do
           :Widths    => [100, 200, 300, 400]
         }
       end
-      let(:font) { Pdf2::Reader2::Font.new(object_hash, raw) }
+      let(:font) { Pdf::Reader2::Font.new(object_hash, raw) }
 
       it "returns the width for a glyph" do
         expect(font.glyph_width(2)).to eq(200)
@@ -114,7 +114,7 @@ describe Pdf2::Reader2::Font do
           :Widths    => [100, 200, 300, 400]
         }
       end
-      let(:font) { Pdf2::Reader2::Font.new(object_hash, raw) }
+      let(:font) { Pdf::Reader2::Font.new(object_hash, raw) }
 
       it "returns the width for a glyph" do
         expect(font.glyph_width(7)).to eq(300)

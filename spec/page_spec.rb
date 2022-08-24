@@ -1,19 +1,19 @@
 # typed: false
 # coding: utf-8
 
-describe Pdf2::Reader2::Page do
+describe Pdf::Reader2::Page do
   describe "#initialize" do
     it "raises InvalidPageError when an invalid page number is provided" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       expect {
-        Pdf2::Reader2::Page.new(@browser.objects, 10)
-      }.to raise_error(Pdf2::Reader2::InvalidPageError)
+        Pdf::Reader2::Page.new(@browser.objects, 10)
+      }.to raise_error(Pdf::Reader2::InvalidPageError)
     end
   end
 
   describe "#raw_content" do
     it "returns a string from raw_content() from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.raw_content).to be_a_kind_of(String)
@@ -24,7 +24,7 @@ describe Pdf2::Reader2::Page do
     # only do a very basic test here. Detailed testing of text extraction is
     # done by testing the PageTextReceiver class
     it "returns the text content from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.text).to eql("Hello James")
@@ -34,7 +34,7 @@ describe Pdf2::Reader2::Page do
 
   describe "#boxes" do
     let!(:page)    { browser.page(1) }
-    let!(:browser) { Pdf2::Reader2.new(pdf_spec_file("all_page_boxes_exist")) }
+    let!(:browser) { Pdf::Reader2.new(pdf_spec_file("all_page_boxes_exist")) }
 
     it "returns a hash of all the different boxes" do
       expect(page.attributes[:ArtBox]).to_not be_empty
@@ -55,7 +55,7 @@ describe Pdf2::Reader2::Page do
     end
 
     context "mediabox and cropbox are references" do
-      let!(:browser) { Pdf2::Reader2.new(pdf_spec_file("mediabox_and_cropbox_are_references")) }
+      let!(:browser) { Pdf::Reader2.new(pdf_spec_file("mediabox_and_cropbox_are_references")) }
 
       it "returns a non-reference for the dimensions of the boxes" do
         expect(page.boxes).to eq(
@@ -73,7 +73,7 @@ describe Pdf2::Reader2::Page do
 
   describe "#rectangles" do
     let!(:page)    { browser.page(1) }
-    let!(:browser) { Pdf2::Reader2.new(pdf_spec_file("all_page_boxes_exist")) }
+    let!(:browser) { Pdf::Reader2.new(pdf_spec_file("all_page_boxes_exist")) }
 
     it "returns a hash of all the different boxes" do
       expect(page.attributes[:ArtBox]).to_not be_empty
@@ -84,26 +84,26 @@ describe Pdf2::Reader2::Page do
 
       expect(page.rectangles).to eq(
         {
-          ArtBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-          BleedBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-          CropBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-          MediaBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-          TrimBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
+          ArtBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+          BleedBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+          CropBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+          MediaBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+          TrimBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
         }
       )
     end
 
     context "mediabox and cropbox are references" do
-      let!(:browser) { Pdf2::Reader2.new(pdf_spec_file("mediabox_and_cropbox_are_references")) }
+      let!(:browser) { Pdf::Reader2.new(pdf_spec_file("mediabox_and_cropbox_are_references")) }
 
       it "returns a non-reference for the dimensions of the boxes" do
         expect(page.rectangles).to eq(
           {
-            ArtBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-            BleedBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-            CropBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-            MediaBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
-            TrimBox: Pdf2::Reader2::Rectangle.new(0, 0, 612, 792),
+            ArtBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+            BleedBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+            CropBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+            MediaBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
+            TrimBox: Pdf::Reader2::Rectangle.new(0, 0, 612, 792),
           }
         )
       end
@@ -113,11 +113,11 @@ describe Pdf2::Reader2::Page do
   describe "#walk" do
 
     context "with page 1 of cairo-basic.pdf" do
-      let!(:browser) { Pdf2::Reader2.new(pdf_spec_file("cairo-basic")) }
+      let!(:browser) { Pdf::Reader2.new(pdf_spec_file("cairo-basic")) }
       let!(:page)    { browser.page(1) }
 
       it "calls the special page= callback while walking content stream" do
-        receiver = Pdf2::Reader2::RegisterReceiver.new
+        receiver = Pdf::Reader2::RegisterReceiver.new
         page.walk(receiver)
 
         callbacks = receiver.callbacks.map { |cb| cb[:name] }
@@ -126,7 +126,7 @@ describe Pdf2::Reader2::Page do
       end
 
       it "runs callbacks while walking content stream" do
-        receiver = Pdf2::Reader2::RegisterReceiver.new
+        receiver = Pdf::Reader2::RegisterReceiver.new
         page.walk(receiver)
 
         callbacks = receiver.callbacks.map { |cb| cb[:name] }
@@ -137,8 +137,8 @@ describe Pdf2::Reader2::Page do
       end
 
       it "runs callbacks on multiple receivers while walking content stream" do
-        receiver_one = Pdf2::Reader2::RegisterReceiver.new
-        receiver_two = Pdf2::Reader2::RegisterReceiver.new
+        receiver_one = Pdf::Reader2::RegisterReceiver.new
+        receiver_two = Pdf::Reader2::RegisterReceiver.new
         page.walk(receiver_one, receiver_two)
 
         callbacks = receiver_one.callbacks.map { |cb| cb[:name] }
@@ -159,7 +159,7 @@ describe Pdf2::Reader2::Page do
           # method isn't one that ValidatingReceiver is type checking. If the following assertion
           # ever fails, then we should update this spec to a different method not mentioned in
           # ValidatingReceiver
-          expect(Pdf2::Reader2::ValidatingReceiver.methods).to_not include(
+          expect(Pdf::Reader2::ValidatingReceiver.methods).to_not include(
             :set_rgb_color_for_nonstroking
           )
         end
@@ -177,7 +177,7 @@ describe Pdf2::Reader2::Page do
   describe "#number" do
 
     it "returns the correct number for the current page" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.number).to eql(1)
@@ -188,7 +188,7 @@ describe Pdf2::Reader2::Page do
   describe "#attributes" do
 
     it "contains attributes from the Page object" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("inherited_page_attributes"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("inherited_page_attributes"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -197,7 +197,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it "contains inherited attributes" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("inherited_page_attributes"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("inherited_page_attributes"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -205,7 +205,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it "allows Page to override inherited attributes" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("override_inherited_attributes"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("override_inherited_attributes"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -213,7 +213,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it "does not include attributes from the Pages object that don't belong on a Page" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("inherited_page_attributes"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("inherited_page_attributes"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -221,7 +221,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it "does not include attributes from the Pages object that don't belong on a Page" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("inherited_trimbox"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("inherited_trimbox"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -229,7 +229,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it "always includes Type => Page" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("inherited_page_attributes"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("inherited_page_attributes"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -237,7 +237,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it 'assumes 8.5" x 11" if MediaBox is missing (matches Acrobat behaviour)' do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("mediabox_missing"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("mediabox_missing"))
       @page    = @browser.page(1)
 
       attribs = @page.attributes
@@ -249,7 +249,7 @@ describe Pdf2::Reader2::Page do
   describe "#fonts" do
 
     it "returns a hash with the correct size from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.fonts).to      be_a_kind_of(Hash)
@@ -258,7 +258,7 @@ describe Pdf2::Reader2::Page do
     end
 
     it "contains inherited resources" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.fonts).to      be_a_kind_of(Hash)
@@ -271,7 +271,7 @@ describe Pdf2::Reader2::Page do
   describe "#color_spaces" do
 
     it "returns an empty hash from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.color_spaces).to      be_a_kind_of(Hash)
@@ -282,7 +282,7 @@ describe Pdf2::Reader2::Page do
   describe "#graphic_states" do
 
     it "returns an hash with 1 entry from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.graphic_states).to      be_a_kind_of(Hash)
@@ -296,7 +296,7 @@ describe Pdf2::Reader2::Page do
     # to check the different orientations are correctly detected are over in the
     # PageOrientation unit specs
     it "returns the orientation of portrait.pdf page 1 as 'portrait'" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("portrait"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("portrait"))
       @page    = @browser.page(1)
       expect(@page.orientation).to eql("portrait")
     end
@@ -306,7 +306,7 @@ describe Pdf2::Reader2::Page do
   describe "#patterns" do
 
     it "returns an empty hash from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.patterns).to      be_a_kind_of(Hash)
@@ -317,7 +317,7 @@ describe Pdf2::Reader2::Page do
   describe "#procedure_sets" do
 
     it "returns an empty array from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.procedure_sets).to      be_a_kind_of(Array)
@@ -328,7 +328,7 @@ describe Pdf2::Reader2::Page do
   describe "#properties" do
 
     it "returns an empty hash from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.properties).to      be_a_kind_of(Hash)
@@ -339,7 +339,7 @@ describe Pdf2::Reader2::Page do
   describe "#shadings" do
 
     it "returns an empty hash from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.shadings).to      be_a_kind_of(Hash)
@@ -350,7 +350,7 @@ describe Pdf2::Reader2::Page do
   describe "#xobjects" do
 
     it "returns an empty hash from cairo-basic.pdf page 1" do
-      @browser = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+      @browser = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
       @page    = @browser.page(1)
 
       expect(@page.xobjects).to      be_a_kind_of(Hash)

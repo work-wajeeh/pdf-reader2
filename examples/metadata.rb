@@ -8,7 +8,7 @@ require 'pdf/reader'
 
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/cross_ref_stream.pdf"
 
-Pdf2::Reader2.open(filename) do |reader|
+Pdf::Reader2.open(filename) do |reader|
   puts reader.info.inspect
   puts reader.metadata.inspect
 end

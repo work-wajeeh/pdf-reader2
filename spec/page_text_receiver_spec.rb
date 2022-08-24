@@ -1,12 +1,12 @@
 # typed: false
 # coding: utf-8
 
-describe Pdf2::Reader2::PageTextReceiver do
+describe Pdf::Reader2::PageTextReceiver do
 
   it "returns the text content from cairo-basic.pdf page 1" do
-    @reader   = Pdf2::Reader2.new(pdf_spec_file("cairo-basic"))
+    @reader   = Pdf::Reader2.new(pdf_spec_file("cairo-basic"))
     @page     = @reader.page(1)
-    @receiver = Pdf2::Reader2::PageTextReceiver.new
+    @receiver = Pdf::Reader2::PageTextReceiver.new
 
     @page.walk(@receiver)
 
@@ -14,9 +14,9 @@ describe Pdf2::Reader2::PageTextReceiver do
   end
 
   it "returns the text content from cairo-multiline.pdf page 1" do
-    @reader   = Pdf2::Reader2.new(pdf_spec_file("cairo-multiline"))
+    @reader   = Pdf::Reader2.new(pdf_spec_file("cairo-multiline"))
     @page     = @reader.page(1)
-    @receiver = Pdf2::Reader2::PageTextReceiver.new
+    @receiver = Pdf::Reader2::PageTextReceiver.new
 
     @page.walk(@receiver)
 
@@ -24,9 +24,9 @@ describe Pdf2::Reader2::PageTextReceiver do
   end
 
   it "returns the text content from Form XObjects" do
-    @reader   = Pdf2::Reader2.new(pdf_spec_file("form_xobject"))
+    @reader   = Pdf::Reader2.new(pdf_spec_file("form_xobject"))
     @page     = @reader.page(1)
-    @receiver = Pdf2::Reader2::PageTextReceiver.new
+    @receiver = Pdf::Reader2::PageTextReceiver.new
 
     @page.walk(@receiver)
 
@@ -34,9 +34,9 @@ describe Pdf2::Reader2::PageTextReceiver do
   end
 
   it "returns merged text content from the regular page and a Form XObjects" do
-    @reader   = Pdf2::Reader2.new(pdf_spec_file("form_xobject_more"))
+    @reader   = Pdf::Reader2.new(pdf_spec_file("form_xobject_more"))
     @page     = @reader.page(1)
-    @receiver = Pdf2::Reader2::PageTextReceiver.new
+    @receiver = Pdf::Reader2::PageTextReceiver.new
 
     @page.walk(@receiver)
 
@@ -44,9 +44,9 @@ describe Pdf2::Reader2::PageTextReceiver do
   end
 
   it "parses a page with nested Form XObjects" do
-    @reader   = Pdf2::Reader2.new(pdf_spec_file("nested_form_xobject"))
+    @reader   = Pdf::Reader2.new(pdf_spec_file("nested_form_xobject"))
     @page     = @reader.page(1)
-    @receiver = Pdf2::Reader2::PageTextReceiver.new
+    @receiver = Pdf::Reader2::PageTextReceiver.new
 
     @page.walk(@receiver)
 
@@ -54,9 +54,9 @@ describe Pdf2::Reader2::PageTextReceiver do
   end
 
   it "parses a page with nested Form XObjects" do
-    @reader   = Pdf2::Reader2.new(pdf_spec_file("nested_form_xobject_another"))
+    @reader   = Pdf::Reader2.new(pdf_spec_file("nested_form_xobject_another"))
     @page     = @reader.page(1)
-    @receiver = Pdf2::Reader2::PageTextReceiver.new
+    @receiver = Pdf::Reader2::PageTextReceiver.new
 
     @page.walk(@receiver)
 
