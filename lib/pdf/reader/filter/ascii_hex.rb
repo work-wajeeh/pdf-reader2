@@ -3,7 +3,7 @@
 # frozen_string_literal: true
 
 #
-class PDF2::Reader2
+class Pdf2::Reader2
   module Filter # :nodoc:
     # implementation of the AsciiHex stream filter
     class AsciiHex
@@ -26,7 +26,7 @@ class PDF2::Reader2
         data.scan(/.{2}/).flatten.map { |s| s.hex.chr }.join("")
       rescue Exception => e
         # Oops, there was a problem decoding the stream
-        raise MalformedPDFError,
+        raise MalformedPdfError,
             "Error occured while decoding an ASCIIHex stream (#{e.class.to_s}: #{e.to_s})"
       end
     end

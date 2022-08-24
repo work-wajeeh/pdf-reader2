@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # wraps a string containing a PDF CMap and provides convenience methods for
+  # wraps a string containing a Pdf CMap and provides convenience methods for
   # extracting various useful information.
   #
   class CMap # :nodoc:
@@ -150,7 +150,7 @@ class PDF2::Reader2
         elsif start.kind_of?(String) && finish.kind_of?(String) && to.kind_of?(Array)
           bfrange_type_two(start, finish, to)
         else
-          raise MalformedPDFError, "invalid bfrange section"
+          raise MalformedPdfError, "invalid bfrange section"
         end
       end
     end

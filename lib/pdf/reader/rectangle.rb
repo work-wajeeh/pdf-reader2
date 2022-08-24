@@ -2,10 +2,10 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
   class Reader
 
-    # PDFs represent rectangles all over the place. They're 4 element arrays, like this:
+    # Pdfs represent rectangles all over the place. They're 4 element arrays, like this:
     #
     #     [A, B, C, D]
     #
@@ -31,7 +31,7 @@ module PDF
           raise ArgumentError, "Only 4-element Arrays can be converted to a Rectangle"
         end
 
-        PDF2::Reader2::Rectangle.new(
+        Pdf2::Reader2::Rectangle.new(
           arr[0].to_f,
           arr[1].to_f,
           arr[2].to_f,
@@ -91,19 +91,19 @@ module PDF
       private
 
       def set_corners(x1, y1, x2, y2)
-        @bottom_left = PDF2::Reader2::Point.new(
+        @bottom_left = Pdf2::Reader2::Point.new(
           [x1, x2].min,
           [y1, y2].min,
         )
-        @bottom_right = PDF2::Reader2::Point.new(
+        @bottom_right = Pdf2::Reader2::Point.new(
           [x1, x2].max,
           [y1, y2].min,
         )
-        @top_left = PDF2::Reader2::Point.new(
+        @top_left = Pdf2::Reader2::Point.new(
           [x1, x2].min,
           [y1, y2].max,
         )
-        @top_right = PDF2::Reader2::Point.new(
+        @top_right = Pdf2::Reader2::Point.new(
           [x1, x2].max,
           [y1, y2].max,
         )

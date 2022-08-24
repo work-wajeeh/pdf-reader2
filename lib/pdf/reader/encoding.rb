@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF2::Reader2
-  # Util class for working with string encodings in PDF files. Mostly used to
-  # convert strings of various PDF-dialect encodings into UTF-8.
+class Pdf2::Reader2
+  # Util class for working with string encodings in Pdf files. Mostly used to
+  # convert strings of various Pdf-dialect encodings into UTF-8.
   class Encoding # :nodoc:
     CONTROL_CHARS = [0,1,2,3,4,5,6,7,8,11,12,14,15,16,17,18,19,20,21,22,23,
                      24,25,26,27,28,29,30,31]
@@ -69,7 +69,7 @@ class PDF2::Reader2
     #
     #   [25, :A, :B]
     def differences=(diff)
-      PDF2::Reader2::Error.validate_type(diff, "diff", Array)
+      Pdf2::Reader2::Error.validate_type(diff, "diff", Array)
 
       @differences = {}
       byte = 0
@@ -160,7 +160,7 @@ class PDF2::Reader2
     end
 
     def little_boxes(times)
-      codepoints = [ PDF2::Reader2::Encoding::UNKNOWN_CHAR ] * times
+      codepoints = [ Pdf2::Reader2::Encoding::UNKNOWN_CHAR ] * times
       ret = codepoints.pack("U*")
       ret.force_encoding("UTF-8")
       ret
@@ -189,7 +189,7 @@ class PDF2::Reader2
         File.dirname(__FILE__) + "/encodings/mac_roman.txt"
       when :MacExpertEncoding then
         File.dirname(__FILE__) + "/encodings/mac_expert.txt"
-      when :PDFDocEncoding then
+      when :PdfDocEncoding then
         File.dirname(__FILE__) + "/encodings/pdf_doc.txt"
       when :SymbolEncoding then
         File.dirname(__FILE__) + "/encodings/symbol.txt"
@@ -203,7 +203,7 @@ class PDF2::Reader2
     end
 
     def glyphlist
-      @glyphlist ||= PDF2::Reader2::GlyphHash.new
+      @glyphlist ||= Pdf2::Reader2::GlyphHash.new
     end
 
     def load_mapping(file)

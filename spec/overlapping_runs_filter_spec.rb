@@ -1,16 +1,16 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
+describe Pdf2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
 
   let(:result) {
-    PDF2::Reader2::OverlappingRunsFilter.exclude_redundant_runs(runs)
+    Pdf2::Reader2::OverlappingRunsFilter.exclude_redundant_runs(runs)
   }
 
   context "when there's a single run" do
     let(:runs) do
       [
-        PDF2::Reader2::TextRun.new(30, 700, 50, 12, "")
+        Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "")
       ]
     end
 
@@ -22,8 +22,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
   context "when there's two non-overlapping runs" do
     let(:runs) do
       [
-        PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-        PDF2::Reader2::TextRun.new(30, 676, 50, 12, "World"),
+        Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+        Pdf2::Reader2::TextRun.new(30, 676, 50, 12, "World"),
       ]
     end
 
@@ -35,8 +35,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
   context "when there's two identical runs" do
     let(:runs) do
       [
-        PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-        PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+        Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+        Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
       ]
     end
 
@@ -48,8 +48,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
   context "when there's two identically positioned runs with different text" do
     let(:runs) do
       [
-        PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-        PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Bacon"),
+        Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+        Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Bacon"),
       ]
     end
 
@@ -62,8 +62,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
     context "by 50%" do
       let(:runs) do
         [
-          PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-          PDF2::Reader2::TextRun.new(55, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(55, 700, 50, 12, "Hello"),
         ]
       end
       it "returns only one of the runs" do
@@ -73,8 +73,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
     context "by less than 50%" do
       let(:runs) do
         [
-          PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-          PDF2::Reader2::TextRun.new(65, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(65, 700, 50, 12, "Hello"),
         ]
       end
       it "returns only one of the runs" do
@@ -87,8 +87,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
     context "by 50%" do
       let(:runs) do
         [
-          PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-          PDF2::Reader2::TextRun.new(5, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(5, 700, 50, 12, "Hello"),
         ]
       end
       it "returns only one of the runs" do
@@ -101,8 +101,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
     context "by 50%" do
       let(:runs) do
         [
-          PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-          PDF2::Reader2::TextRun.new(30, 706, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 706, 50, 12, "Hello"),
         ]
       end
       it "returns only one of the runs" do
@@ -115,8 +115,8 @@ describe PDF2::Reader2::OverlappingRunsFilter, "#exclude_redundant_runs" do
     context "by 50%" do
       let(:runs) do
         [
-          PDF2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
-          PDF2::Reader2::TextRun.new(30, 694, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 700, 50, 12, "Hello"),
+          Pdf2::Reader2::TextRun.new(30, 694, 50, 12, "Hello"),
         ]
       end
       it "returns only one of the runs" do

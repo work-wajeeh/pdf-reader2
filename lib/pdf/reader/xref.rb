@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
   ################################################################################
-  # An internal PDF2::Reader2 class that represents the XRef table in a PDF file as a
+  # An internal Pdf2::Reader2 class that represents the XRef table in a Pdf file as a
   # hash-like object.
   #
   # An Xref table is a map of object identifiers and byte offsets. Any time a particular
@@ -38,9 +38,9 @@ class PDF2::Reader2
   #
   # Hash keys are object ids, values are either:
   #
-  # * a byte offset where the object starts (regular PDF objects)
-  # * a PDF2::Reader2::Reference instance that points to a stream that contains the
-  #   desired object (PDF objects embedded in an object stream)
+  # * a byte offset where the object starts (regular Pdf objects)
+  # * a Pdf2::Reader2::Reference instance that points to a stream that contains the
+  #   desired object (Pdf objects embedded in an object stream)
   #
   # The class behaves much like a standard Ruby hash, including the use of
   # the Enumerable mixin. The key difference is no []= method - the hash
@@ -69,9 +69,9 @@ class PDF2::Reader2
       @xref.size
     end
     ################################################################################
-    # returns the byte offset for the specified PDF object.
+    # returns the byte offset for the specified Pdf object.
     #
-    # ref - a PDF2::Reader2::Reference object containing an object ID and revision number
+    # ref - a Pdf2::Reader2::Reference object containing an object ID and revision number
     def [](ref)
       @xref.fetch(ref.id, {}).fetch(ref.gen)
     rescue
@@ -83,7 +83,7 @@ class PDF2::Reader2
       ids = @xref.keys.sort
       ids.each do |id|
         gen = @xref.fetch(id, {}).keys.sort[-1]
-        yield PDF2::Reader2::Reference.new(id, gen.to_i)
+        yield Pdf2::Reader2::Reference.new(id, gen.to_i)
       end
     end
     ################################################################################
@@ -116,11 +116,11 @@ class PDF2::Reader2
         # Maybe we should be parsing the ObjectHash second argument to the Parser here,
         # to handle the case where an XRef Stream has the Length specified via an
         # indirect object
-        stream = PDF2::Reader2::Parser.new(buf).object(tok_one.to_i, tok_two.to_i)
+        stream = Pdf2::Reader2::Parser.new(buf).object(tok_one.to_i, tok_two.to_i)
         return load_xref_stream(stream)
       end
 
-      raise PDF2::Reader2::MalformedPDFError,
+      raise Pdf2::Reader2::MalformedPdfError,
         "xref table not found at offset #{offset} (#{tok_one} != xref)"
     end
     ################################################################################
@@ -132,7 +132,7 @@ class PDF2::Reader2
       while !params.include?("trailer") && !params.include?(nil)
         if params.size == 2
           unless params[0].to_s.match(/\A\d+\z/)
-            raise MalformedPDFError, "invalid xref table, expected object ID"
+            raise MalformedPdfError, "invalid xref table, expected object ID"
           end
 
           objid, count = params[0].to_i, params[1].to_i
@@ -141,7 +141,7 @@ class PDF2::Reader2
             generation = buf.token.to_i
             state = buf.token
 
-            # Some PDF writers start numbering at 1 instead of 0. Fix up the number.
+            # Some Pdf writers start numbering at 1 instead of 0. Fix up the number.
             # TODO should this fix be logged?
             objid = 0 if objid == 1 and offset == 0 and generation == 65535 and state == 'f'
             store(objid, generation, offset + @junk_offset) if state == "n" && offset > 0
@@ -155,11 +155,11 @@ class PDF2::Reader2
       trailer = Parser.new(buf).parse_token
 
       unless trailer.kind_of?(Hash)
-        raise MalformedPDFError, "PDF malformed, trailer should be a dictionary"
+        raise MalformedPdfError, "Pdf malformed, trailer should be a dictionary"
       end
 
       load_offsets(trailer[:XRefStm])   if trailer.has_key?(:XRefStm)
-      # Some PDF creators seem to use '/Prev 0' in trailer if there is no previous xref
+      # Some Pdf creators seem to use '/Prev 0' in trailer if there is no previous xref
       # It's not possible for an xref to appear at offset 0, so can safely skip the ref
       load_offsets(trailer[:Prev].to_i) if trailer.has_key?(:Prev) and trailer[:Prev].to_i != 0
 
@@ -170,8 +170,8 @@ class PDF2::Reader2
     # Read an XRef stream from the underlying buffer instead of a traditional xref table.
     #
     def load_xref_stream(stream)
-      unless stream.is_a?(PDF2::Reader2::Stream) && stream.hash[:Type] == :XRef
-        raise PDF2::Reader2::MalformedPDFError, "xref stream not found when expected"
+      unless stream.is_a?(Pdf2::Reader2::Stream) && stream.hash[:Type] == :XRef
+        raise Pdf2::Reader2::MalformedPdfError, "xref stream not found when expected"
       end
       trailer = Hash[stream.hash.select { |key, value|
         [:Size, :Prev, :Root, :Encrypt, :Info, :ID].include?(key)
@@ -179,7 +179,7 @@ class PDF2::Reader2
 
       widths = stream.hash[:W]
 
-      PDF2::Reader2::Error.validate_type_as_malformed(widths, "xref stream widths", Array)
+      Pdf2::Reader2::Error.validate_type_as_malformed(widths, "xref stream widths", Array)
 
       entry_length = widths.inject(0) { |s, w|
         unless w.is_a?(Integer)
@@ -203,7 +203,7 @@ class PDF2::Reader2
           if f1 == 1 && f2 > 0
             store(objid, f3, f2 + @junk_offset)
           elsif f1 == 2 && f2 > 0
-            store(objid, 0, PDF2::Reader2::Reference.new(f2, 0))
+            store(objid, 0, Pdf2::Reader2::Reference.new(f2, 0))
           end
         end
       end
@@ -240,22 +240,22 @@ class PDF2::Reader2
     # at the same time without worrying about clearing the buffers contents.
     #
     def new_buffer(offset = 0)
-      PDF2::Reader2::Buffer.new(@io, :seek => offset)
+      Pdf2::Reader2::Buffer.new(@io, :seek => offset)
     end
     ################################################################################
-    # Stores an offset value for a particular PDF object ID and revision number
+    # Stores an offset value for a particular Pdf object ID and revision number
     #
     def store(id, gen, offset)
       (@xref[id] ||= {})[gen] ||= offset
     end
     ################################################################################
-    # Returns the offset of the PDF document in the +stream+. In theory this
-    # should always be 0, but all sort of crazy junk is prefixed to PDF files
+    # Returns the offset of the Pdf document in the +stream+. In theory this
+    # should always be 0, but all sort of crazy junk is prefixed to Pdf files
     # in the real world.
     #
     # Checks up to 1024 chars into the file,
-    # returns nil if no PDF data detected.
-    # Adobe PDF 1.4 spec (3.4.1) 12. Acrobat viewers require only that the
+    # returns nil if no Pdf data detected.
+    # Adobe Pdf 1.4 spec (3.4.1) 12. Acrobat viewers require only that the
     # header appear somewhere within the first 1024 bytes of the file
     #
     def calc_junk_offset(io)

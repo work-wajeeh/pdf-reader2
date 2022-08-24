@@ -2,24 +2,24 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
   class Reader
 
-    # high level representation of a single PDF page. Ties together the various
-    # low level classes in PDF2::Reader2 and provides access to the various
+    # high level representation of a single Pdf page. Ties together the various
+    # low level classes in Pdf2::Reader2 and provides access to the various
     # components of the page (text, images, fonts, etc) in convenient formats.
     #
-    # If you require access to the raw PDF objects for this page, you can access
+    # If you require access to the raw Pdf objects for this page, you can access
     # the Page dictionary via the page_object accessor. You will need to use the
     # objects accessor to help walk the page dictionary in any useful way.
     #
     class Page
       extend Forwardable
 
-      # lowlevel hash-like access to all objects in the underlying PDF
+      # lowlevel hash-like access to all objects in the underlying Pdf
       attr_reader :objects
 
-      # the raw PDF object that defines this page
+      # the raw Pdf object that defines this page
       attr_reader :page_object
 
       # a Hash-like object for storing cached data. Generally this is scoped to
@@ -38,7 +38,7 @@ module PDF
 
       # creates a new page wrapper.
       #
-      # * objects - an ObjectHash instance that wraps a PDF file
+      # * objects - an ObjectHash instance that wraps a Pdf file
       # * pagenum - an int specifying the page number to expose. 1 indexed.
       #
       def initialize(objects, pagenum, options = {})
@@ -60,7 +60,7 @@ module PDF
       # return a friendly string representation of this page
       #
       def inspect
-        "<PDF2::Reader2::Page page: #{@pagenum}>"
+        "<Pdf2::Reader2::Page page: #{@pagenum}>"
       end
 
       # Returns the attributes that accompany this page, including
@@ -72,7 +72,7 @@ module PDF
             hash.merge!(@objects.deref_hash(obj) || {})
           end
         }
-        # This shouldn't be necesary, but some non compliant PDFs leave MediaBox
+        # This shouldn't be necesary, but some non compliant Pdfs leave MediaBox
         # out. Assuming 8.5" x 11" is what Acobat does, so we do it too.
         @attributes[:MediaBox] ||= [0,0,612,792]
         @attributes
@@ -144,7 +144,7 @@ module PDF
       # in the page header - think images, fonts, etc. To facilitate these
       # operators, the first available callback is page=. If your receiver
       # accepts that callback it will be passed the current
-      # PDF2::Reader2::Page object. Use the Page#resources method to grab any
+      # Pdf2::Reader2::Page object. Use the Page#resources method to grab any
       # required resources.
       #
       # It may help to think of each page as a self contained program made up of
@@ -160,7 +160,7 @@ module PDF
       end
 
       # returns the raw content stream for this page. This is plumbing, nothing to
-      # see here unless you're a PDF nerd like me.
+      # see here unless you're a Pdf nerd like me.
       #
       def raw_content
         contents = objects.deref_stream_or_array(@page_object[:Contents])
@@ -184,7 +184,7 @@ module PDF
       end
 
       # returns the "boxes" that define the page object.
-      # values are defaulted according to section 7.7.3.3 of the PDF Spec 1.7
+      # values are defaulted according to section 7.7.3.3 of the Pdf Spec 1.7
       #
       # DEPRECATED. Recommend using Page#rectangles instead
       #
@@ -194,7 +194,7 @@ module PDF
       end
 
       # returns the "boxes" that define the page object.
-      # values are defaulted according to section 7.7.3.3 of the PDF Spec 1.7
+      # values are defaulted according to section 7.7.3.3 of the Pdf Spec 1.7
       #
       def rectangles
         # attributes[:MediaBox] can never be nil, but I have no easy way to tell sorbet that atm
@@ -211,7 +211,7 @@ module PDF
           trimrect = Rectangle.from_array(trimbox)
           artrect = Rectangle.from_array(artbox)
         rescue ArgumentError => e
-          raise MalformedPDFError, e.message
+          raise MalformedPdfError, e.message
         end
 
         if rotate > 0
@@ -258,7 +258,7 @@ module PDF
           end
         end
       rescue EOFError
-        raise MalformedPDFError, "End Of File while processing a content stream"
+        raise MalformedPdfError, "End Of File while processing a content stream"
       end
 
       # calls the name callback method on each receiver object with params as the arguments
@@ -296,7 +296,7 @@ module PDF
         else
           obj = objects.deref_hash(origin)
           if obj.nil?
-            raise MalformedPDFError, "parent mus not be nil"
+            raise MalformedPdfError, "parent mus not be nil"
           end
           [ select_inheritable(obj) ] + ancestors(obj[:Parent])
         end

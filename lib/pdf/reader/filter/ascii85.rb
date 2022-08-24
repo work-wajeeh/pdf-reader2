@@ -4,7 +4,7 @@
 
 require 'ascii85'
 
-class PDF2::Reader2
+class Pdf2::Reader2
   module Filter # :nodoc:
     # implementation of the Ascii85 filter
     class Ascii85
@@ -26,7 +26,7 @@ class PDF2::Reader2
         end
       rescue Exception => e
         # Oops, there was a problem decoding the stream
-        raise MalformedPDFError,
+        raise MalformedPdfError,
           "Error occured while decoding an ASCII85 stream (#{e.class.to_s}: #{e.to_s})"
       end
     end

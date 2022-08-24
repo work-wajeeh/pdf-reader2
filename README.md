@@ -1,17 +1,17 @@
 # pdf-reader2
 
-The PDF2::Reader2 library implements a PDF parser conforming as much as possible
-to the PDF specification from Adobe.
+The Pdf2::Reader2 library implements a Pdf parser conforming as much as possible
+to the Pdf specification from Adobe.
 
-It provides programmatic access to the contents of a PDF file with a high
+It provides programmatic access to the contents of a Pdf file with a high
 degree of flexibility.
 
-The PDF 1.7 specification is a weighty document and not all aspects are
-currently supported. I welcome submission of PDF files that exhibit
+The Pdf 1.7 specification is a weighty document and not all aspects are
+currently supported. I welcome submission of Pdf files that exhibit
 unsupported aspects of the spec to assist with improving our support.
 
 This is primarily a low-level library that should be used as the foundation for
-higher level functionality - it's not going to render a PDF for you. There are
+higher level functionality - it's not going to render a Pdf for you. There are
 a few exceptions to support very common use cases like extracting text from a
 page.
 
@@ -25,12 +25,12 @@ The recommended installation method is via Rubygems.
 
 # Usage
 
-Begin by creating a PDF2::Reader2 instance that points to a PDF file. Document
+Begin by creating a Pdf2::Reader2 instance that points to a Pdf file. Document
 level information (metadata, page count, bookmarks, etc) is available via
 this object.
 
 ```ruby
-    reader = PDF2::Reader2.new("somefile.pdf")
+    reader = Pdf2::Reader2.new("somefile.pdf")
 
     puts reader.pdf_version
     puts reader.info
@@ -38,33 +38,33 @@ this object.
     puts reader.page_count
  ```
 
-PDF2::Reader2.new accepts an IO stream or a filename. Here's an example with
+Pdf2::Reader2.new accepts an IO stream or a filename. Here's an example with
 an IO stream:
 
 ```ruby
     require 'open-uri'
 
     io     = open('http://example.com/somefile.pdf')
-    reader = PDF2::Reader2.new(io)
+    reader = Pdf2::Reader2.new(io)
     puts reader.info
  ```
 
-If you open a PDF with File#open or IO#open, I strongly recommend using "rb"
+If you open a Pdf with File#open or IO#open, I strongly recommend using "rb"
 mode to ensure the file isn't mangled by ruby being 'helpful'. This is
 particularly important on windows and MRI >= 1.9.2.
 
 ```ruby
     File.open("somefile.pdf", "rb") do |io|
-      reader = PDF2::Reader2.new(io)
+      reader = Pdf2::Reader2.new(io)
       puts reader.info
     end
  ```
 
-PDF is a page based file format, so most visible information is available via
+Pdf is a page based file format, so most visible information is available via
 page-based iteration
 
 ```ruby
-    reader = PDF2::Reader2.new("somefile.pdf")
+    reader = Pdf2::Reader2.new("somefile.pdf")
 
     reader.pages.each do |page|
       puts page.fonts
@@ -74,7 +74,7 @@ page-based iteration
 ```
 
 If you need to access the full program for rendering a page, use the walk() method
-of PDF2::Reader2::Page.
+of Pdf2::Reader2::Page.
 
 ```ruby
     class RedGreenBlue
@@ -83,30 +83,30 @@ of PDF2::Reader2::Page.
       end
     end
 
-    reader   = PDF2::Reader2.new("somefile.pdf")
+    reader   = Pdf2::Reader2.new("somefile.pdf")
     page     = reader.page(1)
     receiver = RedGreenBlue.new
     page.walk(receiver)
 ```
 
-For low level access to the objects in a PDF file, use the ObjectHash class like
+For low level access to the objects in a Pdf file, use the ObjectHash class like
 so:
 
 ```ruby
-    reader  = PDF2::Reader2.new("somefile.pdf")
+    reader  = Pdf2::Reader2.new("somefile.pdf")
     puts reader.objects.inspect
 ```
 
 # Text Encoding
 
-Regardless of the internal encoding used in the PDF all text will be converted
-to UTF-8 before it is passed back from PDF2::Reader2.
+Regardless of the internal encoding used in the Pdf all text will be converted
+to UTF-8 before it is passed back from Pdf2::Reader2.
 
 Strings that contain binary data (like font blobs) will be marked as such.
 
 # Former API
 
-Version 1.0.0 of PDF2::Reader2 introduced a new page-based API that provides
+Version 1.0.0 of Pdf2::Reader2 introduced a new page-based API that provides
 efficient and easy access to any page.
 
 The pre-1.0 API was deprecated during the 1.x release series, and has been
@@ -115,27 +115,27 @@ removed from 2.0.0.
 # Exceptions
 
 There are two key exceptions that you will need to watch out for when processing a
-PDF file:
+Pdf file:
 
-MalformedPDFError - The PDF appears to be corrupt in some way. If you believe the
+MalformedPdfError - The Pdf appears to be corrupt in some way. If you believe the
 file should be valid, or that a corrupt file didn't raise an exception, please
 forward a copy of the file to the maintainers (preferably via the google group)
 and we will attempt to improve the code.
 
-UnsupportedFeatureError - The PDF uses a feature that PDF2::Reader2 doesn't currently
-support. Again, we welcome submissions of PDF files that exhibit these features to help
+UnsupportedFeatureError - The Pdf uses a feature that Pdf2::Reader2 doesn't currently
+support. Again, we welcome submissions of Pdf files that exhibit these features to help
 us with future code improvements.
 
-MalformedPDFError has some subclasses if you want to detect finer grained issues. If you
-don't, 'rescue MalformedPDFError' will catch all the subclassed errors as well.
+MalformedPdfError has some subclasses if you want to detect finer grained issues. If you
+don't, 'rescue MalformedPdfError' will catch all the subclassed errors as well.
 
-Any other exceptions should be considered bugs in either PDF2::Reader2 (please
+Any other exceptions should be considered bugs in either Pdf2::Reader2 (please
 report it!).
 
-# PDF Integrity
+# Pdf Integrity
 
-Windows developers may run into problems when running specs due to MalformedPDFError's
-This is usually because CRLF characters are automatically added to some of the PDF's in
+Windows developers may run into problems when running specs due to MalformedPdfError's
+This is usually because CRLF characters are automatically added to some of the Pdf's in
 the spec folder when you checkout a branch from Git.
 
 To remove any invalid CRLF characters added while checking out a branch from Git, run:
@@ -155,7 +155,7 @@ more detail.
 
 # Mailing List
 
-Any questions or feedback should be sent to the PDF2::Reader2 google group. It's
+Any questions or feedback should be sent to the Pdf2::Reader2 google group. It's
 better that any answers be available for others instead of hiding in someone's
 inbox.
 
@@ -168,7 +168,7 @@ Check out the examples/ directory for a few files.
 
 # Alternate Decoder
 
-For PDF files containing Ascii85 streams, the [ascii85_native](https://github.com/AnomalousBit/ascii85_native) gem can be used for increased performance. If the ascii85_native gem is detected, pdf-reader2 will automatically use the gem.
+For Pdf files containing Ascii85 streams, the [ascii85_native](https://github.com/AnomalousBit/ascii85_native) gem can be used for increased performance. If the ascii85_native gem is detected, pdf-reader2 will automatically use the gem.
 
 First, run `gem install ascii85_native` and then require the gem alongside pdf-reader2:
 
@@ -182,17 +182,17 @@ Another way of enabling native Ascii85 decoding is to place `gem 'ascii85_native
 # Known Limitations
 
 Occasionally some text cannot be extracted properly due to the way it has been
-stored, or the use of invalid bytes. In these cases PDF2::Reader2 will output a
+stored, or the use of invalid bytes. In these cases Pdf2::Reader2 will output a
 little UTF-8 friendly box to indicate an unrecognisable character.
 
 # Resources
 
-* PDF2::Reader2 Code Repository: http://github.com/yob/pdf-reader2
+* Pdf2::Reader2 Code Repository: http://github.com/yob/pdf-reader2
 
-* PDF Specification: https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf
+* Pdf Specification: https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/Pdf32000_2008.pdf
 
-* Adobe PDF Developer Resources: http://www.adobe.com/devnet/pdf/pdf_reference.html
+* Adobe Pdf Developer Resources: http://www.adobe.com/devnet/pdf/pdf_reference.html
 
-* PDF Tutorial Slide Presentations: https://web.archive.org/web/20150110042057/http://home.comcast.net/~jk05/presentations/PDFTutorials.html
+* Pdf Tutorial Slide Presentations: https://web.archive.org/web/20150110042057/http://home.comcast.net/~jk05/presentations/PdfTutorials.html
 
-* Developing with PDF (book): http://shop.oreilly.com/product/0636920025269.do
+* Developing with Pdf (book): http://shop.oreilly.com/product/0636920025269.do

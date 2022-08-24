@@ -4,15 +4,15 @@
 
 require 'digest/md5'
 
-module PDF
+module Pdf
   class Reader
 
-    # High level representation of a single PDF form xobject. Form xobjects
+    # High level representation of a single Pdf form xobject. Form xobjects
     # are contained pieces of content that can be inserted onto multiple
     # pages. They're generally used as a space efficient way to store
     # repetative content (like logos, header, footers, etc).
     #
-    # This behaves and looks much like a limited PDF2::Reader2::Page class.
+    # This behaves and looks much like a limited Pdf2::Reader2::Page class.
     #
     class FormXObject
       extend Forwardable
@@ -39,20 +39,20 @@ module PDF
       #
       # The keys are the font labels used within the form content stream.
       #
-      # The values are a PDF2::Reader2::Font instances that provide access
+      # The values are a Pdf2::Reader2::Font instances that provide access
       # to most available metrics for each font.
       #
       def font_objects
         raw_fonts = @objects.deref_hash(fonts)
         ::Hash[raw_fonts.map { |label, font|
-          [label, PDF2::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
+          [label, Pdf2::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
         }]
       end
 
       # processes the raw content stream for this form in sequential order and
       # passes callbacks to the receiver objects.
       #
-      # See the comments on PDF2::Reader2::Page#walk for more detail.
+      # See the comments on Pdf2::Reader2::Page#walk for more detail.
       #
       def walk(*receivers)
         receivers = receivers.map { |receiver|
@@ -62,7 +62,7 @@ module PDF
       end
 
       # returns the raw content stream for this page. This is plumbing, nothing to
-      # see here unless you're a PDF nerd like me.
+      # see here unless you're a Pdf nerd like me.
       #
       def raw_content
         @xobject.unfiltered_data
@@ -114,7 +114,7 @@ module PDF
           end
         end
       rescue EOFError
-        raise MalformedPDFError, "End Of File while processing a content stream"
+        raise MalformedPdfError, "End Of File while processing a content stream"
       end
     end
   end

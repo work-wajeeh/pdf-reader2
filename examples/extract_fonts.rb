@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# This demonstrates a way to extract TTF fonts from a PDF. It could be expanded
-# to support extra font formats if required. Be aware that many PDFs subset
+# This demonstrates a way to extract TTF fonts from a Pdf. It could be expanded
+# to support extra font formats if required. Be aware that many Pdfs subset
 # fonts before they're embedded so glyphs may be missing or re-arranged.
 
 require 'pdf/reader'
@@ -75,7 +75,7 @@ end
 extractor = ExtractFonts::Extractor.new
 
 ARGV.each do |arg|
-  PDF2::Reader2.open(arg) do |reader|
+  Pdf2::Reader2.open(arg) do |reader|
     page = reader.page(1)
     extractor.page(page)
   end

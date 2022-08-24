@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
   class Reader
 
     # mixin for common methods in Page and FormXobjects
@@ -16,7 +16,7 @@ module PDF
 
       # Returns a Hash of color spaces that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -26,7 +26,7 @@ module PDF
 
       # Returns a Hash of fonts that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -37,7 +37,7 @@ module PDF
       # Returns a Hash of external graphic states that are available to this
       # page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -47,7 +47,7 @@ module PDF
 
       # Returns a Hash of patterns that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -57,7 +57,7 @@ module PDF
 
       # Returns an Array of procedure sets that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -67,7 +67,7 @@ module PDF
 
       # Returns a Hash of properties sets that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -77,7 +77,7 @@ module PDF
 
       # Returns a Hash of shadings that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #
@@ -87,7 +87,7 @@ module PDF
 
       # Returns a Hash of XObjects that are available to this page
       #
-      # NOTE: this method de-serialise objects from the underlying PDF
+      # NOTE: this method de-serialise objects from the underlying Pdf
       #       with no caching. You will want to cache the results instead
       #       of calling it over and over.
       #

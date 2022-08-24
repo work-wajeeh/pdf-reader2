@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
   ################################################################################
-  # An internal PDF2::Reader2 class that reads objects from the PDF file and converts
+  # An internal Pdf2::Reader2 class that reads objects from the Pdf file and converts
   # them into useable ruby objects (hash's, arrays, true, false, etc)
   class Parser
 
@@ -58,10 +58,10 @@ class PDF2::Reader2
     }
 
     ################################################################################
-    # Create a new parser around a PDF2::Reader2::Buffer object
+    # Create a new parser around a Pdf2::Reader2::Buffer object
     #
-    # buffer - a PDF2::Reader2::Buffer object that contains PDF data
-    # objects  - a PDF2::Reader2::ObjectHash object that can return objects from the PDF file
+    # buffer - a Pdf2::Reader2::Buffer object that contains Pdf data
+    # objects  - a Pdf2::Reader2::ObjectHash object that can return objects from the Pdf file
     def initialize(buffer, objects=nil)
       @buffer = buffer
       @objects  = objects
@@ -76,7 +76,7 @@ class PDF2::Reader2
 
       if STRATEGIES.has_key? token
         STRATEGIES[token].call(self, token)
-      elsif token.is_a? PDF2::Reader2::Reference
+      elsif token.is_a? Pdf2::Reader2::Reference
         token
       elsif operators.has_key? token
         Token.new(token)
@@ -89,7 +89,7 @@ class PDF2::Reader2
       end
     end
     ################################################################################
-    # Reads an entire PDF object from the buffer and returns it as a Ruby String.
+    # Reads an entire Pdf object from the buffer and returns it as a Ruby String.
     # If the object is a content stream, returns both the stream and the dictionary
     # that describes it
     #
@@ -119,15 +119,15 @@ class PDF2::Reader2
     private
 
     ################################################################################
-    # reads a PDF dict from the buffer and converts it to a Ruby Hash.
+    # reads a Pdf dict from the buffer and converts it to a Ruby Hash.
     def dictionary
       dict = {}
 
       loop do
         key = parse_token
         break if key.kind_of?(Token) and key == ">>"
-        raise MalformedPDFError, "unterminated dict" if @buffer.empty?
-        PDF2::Reader2::Error.validate_type_as_malformed(key, "Dictionary key", Symbol)
+        raise MalformedPdfError, "unterminated dict" if @buffer.empty?
+        Pdf2::Reader2::Error.validate_type_as_malformed(key, "Dictionary key", Symbol)
 
         value = parse_token
         value.kind_of?(Token) and Error.str_assert_not(value, ">>")
@@ -137,7 +137,7 @@ class PDF2::Reader2
       dict
     end
     ################################################################################
-    # reads a PDF name from the buffer and converts it to a Ruby Symbol
+    # reads a Pdf name from the buffer and converts it to a Ruby Symbol
     def pdf_name
       tok = @buffer.token
       tok = tok.dup.gsub(/#([A-Fa-f0-9]{2})/) do |match|
@@ -146,28 +146,28 @@ class PDF2::Reader2
       tok.to_sym
     end
     ################################################################################
-    # reads a PDF array from the buffer and converts it to a Ruby Array.
+    # reads a Pdf array from the buffer and converts it to a Ruby Array.
     def array
       a = []
 
       loop do
         item = parse_token
         break if item.kind_of?(Token) and item == "]"
-        raise MalformedPDFError, "unterminated array" if @buffer.empty?
+        raise MalformedPdfError, "unterminated array" if @buffer.empty?
         a << item
       end
 
       a
     end
     ################################################################################
-    # Reads a PDF hex string from the buffer and converts it to a Ruby String
+    # Reads a Pdf hex string from the buffer and converts it to a Ruby String
     def hex_string
       str = "".dup
 
       loop do
         token = @buffer.token
         break if token == ">"
-        raise MalformedPDFError, "unterminated hex string" if @buffer.empty?
+        raise MalformedPdfError, "unterminated hex string" if @buffer.empty?
         str << token
       end
 
@@ -178,7 +178,7 @@ class PDF2::Reader2
       }.join.force_encoding("binary")
     end
     ################################################################################
-    # Reads a PDF String from the buffer and converts it to a Ruby String
+    # Reads a Pdf String from the buffer and converts it to a Ruby String
     def string
       str = @buffer.token
       return "".dup.force_encoding("binary") if str == ")"
@@ -211,9 +211,9 @@ class PDF2::Reader2
     }
 
     ################################################################################
-    # Decodes the contents of a PDF Stream and returns it as a Ruby String.
+    # Decodes the contents of a Pdf Stream and returns it as a Ruby String.
     def stream(dict)
-      raise MalformedPDFError, "PDF malformed, missing stream length" unless dict.has_key?(:Length)
+      raise MalformedPdfError, "Pdf malformed, missing stream length" unless dict.has_key?(:Length)
       if @objects
         length = @objects.deref_integer(dict[:Length])
         if dict[:Filter]
@@ -223,7 +223,7 @@ class PDF2::Reader2
         length = dict[:Length] || 0
       end
 
-      PDF2::Reader2::Error.validate_type_as_malformed(length, "length", Numeric)
+      Pdf2::Reader2::Error.validate_type_as_malformed(length, "length", Numeric)
 
       data = @buffer.read(length, :skip_eol => true)
 
@@ -233,7 +233,7 @@ class PDF2::Reader2
       # matter if it's missing, and other readers seems to handle its absence just fine
       # Error.str_assert(parse_token, "endobj")
 
-      PDF2::Reader2::Stream.new(dict, data)
+      Pdf2::Reader2::Stream.new(dict, data)
     end
     ################################################################################
   end

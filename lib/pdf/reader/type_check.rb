@@ -2,10 +2,10 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
   class Reader
 
-    # Cast untrusted input (usually parsed out of a PDF file) to a known type
+    # Cast untrusted input (usually parsed out of a Pdf file) to a known type
     #
     class TypeCheck
 
@@ -17,7 +17,7 @@ module PDF
         elsif obj.respond_to?(:to_i)
           obj.to_i
         else
-          raise MalformedPDFError, "Unable to cast to integer"
+          raise MalformedPdfError, "Unable to cast to integer"
         end
       end
 
@@ -31,7 +31,7 @@ module PDF
         elsif obj.respond_to?(:to_i)
           obj.to_i
         else
-          raise MalformedPDFError, "Unable to cast to numeric"
+          raise MalformedPdfError, "Unable to cast to numeric"
         end
       end
 
@@ -43,7 +43,7 @@ module PDF
         elsif string.respond_to?(:to_s)
           string.to_s
         else
-          raise MalformedPDFError, "Unable to cast to string"
+          raise MalformedPdfError, "Unable to cast to string"
         end
       end
 
@@ -55,7 +55,7 @@ module PDF
         elsif obj.respond_to?(:to_sym)
           obj.to_sym
         else
-          raise MalformedPDFError, "Unable to cast to symbol"
+          raise MalformedPdfError, "Unable to cast to symbol"
         end
       end
 
@@ -64,7 +64,7 @@ module PDF
         if res
           res
         else
-          raise MalformedPDFError, "Unable to cast to symbol"
+          raise MalformedPdfError, "Unable to cast to symbol"
         end
       end
 
@@ -74,7 +74,7 @@ module PDF
         elsif obj.respond_to?(:to_h)
           obj.to_h
         else
-          raise MalformedPDFError, "Unable to cast to hash"
+          raise MalformedPdfError, "Unable to cast to hash"
         end
       end
 
@@ -82,14 +82,14 @@ module PDF
         if obj.is_a?(Hash)
           result = Hash.new
           obj.each do |k, v|
-            raise MalformedPDFError, "Expected a stream" unless v.is_a?(PDF2::Reader2::Stream)
+            raise MalformedPdfError, "Expected a stream" unless v.is_a?(Pdf2::Reader2::Stream)
             result[cast_to_symbol!(k)] = v
           end
           result
         elsif obj.respond_to?(:to_h)
           cast_to_pdf_dict_with_stream_values!(obj.to_h)
         else
-          raise MalformedPDFError, "Unable to cast to hash"
+          raise MalformedPdfError, "Unable to cast to hash"
         end
       end
     end

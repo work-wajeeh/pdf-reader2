@@ -4,9 +4,9 @@
 # The results in these specs were generated at
 # http://www.calcul.com/matrix-multiply-3x3-3x3 to ensure correctness.
 
-describe PDF2::Reader2::TransformationMatrix do
+describe Pdf2::Reader2::TransformationMatrix do
   describe "#multiply!" do
-    module PDF
+    module Pdf
       class Reader
         class TransformationMatrix
           # a helper method for tests
@@ -21,10 +21,10 @@ describe PDF2::Reader2::TransformationMatrix do
       end
     end
     context "with [2,3,0   4,5,0   6 7 1]" do
-      let(:matrix_one) { PDF2::Reader2::TransformationMatrix.new(2,3,4,5,6,7)}
+      let(:matrix_one) { Pdf2::Reader2::TransformationMatrix.new(2,3,4,5,6,7)}
 
       context "and the identity matrix" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(1,0,0,1,0,0)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(1,0,0,1,0,0)}
 
         it "leaves the values unchanged" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -40,7 +40,7 @@ describe PDF2::Reader2::TransformationMatrix do
       end
 
       context "and a horizontal displacement" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(1,0, 0,1, 10,0)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(1,0, 0,1, 10,0)}
 
         it "sets the new matrix values" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -56,7 +56,7 @@ describe PDF2::Reader2::TransformationMatrix do
       end
 
       context "and applying a vertical displacement" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(1,0, 0,1, 0,10)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(1,0, 0,1, 0,10)}
 
         it "sets the new matrix values" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -72,7 +72,7 @@ describe PDF2::Reader2::TransformationMatrix do
       end
 
       context "and applying a horizontal and vertical displacement" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(1,0, 0,1, 10,10)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(1,0, 0,1, 10,10)}
 
         it "sets the new matrix values" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -88,7 +88,7 @@ describe PDF2::Reader2::TransformationMatrix do
       end
 
       context "and applying a horizontal scale" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(10,0, 0,1, 0,0)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(10,0, 0,1, 0,0)}
 
         it "sets the new matrix values" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -104,7 +104,7 @@ describe PDF2::Reader2::TransformationMatrix do
       end
 
       context "and applying a vertical scale" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(1,0, 0,10, 0,0)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(1,0, 0,10, 0,0)}
 
         it "sets the new matrix values" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -120,7 +120,7 @@ describe PDF2::Reader2::TransformationMatrix do
       end
 
       context "and applying a horizontal and vertical scale" do
-        let(:matrix_two) { PDF2::Reader2::TransformationMatrix.new(10,0, 0,10, 0,0)}
+        let(:matrix_two) { Pdf2::Reader2::TransformationMatrix.new(10,0, 0,10, 0,0)}
 
         it "sets the new matrix values" do
           matrix_one.multiply_with_an_object!(matrix_two)
@@ -137,7 +137,7 @@ describe PDF2::Reader2::TransformationMatrix do
 
       context "and applying a 30 degree rotation" do
         let(:matrix_two) {
-          PDF2::Reader2::TransformationMatrix.new(
+          Pdf2::Reader2::TransformationMatrix.new(
             Math.cos(30),   Math.sin(30),
             -1*Math.sin(30),Math.cos(30),
             0,              0
@@ -174,7 +174,7 @@ describe PDF2::Reader2::TransformationMatrix do
 
   describe "#horizontal_displacement_multiply!" do
     context "with [2,3,0   4,5,0   6 7 1]" do
-      let(:matrix_one) { PDF2::Reader2::TransformationMatrix.new(2,3,4,5,6,7)}
+      let(:matrix_one) { Pdf2::Reader2::TransformationMatrix.new(2,3,4,5,6,7)}
 
       context "and a horizontal displacement" do
         let(:displacement) { 10 }

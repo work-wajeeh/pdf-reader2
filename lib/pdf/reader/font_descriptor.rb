@@ -4,9 +4,9 @@
 
 require 'ttfunk'
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # Font descriptors are outlined in Section 9.8, PDF 32000-1:2008, pp 281-288
+  # Font descriptors are outlined in Section 9.8, Pdf 32000-1:2008, pp 281-288
   class FontDescriptor
 
     attr_reader :font_name, :font_family, :font_stretch, :font_weight,
@@ -40,7 +40,7 @@ class PDF2::Reader2
       # 1) Type1C:        Type 1 Font Program in Compact Font Format
       # 2) CIDFontType0C: Type 0 Font Program in Compact Font Format
       # 3) OpenType:      OpenType Font Program
-      # see Section 9.9, PDF 32000-1:2008, pp 288-292
+      # see Section 9.9, Pdf 32000-1:2008, pp 288-292
       @font_program_stream = ohash.deref_stream(fd_hash[:FontFile2])
       #TODO handle FontFile and FontFile3
 
@@ -63,7 +63,7 @@ class PDF2::Reader2
       end
     end
 
-    # PDF states that a glyph is 1000 units wide, true type doesn't enforce
+    # Pdf states that a glyph is 1000 units wide, true type doesn't enforce
     # any behavior, but uses units/em to define how wide the 'M' is (the widest letter)
     def glyph_to_pdf_scale_factor
       if @is_ttf

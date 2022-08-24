@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
+class Pdf2::Reader2
   module WidthCalculator
     # Calculates the width of a glyph in a TrueType font
     class TrueType
@@ -41,7 +41,7 @@ class PDF2::Reader2
       def glyph_width_from_descriptor(code_point)
         # true type fonts will have most of their information contained
         # with-in a program inside the font descriptor, however the widths
-        # may not be in standard PDF glyph widths (1000 units => 1 text space unit)
+        # may not be in standard Pdf glyph widths (1000 units => 1 text space unit)
         # so this width will need to be scaled
         if fd = @font.font_descriptor
           if w = fd.glyph_width(code_point)

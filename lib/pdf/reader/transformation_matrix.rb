@@ -2,8 +2,8 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
-  # co-ordinate systems in PDF files are specified using a 3x3 matrix that looks
+class Pdf2::Reader2
+  # co-ordinate systems in Pdf files are specified using a 3x3 matrix that looks
   # something like this:
   #
   #   [ a b 0 ]
@@ -33,16 +33,16 @@ class PDF2::Reader2
     # multiply this matrix with another.
     #
     # the second matrix is represented by the 6 scalar values that are changeable
-    # in a PDF transformation matrix.
+    # in a Pdf transformation matrix.
     #
     # WARNING: This mutates the current matrix to avoid allocating memory when
     #          we don't need too. Matrices are multiplied ALL THE FREAKING TIME
     #          so this is a worthwhile optimisation
     #
     # NOTE: When multiplying matrices, ordering matters. Double check
-    #       the PDF spec to ensure you're multiplying things correctly.
+    #       the Pdf spec to ensure you're multiplying things correctly.
     #
-    # NOTE: see Section 8.3.3, PDF 32000-1:2008, pp 119
+    # NOTE: see Section 8.3.3, Pdf 32000-1:2008, pp 119
     #
     # NOTE: The if statements in this method are ordered to prefer optimisations
     #       that allocate fewer objects

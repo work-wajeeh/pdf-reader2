@@ -2,12 +2,12 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
 
   class Reader
 
     # A general class for decoding LZW compressed data. LZW can be
-    # used in PDF files to compresses streams, usually for image data sourced
+    # used in Pdf files to compresses streams, usually for image data sourced
     # from a TIFF file.
     #
     # See the following links for more information:
@@ -15,7 +15,7 @@ module PDF
     #   ref http://www.fileformat.info/format/tiff/corion-lzw.htm
     #   ref http://marknelson.us/1989/10/01/lzw-data-compression/
     #
-    # The PDF spec also has some data on the algorithm.
+    # The Pdf spec also has some data on the algorithm.
     #
     class LZW # :nodoc:
 
@@ -31,7 +31,7 @@ module PDF
         end
 
         def set_bits_in_chunk(bits_in_chunk)
-          raise MalformedPDFError, "invalid LZW bits" if bits_in_chunk < 9 || bits_in_chunk > 12
+          raise MalformedPdfError, "invalid LZW bits" if bits_in_chunk < 9 || bits_in_chunk > 12
 
           @bits_in_chunk = bits_in_chunk
         end
@@ -126,7 +126,7 @@ module PDF
       end
 
       def self.create_new_string(string_table, some_code, other_code)
-        raise MalformedPDFError, "invalid LZW data" if some_code.nil? || other_code.nil?
+        raise MalformedPdfError, "invalid LZW data" if some_code.nil? || other_code.nil?
 
         item_one = string_table[some_code]
         item_two = string_table[other_code]
@@ -134,7 +134,7 @@ module PDF
         if item_one && item_two
           item_one + item_two.chr
         else
-          raise MalformedPDFError, "invalid LZW data"
+          raise MalformedPdfError, "invalid LZW data"
         end
       end
       private_class_method :create_new_string

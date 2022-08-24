@@ -6,7 +6,7 @@
 
 require 'pdf/reader'
 
-reader = PDF2::Reader2.new('somefile.pdf')
+reader = Pdf2::Reader2.new('somefile.pdf')
 
 paragraph = ""
 paragraphs = []

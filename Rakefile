@@ -38,7 +38,7 @@ Rake::RDocTask.new("doc") do |rdoc|
   rdoc.options << "--inline-source"
 end
 
-desc "Create a YAML file of integrity info for PDFs in the spec suite"
+desc "Create a YAML file of integrity info for Pdfs in the spec suite"
 task :integrity_yaml do
   data = {}
   Dir.glob("spec/data/**/*.*").sort.each do |path|

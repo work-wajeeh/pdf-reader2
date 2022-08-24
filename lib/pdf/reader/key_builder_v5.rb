@@ -5,9 +5,9 @@
 require 'digest/md5'
 require 'rc4'
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # Processes the Encrypt dict from an encrypted PDF and a user provided
+  # Processes the Encrypt dict from an encrypted Pdf and a user provided
   # password and returns a key that can decrypt the file.
   #
   # This can generate a decryption key compatible with the following standard encryption algorithms:
@@ -46,7 +46,7 @@ class PDF2::Reader2
       encrypt_key ||= auth_owner_pass_r6(pass)
       encrypt_key ||= auth_user_pass_r6(pass)
 
-      raise PDF2::Reader2::EncryptedPDFError, "Invalid password (#{pass})" if encrypt_key.nil?
+      raise Pdf2::Reader2::EncryptedPdfError, "Invalid password (#{pass})" if encrypt_key.nil?
       encrypt_key
     end
 
@@ -54,7 +54,7 @@ class PDF2::Reader2
 
     # Algorithm 3.2a - Computing an encryption key
     #
-    # Defined in PDF 1.7 Extension Level 3
+    # Defined in Pdf 1.7 Extension Level 3
     #
     # if the string is a valid user/owner password, this will return the decryption key
     #
@@ -102,7 +102,7 @@ class PDF2::Reader2
       end
     end
 
-    # PDF 2.0 spec, 7.6.4.3.4
+    # Pdf 2.0 spec, 7.6.4.3.4
     # Algorithm 2.B: Computing a hash (revision 6 and later)
     def r6_digest(password, salt, user_key = '')
       k = Digest::SHA256.digest(password + salt + user_key)

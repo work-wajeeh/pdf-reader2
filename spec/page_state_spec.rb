@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::PageState do
+describe Pdf2::Reader2::PageState do
   let!(:page)   { double(:cache => {},
                         :objects => {},
                         :fonts => {},
@@ -10,14 +10,14 @@ describe PDF2::Reader2::PageState do
                         :rotate => 0)}
 
   describe "#DEFAULT_GRAPHICS_STATE" do
-    subject { PDF2::Reader2::PageState::DEFAULT_GRAPHICS_STATE }
+    subject { Pdf2::Reader2::PageState::DEFAULT_GRAPHICS_STATE }
 
     context "when walking more than one page" do
-      let!(:expected) { PDF2::Reader2::PageState::DEFAULT_GRAPHICS_STATE.dup }
+      let!(:expected) { Pdf2::Reader2::PageState::DEFAULT_GRAPHICS_STATE.dup }
 
       before do
         2.times do
-          state = PDF2::Reader2::PageState.new(page)
+          state = Pdf2::Reader2::PageState.new(page)
           state.save_graphics_state
           state.concatenate_matrix(1,2,3,4,5,6)
         end
@@ -31,7 +31,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#save_graphics_state" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "increases the stack depth by one" do
         expect {
@@ -43,7 +43,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#restore_graphics_state" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "reduces the stack depth by one" do
         state.save_graphics_state
@@ -56,7 +56,7 @@ describe PDF2::Reader2::PageState do
   end
 
   describe "#concatenate_matrix" do
-    let!(:state)  {PDF2::Reader2::PageState.new(page) }
+    let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
     context "when changing value a" do
       it "multiplies the matrixes" do
@@ -177,7 +177,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#begin_text_object" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "initialzes the text_matrix to ensure text is positioned at 0,0" do
         state.begin_text_object
@@ -193,7 +193,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#move_text_position" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "alters the text position" do
         state.begin_text_object
@@ -211,7 +211,7 @@ describe PDF2::Reader2::PageState do
     end
 
     context "without begin_text first (out of order)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "doesn't raise an exception" do
         expect {
@@ -223,7 +223,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#move_text_position_and_set_leading" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "alters the text position" do
         state.begin_text_object
@@ -248,7 +248,7 @@ describe PDF2::Reader2::PageState do
       end
     end
     context "without begin_text first (out of order)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "doesn't raise an exception" do
         expect {
@@ -260,7 +260,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#set_text_matrix_and_text_line_matrix" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "alters the text position" do
         state.begin_text_object
@@ -280,7 +280,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#move_to_start_of_next_line" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "alters the text position" do
         state.begin_text_object
@@ -298,7 +298,7 @@ describe PDF2::Reader2::PageState do
       end
     end
     context "without begin_text first (out of order)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "doesn't raise an exception" do
         expect {
@@ -310,7 +310,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#move_to_next_line_and_show_text" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "alters the text position" do
         state.begin_text_object
@@ -328,7 +328,7 @@ describe PDF2::Reader2::PageState do
       end
     end
     context "without begin_text first (out of order)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "doesn't raise an exception" do
         expect {
@@ -340,7 +340,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#move_to_next_line_and_show_text" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "alters the text position" do
         state.begin_text_object
@@ -361,7 +361,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#set_spacing_next_line_show_text" do
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "sets word spacing" do
         state.begin_text_object
@@ -390,7 +390,7 @@ describe PDF2::Reader2::PageState do
       end
     end
     context "without begin_text first (out of order)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "doesn't raise an exception" do
         expect {
@@ -406,7 +406,7 @@ describe PDF2::Reader2::PageState do
     # some error conditions here
 
     context "with an empty page" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "is a no-op" do
         expect(state.trm_transform(0,0)).to eq([0, 0])
@@ -421,7 +421,7 @@ describe PDF2::Reader2::PageState do
     # some error conditions here
 
     context "without begin_text first (out of order)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       it "doesn't raise an exception" do
         expect {
@@ -434,7 +434,7 @@ describe PDF2::Reader2::PageState do
 
   describe "#process_glyph_displacement" do
     context "when the current state places 12pt text at (40, 700)" do
-      let!(:state)  {PDF2::Reader2::PageState.new(page) }
+      let!(:state)  {Pdf2::Reader2::PageState.new(page) }
 
       before do
         state.begin_text_object

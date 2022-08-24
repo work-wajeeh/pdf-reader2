@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 ###################################################
 # ----------------------------------------------- #
-# Fuzz pdf-reader2 Ruby gem with mutated PDF files #
+# Fuzz pdf-reader2 Ruby gem with mutated Pdf files #
 # ----------------------------------------------- #
 #                                                 #
 # Each test case is written to 'fuzz.pdf' in the  #
@@ -71,9 +71,9 @@ rescue => e
 end
 
 #
-# Generate a mutated PDF file with a single mitated byte
+# Generate a mutated Pdf file with a single mitated byte
 #
-# @param [Path] f path to PDF file
+# @param [Path] f path to Pdf file
 #
 def mutate_byte(f)
   data = IO.binread f
@@ -87,9 +87,9 @@ def mutate_byte(f)
 end
 
 #
-# Generate a mutated PDF file with multiple mutated bytes
+# Generate a mutated Pdf file with multiple mutated bytes
 #
-# @param [Path] f path to PDF file
+# @param [Path] f path to Pdf file
 #
 def mutate_bytes(f)
   data = IO.binread f
@@ -109,9 +109,9 @@ def mutate_bytes(f)
 end
 
 #
-# Generate a mutated PDF file with all integers replaced by '-1'
+# Generate a mutated Pdf file with all integers replaced by '-1'
 #
-# @param [Path] f path to PDF file
+# @param [Path] f path to Pdf file
 #
 def clobber_integers(f)
   data = IO.binread f
@@ -123,10 +123,10 @@ def clobber_integers(f)
 end
 
 #
-# Generate a mutated PDF file with all strings 3 characters or longer
+# Generate a mutated Pdf file with all strings 3 characters or longer
 # replaced with 2000 'A' characters
 #
-# @param [Path] f path to PDF file
+# @param [Path] f path to Pdf file
 #
 def clobber_strings(f)
   data = IO.binread f
@@ -138,19 +138,19 @@ def clobber_strings(f)
 end
 
 #
-# Read a PDF file
+# Read a Pdf file
 #
-# @param [String] f path to PDF file
+# @param [String] f path to Pdf file
 #
 def read(f)
   print_status "Processing '#{f}'"
   begin
-    reader = PDF2::Reader2.new f
-  rescue PDF2::Reader2::MalformedPDFError
-    print_status "Could not parse PDF '#{f}': PDF is malformed"
+    reader = Pdf2::Reader2.new f
+  rescue Pdf2::Reader2::MalformedPdfError
+    print_status "Could not parse Pdf '#{f}': Pdf is malformed"
     return
-  rescue PDF2::Reader2::UnsupportedFeatureError
-    print_status "Could not parse PDF '#{f}': PDF2::Reader2::UnsupportedFeatureError"
+  rescue Pdf2::Reader2::UnsupportedFeatureError
+    print_status "Could not parse Pdf '#{f}': Pdf2::Reader2::UnsupportedFeatureError"
     return
   end
   print_good 'Processing complete'
@@ -158,18 +158,18 @@ def read(f)
   print_status "Parsing '#{f}'"
   begin
     parse reader
-  rescue PDF2::Reader2::UnsupportedFeatureError
-    print_status "Could not parse PDF '#{f}': PDF2::Reader2::UnsupportedFeatureError"
+  rescue Pdf2::Reader2::UnsupportedFeatureError
+    print_status "Could not parse Pdf '#{f}': Pdf2::Reader2::UnsupportedFeatureError"
     return
-  rescue PDF2::Reader2::MalformedPDFError
-    print_status "Could not parse PDF '#{f}': PDF is malformed"
+  rescue Pdf2::Reader2::MalformedPdfError
+    print_status "Could not parse Pdf '#{f}': Pdf is malformed"
     return
   end
   print_good 'Parsing complete'
 end
 
 #
-# Parse PDF
+# Parse Pdf
 #
 def parse(reader)
   print_status "Version: #{reader.pdf_version}"
@@ -178,7 +178,7 @@ def parse(reader)
   print_status "Objects: #{reader.objects}"
   print_status "Pages: #{reader.page_count}"
 
-  print_status 'Parsing PDF contents...'
+  print_status 'Parsing Pdf contents...'
   contents = ''
   reader.pages.each do |page|
     contents << page.fonts.to_s
@@ -233,7 +233,7 @@ end
 #
 # Generate random byte mutations and run test
 #
-# @param [String] f path to PDF file
+# @param [String] f path to Pdf file
 #
 def fuzz_bytes(f)
   iterations = 1000
@@ -247,7 +247,7 @@ end
 #
 # Generate integer mutations and run tests
 #
-# @param [String] f path to PDF file
+# @param [String] f path to Pdf file
 #
 def fuzz_integers(f)
   clobber_integers f
@@ -257,7 +257,7 @@ end
 #
 # Generate string mutations and run tests
 #
-# @param [String] f path to PDF file
+# @param [String] f path to Pdf file
 #
 def fuzz_strings(f)
   clobber_strings f

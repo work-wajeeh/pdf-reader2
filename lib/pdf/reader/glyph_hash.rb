@@ -27,7 +27,7 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
   # A Hash-like object that can convert glyph names into a unicode codepoint.
   # The mapping is read from a data file on disk the first time it's needed.
   #
@@ -47,7 +47,7 @@ class PDF2::Reader2
       end
     end
 
-    # attempt to convert a PDF Name to a unicode codepoint. Returns nil
+    # attempt to convert a Pdf Name to a unicode codepoint. Returns nil
     # if no conversion is possible.
     #
     #   h = GlyphHash.new
@@ -90,7 +90,7 @@ class PDF2::Reader2
       end
     end
 
-    # attempt to convert a Unicode code point to the equivilant PDF Name. Returns nil
+    # attempt to convert a Unicode code point to the equivilant Pdf Name. Returns nil
     # if no conversion is possible.
     #
     #   h = GlyphHash.new

@@ -3,7 +3,7 @@
 
 module ParserHelper
   def parse_string(r)
-    buf = PDF2::Reader2::Buffer.new(StringIO.new(r))
-    PDF2::Reader2::Parser.new(buf, nil)
+    buf = Pdf2::Reader2::Buffer.new(StringIO.new(r))
+    Pdf2::Reader2::Parser.new(buf, nil)
   end
 end

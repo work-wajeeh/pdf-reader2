@@ -2,7 +2,7 @@
 # coding: utf-8
 # typed: ignore
 
-#  Basic RSpec of a generated PDF
+#  Basic RSpec of a generated Pdf
 #
 #  USAGE: rspec -c examples/rspec.rb
 
@@ -12,18 +12,18 @@ require 'rspec'
 require 'prawn'
 require 'stringio'
 
-describe "My generated PDF" do
+describe "My generated Pdf" do
   it "should have the correct text on 2 pages" do
 
-    # generate our PDF
+    # generate our Pdf
     pdf = Prawn::Document.new
     pdf.text "Chunky"
     pdf.start_new_page
     pdf.text "Bacon"
     io = StringIO.new(pdf.render)
 
-    # process the PDF
-    PDF2::Reader2.open(io) do |reader|
+    # process the Pdf
+    Pdf2::Reader2.open(io) do |reader|
       reader.page_count.should eql(2)          # correct page count
 
       reader.page(1).text.should eql("Chunky") # correct content

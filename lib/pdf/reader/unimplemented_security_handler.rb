@@ -2,17 +2,17 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
   # Security handler for when we don't support the flavour of encryption
-  # used in a PDF.
+  # used in a Pdf.
   class UnimplementedSecurityHandler
     def self.supports?(encrypt)
       true
     end
 
     def decrypt(buf, ref)
-      raise PDF2::Reader2::EncryptedPDFError, "Unsupported encryption style"
+      raise Pdf2::Reader2::EncryptedPdfError, "Unsupported encryption style"
     end
   end
 end

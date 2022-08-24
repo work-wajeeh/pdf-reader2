@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::Filter::Flate do
+describe Pdf2::Reader2::Filter::Flate do
   describe "#filter" do
     context "an RFC1950 (zlib) deflated stream" do
       let(:deflated_path) {
@@ -9,7 +9,7 @@ describe PDF2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = PDF2::Reader2::Filter::Flate.new
+        filter = Pdf2::Reader2::Filter::Flate.new
         expect(filter.filter(deflated_data)).to eql("hello world, 2020 is quite the year")
       end
     end
@@ -20,7 +20,7 @@ describe PDF2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = PDF2::Reader2::Filter::Flate.new
+        filter = Pdf2::Reader2::Filter::Flate.new
         result = filter.filter(deflated_data)
         expect(result).to start_with("q")
         expect(result).to end_with("ET\n")
@@ -33,20 +33,20 @@ describe PDF2::Reader2::Filter::Flate do
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = PDF2::Reader2::Filter::Flate.new
+        filter = Pdf2::Reader2::Filter::Flate.new
         expect(filter.filter(deflated_data)).to eql("hello world, 2020 is quite the year")
       end
     end
 
-    # I'm not sure this is strictly required by the PDF spec, but zlib can do it and no doubt
-    # someone, somewhere has accidentally made a PDF using gzip
+    # I'm not sure this is strictly required by the Pdf spec, but zlib can do it and no doubt
+    # someone, somewhere has accidentally made a Pdf using gzip
     context "an RFC1952 (gzip) deflated stream" do
       let(:deflated_path) {
         File.dirname(__FILE__) + "/../../data/hello-world.gz"
       }
       let(:deflated_data) { binread(deflated_path) }
       it "inflates correctly" do
-        filter = PDF2::Reader2::Filter::Flate.new
+        filter = Pdf2::Reader2::Filter::Flate.new
         expect(filter.filter(deflated_data)).to eql("hello world, 2020 is quite the year")
       end
     end
@@ -62,7 +62,7 @@ describe PDF2::Reader2::Filter::Flate do
       let(:depredicted_data) { binread(depredicted_path) }
 
       it "inflates the data" do
-        filter = PDF2::Reader2::Filter::Flate.new(
+        filter = Pdf2::Reader2::Filter::Flate.new(
           :Columns => 5,
           :Predictor => 12
         )
@@ -77,7 +77,7 @@ describe PDF2::Reader2::Filter::Flate do
       }
 
       it "inflates the data" do
-        filter = PDF2::Reader2::Filter::Flate.new(
+        filter = Pdf2::Reader2::Filter::Flate.new(
           :Columns => 5,
           :Predictor => 2,
           :Colors => 3

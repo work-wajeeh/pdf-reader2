@@ -4,12 +4,12 @@
 
 require 'forwardable'
 
-class PDF2::Reader2
+class Pdf2::Reader2
   # A Hash-like object that wraps the array of glyph widths in a CID font
   # and gives us a nice way to query it for specific widths.
   #
   # there are two ways to calculate a cidfont_glyph_width, that are defined
-  # in Section 9.7.4.3 PDF 32000-1:2008 pp 271, the differences are remarked
+  # in Section 9.7.4.3 Pdf 32000-1:2008 pp 271, the differences are remarked
   # on below. because of these difference that may be contained within the
   # same array, it is a bit difficult to parse this array.
   class CidWidths
@@ -53,7 +53,7 @@ class PDF2::Reader2
     # this is the form 10 20 123 where all index between 10 and 20 have width 123
     def parse_second_form(first, final, width)
       if first > final
-        raise MalformedPDFError, "CidWidths: #{first} must be less than #{final}"
+        raise MalformedPdfError, "CidWidths: #{first} must be less than #{final}"
       end
 
       (first..final).inject({}) { |accum, index|

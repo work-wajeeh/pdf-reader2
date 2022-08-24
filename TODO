@@ -14,13 +14,13 @@ This stuff would be great
 
 
 This might be useful, more research required
-- Support for CJK text (convert to UTF-8 like all other encodings. See Section 5.9 of the PDF spec)
+- Support for CJK text (convert to UTF-8 like all other encodings. See Section 5.9 of the Pdf spec)
   - Will require significantly improved handling of CMaps, including creating a bunch of predefined ones
 
-- Work out why specs/data/zlib*.pdf isn't parsed correctly when all the major PDF viewers can display it correctly
+- Work out why specs/data/zlib*.pdf isn't parsed correctly when all the major Pdf viewers can display it correctly
 
 - Ship some extra receivers in the standard package, particuarly ones that are useful for running
-  rspec over generated PDF files
+  rspec over generated Pdf files
 
 - Add support for additional filters: CCITTFaxDecode, JBIG2Decode, DCTDecode, JPXDecode
 
@@ -30,5 +30,5 @@ This might be useful, more research required
 - Investigate how R->L text is handled
 
 - fix all callbacks to only ever return basic ruby objects (strings, ints,
-  attays, symbols, hashes, etc). No PDF2::Reader2::Reference or
-  PDF2::Reader2::Font, etc.
+  attays, symbols, hashes, etc). No Pdf2::Reader2::Reference or
+  Pdf2::Reader2::Font, etc.

@@ -2,12 +2,12 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
   class Reader
 
     # Page#walk will execute the content stream of a page, calling methods on a receiver class
     # provided by the user. Each operator has a specific set of parameters it expects, and we
-    # wrap the users receiver class in this one to verify the PDF uses valid parameters.
+    # wrap the users receiver class in this one to verify the Pdf uses valid parameters.
     #
     # Without these checks, users can't be confident about the number of parameters they'll receive
     # for an operator, or what the type of those parameters will be. Everyone ends up building their
@@ -177,7 +177,7 @@ module PDF
       def show_text_with_positioning(*args) # TJ [(A) 120 (WA) 20 (Y)]
         params, _ = *args
         unless params.is_a?(Array)
-          raise MalformedPDFError, "TJ operator expects a single Array argument"
+          raise MalformedPdfError, "TJ operator expects a single Array argument"
         end
 
         call_wrapped(

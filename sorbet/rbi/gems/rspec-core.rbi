@@ -1941,12 +1941,12 @@ module RSpec::Core::MockingAdapters::RSpec
   include RSpec::Mocks::ExampleMethods
   include RSpec::Mocks::ExampleMethods::ExpectHost
 end
-class RSpec::ExampleGroups::PDFReaderBufferTokenMethod < RSpec::Core::ExampleGroup
+class RSpec::ExampleGroups::PdfReaderBufferTokenMethod < RSpec::Core::ExampleGroup
   extend RSpec::Matchers::DSL
 end
 class RSpec::Expectations::MultipleExpectationsNotMetError < RSpec::Expectations::ExpectationNotMetError
   include RSpec::Core::MultipleExceptionError::InterfaceTag
 end
-class RSpec::ExampleGroups::PDFReader < RSpec::Core::ExampleGroup
+class RSpec::ExampleGroups::PdfReader < RSpec::Core::ExampleGroup
   extend RSpec::Matchers::DSL
 end

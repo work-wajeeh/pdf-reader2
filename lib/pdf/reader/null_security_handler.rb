@@ -2,9 +2,9 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # A null object security handler. Used when a PDF is unencrypted.
+  # A null object security handler. Used when a Pdf is unencrypted.
   class NullSecurityHandler
 
     def decrypt(buf, _ref)

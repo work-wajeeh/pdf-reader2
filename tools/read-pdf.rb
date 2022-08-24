@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# A test script to test loading and parsing a PDF file
+# A test script to test loading and parsing a Pdf file
 #
 
 require 'pdf-reader2'
@@ -36,20 +36,20 @@ def print_error(msg = '')
 end
 
 #
-# Read a PDF file
+# Read a Pdf file
 #
-# @param [File] file PDF file
+# @param [File] file Pdf file
 #
 def read(doc)
   print_status "Processing '#{doc}'"
   begin
     @fname = doc
-    reader = PDF2::Reader2.new(@fname)
-  rescue PDF2::Reader2::MalformedPDFError
-    print_error "Could not parse PDF '#{doc}': PDF is malformed"
+    reader = Pdf2::Reader2.new(@fname)
+  rescue Pdf2::Reader2::MalformedPdfError
+    print_error "Could not parse Pdf '#{doc}': Pdf is malformed"
     exit 1
-  rescue PDF2::Reader2::UnsupportedFeatureError 
-    print_error "Could not parse PDF '#{doc}': PDF2::Reader2::UnsupportedFeatureError"
+  rescue Pdf2::Reader2::UnsupportedFeatureError 
+    print_error "Could not parse Pdf '#{doc}': Pdf2::Reader2::UnsupportedFeatureError"
     exit 1
   end
   print_good 'Processing complete'
@@ -57,11 +57,11 @@ def read(doc)
   print_status "Parsing '#{@fname}'"
   begin
     parse reader
-  rescue PDF2::Reader2::UnsupportedFeatureError
-    print_error "Could not parse PDF '#{doc}': PDF2::Reader2::UnsupportedFeatureError"
+  rescue Pdf2::Reader2::UnsupportedFeatureError
+    print_error "Could not parse Pdf '#{doc}': Pdf2::Reader2::UnsupportedFeatureError"
     exit 1
-  rescue PDF2::Reader2::MalformedPDFError
-    print_error "Could not parse PDF '#{doc}': PDF is malformed"
+  rescue Pdf2::Reader2::MalformedPdfError
+    print_error "Could not parse Pdf '#{doc}': Pdf is malformed"
     exit 1
   end
   print_good 'Parsing complete'
@@ -77,7 +77,7 @@ def parse(reader)
   print_status "Objects: #{reader.objects}"
   print_status "Pages: #{reader.page_count}"
 
-  print_status 'Parsing PDF contents...'
+  print_status 'Parsing Pdf contents...'
   reader.pages.each do |page|
     text = page.text.to_s
     unless $QUIET

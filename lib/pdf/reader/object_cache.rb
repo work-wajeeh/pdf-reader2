@@ -4,9 +4,9 @@
 
 require 'hashery/lru_hash'
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # A Hash-like object for caching commonly used objects from a PDF file.
+  # A Hash-like object for caching commonly used objects from a Pdf file.
   #
   # This is an internal class, no promises about a stable API.
   #
@@ -81,7 +81,7 @@ class PDF2::Reader2
     end
 
     def to_s
-      "<PDF2::Reader2::ObjectCache size: #{self.size}>"
+      "<Pdf2::Reader2::ObjectCache size: #{self.size}>"
     end
 
     def keys

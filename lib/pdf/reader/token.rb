@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
   ################################################################################
-  # An internal PDF2::Reader2 class that represents a single token from a PDF file.
+  # An internal Pdf2::Reader2 class that represents a single token from a Pdf file.
   #
   # Behaves exactly like a Ruby String - it basically exists for convenience.
   class Token < String # :nodoc:

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
+class Pdf2::Reader2
   module Filter # :nodoc:
     # some filter implementations support preprocessing of the  data to
     # improve compression
@@ -27,7 +27,7 @@ class PDF2::Reader2
         when 10, 11, 12, 13, 14, 15 then
           png_depredict(data)
         else
-          raise  MalformedPDFError, "Unrecognised predictor value (#{predictor})"
+          raise  MalformedPdfError, "Unrecognised predictor value (#{predictor})"
         end
       end
 
@@ -125,7 +125,7 @@ class PDF2::Reader2
               row_data[index] = (byte + paeth) % 256
             end
           else
-            raise MalformedPDFError, "Invalid filter algorithm #{filter}"
+            raise MalformedPdfError, "Invalid filter algorithm #{filter}"
           end
 
           s = []

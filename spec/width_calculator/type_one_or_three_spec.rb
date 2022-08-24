@@ -1,13 +1,13 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::WidthCalculator::TypeOneOrThree do
+describe Pdf2::Reader2::WidthCalculator::TypeOneOrThree do
   it_behaves_like "a WidthCalculator duck type" do
     let!(:descriptor) { double(:missing_width => 50) }
     let!(:font)       { double(:font_descriptor => descriptor,
                                :widths          => [20,30,40],
                                :first_char      => 10) }
-    subject           { PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(font)}
+    subject           { Pdf2::Reader2::WidthCalculator::TypeOneOrThree.new(font)}
   end
 
   describe "#glyph_width" do
@@ -16,7 +16,7 @@ describe PDF2::Reader2::WidthCalculator::TypeOneOrThree do
       let!(:font)       { double(:font_descriptor => descriptor,
                                 :widths          => [20,30,40],
                                 :first_char      => 10) }
-      subject           { PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(font)}
+      subject           { Pdf2::Reader2::WidthCalculator::TypeOneOrThree.new(font)}
 
       context "when the glyph code is less than font#first_char" do
         it "returns the missing width" do
@@ -34,7 +34,7 @@ describe PDF2::Reader2::WidthCalculator::TypeOneOrThree do
       let!(:font)       { double(:font_descriptor => descriptor,
                                 :widths          => nil,
                                 :first_char      => 10) }
-      subject           { PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(font)}
+      subject           { Pdf2::Reader2::WidthCalculator::TypeOneOrThree.new(font)}
 
       it "returns 0" do
         expect(subject.glyph_width(10)).to eq(0)

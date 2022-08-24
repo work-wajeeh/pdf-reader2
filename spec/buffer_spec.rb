@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::Buffer, "token method" do
+describe Pdf2::Reader2::Buffer, "token method" do
   include BufferHelper
   include EncodingHelper
 
@@ -226,7 +226,7 @@ describe PDF2::Reader2::Buffer, "token method" do
       buf = parse_string("aaa 1 0 R bbb")
 
       expect(buf.token).to eql("aaa")
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
       expect(buf.token).to eql("bbb")
       expect(buf.token).to be_nil
     end
@@ -236,8 +236,8 @@ describe PDF2::Reader2::Buffer, "token method" do
     it "tokenises correctly" do
       buf = parse_string("1 0 R 2 0 R")
 
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
       expect(buf.token).to be_nil
     end
   end
@@ -245,7 +245,7 @@ describe PDF2::Reader2::Buffer, "token method" do
   context "initialize with a specific position" do
     it "tokenises correctly" do
       str = "aaa bbb ccc"
-      buf = PDF2::Reader2::Buffer.new(StringIO.new(str), :seek => 4)
+      buf = Pdf2::Reader2::Buffer.new(StringIO.new(str), :seek => 4)
 
       expect(buf.token).to eql("bbb")
       expect(buf.token).to eql("ccc")
@@ -256,7 +256,7 @@ describe PDF2::Reader2::Buffer, "token method" do
   context "initialize with a specific position" do
     it "tokenises correctly" do
       str = "aaa bbb ccc"
-      buf = PDF2::Reader2::Buffer.new(StringIO.new(str), :seek => 5)
+      buf = Pdf2::Reader2::Buffer.new(StringIO.new(str), :seek => 5)
 
       expect(buf.token).to eql("bb")
       expect(buf.token).to eql("ccc")
@@ -364,7 +364,7 @@ describe PDF2::Reader2::Buffer, "token method" do
       expect(buf.token).to eql("<<")
       expect(buf.token).to eql("/")
       expect(buf.token).to eql("X")
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
       expect(buf.token).to eql(">>")
     end
   end
@@ -375,13 +375,13 @@ describe PDF2::Reader2::Buffer, "token method" do
       expect(buf.token).to eql("<<")
       expect(buf.token).to eql("/")
       expect(buf.token).to eql("X")
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
       expect(buf.token).to eql("/")
       expect(buf.token).to eql("Y")
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
       expect(buf.token).to eql("/")
       expect(buf.token).to eql("Z")
-      expect(buf.token).to be_a_kind_of(PDF2::Reader2::Reference)
+      expect(buf.token).to be_a_kind_of(Pdf2::Reader2::Reference)
       expect(buf.token).to eql(">>")
     end
   end
@@ -399,7 +399,7 @@ describe PDF2::Reader2::Buffer, "token method" do
   context "when the underlying IO pos changes on us" do
     it "the buffer pos remains accurate" do
       io = StringIO.new("aaa bbb")
-      buf = PDF2::Reader2::Buffer.new(io)
+      buf = Pdf2::Reader2::Buffer.new(io)
 
       expect(buf.pos).to eql(0)
       buf.token
@@ -415,7 +415,7 @@ describe PDF2::Reader2::Buffer, "token method" do
   context "inline image when inside a content stream" do
     it "tokenises correctly" do
       io = StringIO.new(binary_string("BI ID aaa bbb ccc \xF0\xF0\xF0 EI"))
-      buf = PDF2::Reader2::Buffer.new(io, :content_stream => true)
+      buf = Pdf2::Reader2::Buffer.new(io, :content_stream => true)
 
       expect(buf.pos).to eql(0)
       expect(buf.token).to eql("BI")
@@ -429,7 +429,7 @@ describe PDF2::Reader2::Buffer, "token method" do
     context "outside a content stream" do
       it "tokenises correctly" do
         io = StringIO.new(binary_string("BI ID aaa bbb ccc \xF0\xF0\xF0 EI"))
-        buf = PDF2::Reader2::Buffer.new(io, :content_stream => false)
+        buf = Pdf2::Reader2::Buffer.new(io, :content_stream => false)
 
         expect(buf.pos).to eql(0)
         expect(buf.token).to eql("BI")
@@ -447,7 +447,7 @@ describe PDF2::Reader2::Buffer, "token method" do
     context "inside a content stream" do
       it "tokenises correctly" do
         io = StringIO.new(binary_string("BI ID aaa bbb ccc \xF0EI\xF0 EI"))
-        buf = PDF2::Reader2::Buffer.new(io, :content_stream => true)
+        buf = Pdf2::Reader2::Buffer.new(io, :content_stream => true)
 
         expect(buf.pos).to eql(0)
         expect(buf.token).to eql("BI")
@@ -462,7 +462,7 @@ describe PDF2::Reader2::Buffer, "token method" do
     context "inside a content stream" do
       it "tokenises correctly" do
         io = StringIO.new(binary_string("BI ID aaa bbb ccc \xF0EI\xF0\nEI"))
-        buf = PDF2::Reader2::Buffer.new(io, :content_stream => true)
+        buf = Pdf2::Reader2::Buffer.new(io, :content_stream => true)
 
         expect(buf.pos).to eql(0)
         expect(buf.token).to eql("BI")
@@ -477,7 +477,7 @@ describe PDF2::Reader2::Buffer, "token method" do
     context "inside a content stream" do
       it "tokenises correctly" do
         io = StringIO.new(binary_string("BI ID aaa bbb ccc \xF0\xF0\xF0\x00EI"))
-        buf = PDF2::Reader2::Buffer.new(io, :content_stream => true)
+        buf = Pdf2::Reader2::Buffer.new(io, :content_stream => true)
 
         expect(buf.pos).to eql(0)
         expect(buf.token).to eql("BI")
@@ -492,11 +492,11 @@ describe PDF2::Reader2::Buffer, "token method" do
     context "inside a content stream" do
       it "tokenises correctly" do
         io = StringIO.new(binary_string("BI ID aaa bbb ccc \xF0\xF0\xF0"))
-        buf = PDF2::Reader2::Buffer.new(io, :content_stream => true)
+        buf = Pdf2::Reader2::Buffer.new(io, :content_stream => true)
         expect(buf.pos).to eql(0)
         expect {
           buf.token
-        }.to raise_error(PDF2::Reader2::MalformedPDFError, "EI terminator not found")
+        }.to raise_error(Pdf2::Reader2::MalformedPdfError, "EI terminator not found")
       end
     end
   end
@@ -504,7 +504,7 @@ describe PDF2::Reader2::Buffer, "token method" do
   context "dict that has ID as a key" do
     it "tokenises correctly" do
       io = StringIO.new("<</ID /S1 >> BDC")
-      buf = PDF2::Reader2::Buffer.new(io, :content_stream => true)
+      buf = Pdf2::Reader2::Buffer.new(io, :content_stream => true)
 
       expect(buf.pos).to eql(0)
       expect(buf.token).to eql("<<")
@@ -518,7 +518,7 @@ describe PDF2::Reader2::Buffer, "token method" do
   end
 end
 
-describe PDF2::Reader2::Buffer, "empty? method" do
+describe Pdf2::Reader2::Buffer, "empty? method" do
   include BufferHelper
 
   context "with remaining tokens" do
@@ -540,12 +540,12 @@ describe PDF2::Reader2::Buffer, "empty? method" do
   end
 end
 
-describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
+describe Pdf2::Reader2::Buffer, "find_first_xref_offset method" do
 
   context "cairo-basic.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("cairo-basic"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(9243)
     end
@@ -554,7 +554,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "cairo-unicode.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("cairo-unicode"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(136174)
     end
@@ -563,7 +563,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "prince1.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("prince1"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(678715)
     end
@@ -572,7 +572,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "prince2.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("prince2"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(941440)
     end
@@ -581,7 +581,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "pdfwriter-manual.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("pdfwriter-manual"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(275320)
     end
@@ -590,7 +590,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "pdf-distiller.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("pdf-distiller"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(173)
     end
@@ -599,7 +599,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "pdflatex.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("pdflatex"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(152898)
     end
@@ -608,7 +608,7 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "openoffice-2.2.pdf" do
     it "finds the first xref offset" do
       @file = File.new(pdf_spec_file("openoffice-2.2"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
       expect(@buffer.find_first_xref_offset).to eql(36961)
     end
@@ -617,23 +617,23 @@ describe PDF2::Reader2::Buffer, "find_first_xref_offset method" do
   context "when buffer doesn't contain an EOF marker" do
     it "raises an exception" do
       @file = File.new(pdf_spec_file("no_eof"))
-      @buffer = PDF2::Reader2::Buffer.new(@file)
+      @buffer = Pdf2::Reader2::Buffer.new(@file)
 
-      expect { @buffer.find_first_xref_offset }.to raise_error(PDF2::Reader2::MalformedPDFError)
+      expect { @buffer.find_first_xref_offset }.to raise_error(Pdf2::Reader2::MalformedPdfError)
     end
   end
 
   context "extended_eof.pdf (bytes after the EOF marker" do
     it "finds the first xref offset" do
       file   = File.new pdf_spec_file("extended_eof")
-      buffer = PDF2::Reader2::Buffer.new file
+      buffer = Pdf2::Reader2::Buffer.new file
 
       expect(buffer.find_first_xref_offset).to eql(145)
     end
   end
 end
 
-describe PDF2::Reader2::Buffer, "read method" do
+describe Pdf2::Reader2::Buffer, "read method" do
   include BufferHelper
 
   context "with a single line buffer" do

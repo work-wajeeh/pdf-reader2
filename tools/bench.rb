@@ -13,10 +13,10 @@ require 'rubygems' # for Ruby 1.8
 $:.unshift "#{$project_root}/lib"
 require 'pdf/reader'
 
-# Extract all the text from a large PDF
+# Extract all the text from a large Pdf
 
 def extract_text
-  PDF2::Reader2.open("#{$project_root}/spec/data/no_text_spaces.pdf") do |reader|
+  Pdf2::Reader2.open("#{$project_root}/spec/data/no_text_spaces.pdf") do |reader|
     reader.pages.each do |page|
       page.text
     end

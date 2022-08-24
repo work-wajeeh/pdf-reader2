@@ -25,26 +25,26 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-class PDF2::Reader2
+class Pdf2::Reader2
   ################################################################################
-  # An internal PDF2::Reader2 class that helps to verify various parts of the PDF file
+  # An internal Pdf2::Reader2 class that helps to verify various parts of the Pdf file
   # are valid
   class Error # :nodoc:
     ################################################################################
     def self.str_assert(lvalue, rvalue, chars=nil)
-      raise MalformedPDFError, "PDF malformed, expected string but found #{lvalue.class} instead" if chars and !lvalue.kind_of?(String)
+      raise MalformedPdfError, "Pdf malformed, expected string but found #{lvalue.class} instead" if chars and !lvalue.kind_of?(String)
       lvalue = lvalue[0,chars] if chars
-      raise MalformedPDFError, "PDF malformed, expected '#{rvalue}' but found '#{lvalue}' instead"  if lvalue != rvalue
+      raise MalformedPdfError, "Pdf malformed, expected '#{rvalue}' but found '#{lvalue}' instead"  if lvalue != rvalue
     end
     ################################################################################
     def self.str_assert_not(lvalue, rvalue, chars=nil)
-      raise MalformedPDFError, "PDF malformed, expected string but found #{lvalue.class} instead" if chars and !lvalue.kind_of?(String)
+      raise MalformedPdfError, "Pdf malformed, expected string but found #{lvalue.class} instead" if chars and !lvalue.kind_of?(String)
       lvalue = lvalue[0,chars] if chars
-      raise MalformedPDFError, "PDF malformed, expected '#{rvalue}' but found '#{lvalue}' instead"  if lvalue == rvalue
+      raise MalformedPdfError, "Pdf malformed, expected '#{rvalue}' but found '#{lvalue}' instead"  if lvalue == rvalue
     end
     ################################################################################
     def self.assert_equal(lvalue, rvalue)
-      raise MalformedPDFError, "PDF malformed, expected '#{rvalue}' but found '#{lvalue}' instead" if lvalue != rvalue
+      raise MalformedPdfError, "Pdf malformed, expected '#{rvalue}' but found '#{lvalue}' instead" if lvalue != rvalue
     end
     ################################################################################
     def self.validate_type(object, name, klass)
@@ -52,7 +52,7 @@ class PDF2::Reader2
     end
     ################################################################################
     def self.validate_type_as_malformed(object, name, klass)
-      raise MalformedPDFError, "#{name} (#{object}) must be a #{klass}" unless object.is_a?(klass)
+      raise MalformedPdfError, "#{name} (#{object}) must be a #{klass}" unless object.is_a?(klass)
     end
     ################################################################################
     def self.validate_not_nil(object, name)
@@ -61,26 +61,26 @@ class PDF2::Reader2
   end
 
   ################################################################################
-  # an exception that is raised when we believe the current PDF is not following
-  # the PDF spec and cannot be recovered
-  class MalformedPDFError < RuntimeError; end
+  # an exception that is raised when we believe the current Pdf is not following
+  # the Pdf spec and cannot be recovered
+  class MalformedPdfError < RuntimeError; end
 
   ################################################################################
   # an exception that is raised when an invalid page number is used
   class InvalidPageError < ArgumentError; end
 
   ################################################################################
-  # an exception that is raised when a PDF object appears to be invalid
-  class InvalidObjectError < MalformedPDFError; end
+  # an exception that is raised when a Pdf object appears to be invalid
+  class InvalidObjectError < MalformedPdfError; end
 
   ################################################################################
-  # an exception that is raised when a PDF follows the specs but uses a feature
+  # an exception that is raised when a Pdf follows the specs but uses a feature
   # that we don't support just yet
   class UnsupportedFeatureError < RuntimeError; end
 
   ################################################################################
-  # an exception that is raised when a PDF is encrypted and we don't have the
+  # an exception that is raised when a Pdf is encrypted and we don't have the
   # necessary data to decrypt it
-  class EncryptedPDFError < UnsupportedFeatureError; end
+  class EncryptedPdfError < UnsupportedFeatureError; end
 end
 ################################################################################

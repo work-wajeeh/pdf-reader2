@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # This demonstrates a way to extract some images (those based on the JPG or
-# TIFF formats) from a PDF. There are other ways to store images, so
+# TIFF formats) from a Pdf. There are other ways to store images, so
 # it may need to be expanded for real world usage, but it should serve
 # as a good guide.
 #
@@ -42,7 +42,7 @@ module ExtractImages
             ExtractImages::Raw.new(stream).save("#{page.number}-#{count}-#{name}.tif")
           end
         when :Form then
-          count = process_page(PDF2::Reader2::FormXObject.new(page, stream), count)
+          count = process_page(Pdf2::Reader2::FormXObject.new(page, stream), count)
         end
       end
       count
@@ -225,7 +225,7 @@ end
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/adobe_sample.pdf"
 extractor = ExtractImages::Extractor.new
 
-PDF2::Reader2.open(filename) do |reader|
+Pdf2::Reader2.open(filename) do |reader|
   page = reader.page(1)
   extractor.page(page)
 end

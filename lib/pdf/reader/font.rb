@@ -29,8 +29,8 @@
 
 require 'pdf/reader/width_calculator'
 
-class PDF2::Reader2
-  # Represents a single font PDF object and provides some useful methods
+class Pdf2::Reader2
+  # Represents a single font Pdf object and provides some useful methods
   # for extracting info. Mainly used for converting text to UTF-8.
   #
   class Font
@@ -48,7 +48,7 @@ class PDF2::Reader2
       extract_descendants(obj)
       @width_calc = build_width_calculator
 
-      @encoding ||= PDF2::Reader2::Encoding.new(:StandardEncoding)
+      @encoding ||= Pdf2::Reader2::Encoding.new(:StandardEncoding)
     end
 
     def to_utf8(params)
@@ -115,37 +115,37 @@ class PDF2::Reader2
     def default_encoding(font_name)
       case font_name.to_s
       when "Symbol" then
-        PDF2::Reader2::Encoding.new(:SymbolEncoding)
+        Pdf2::Reader2::Encoding.new(:SymbolEncoding)
       when "ZapfDingbats" then
-        PDF2::Reader2::Encoding.new(:ZapfDingbatsEncoding)
+        Pdf2::Reader2::Encoding.new(:ZapfDingbatsEncoding)
       else
-        PDF2::Reader2::Encoding.new(:StandardEncoding)
+        Pdf2::Reader2::Encoding.new(:StandardEncoding)
       end
     end
 
     def build_width_calculator
       if @subtype == :Type0
-        PDF2::Reader2::WidthCalculator::TypeZero.new(self)
+        Pdf2::Reader2::WidthCalculator::TypeZero.new(self)
       elsif @subtype == :Type1
         if @font_descriptor.nil?
-          PDF2::Reader2::WidthCalculator::BuiltIn.new(self)
+          Pdf2::Reader2::WidthCalculator::BuiltIn.new(self)
         else
-          PDF2::Reader2::WidthCalculator::TypeOneOrThree .new(self)
+          Pdf2::Reader2::WidthCalculator::TypeOneOrThree .new(self)
         end
       elsif @subtype == :Type3
-        PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(self)
+        Pdf2::Reader2::WidthCalculator::TypeOneOrThree.new(self)
       elsif @subtype == :TrueType
         if @font_descriptor
-          PDF2::Reader2::WidthCalculator::TrueType.new(self)
+          Pdf2::Reader2::WidthCalculator::TrueType.new(self)
         else
           # A TrueType font that isn't embedded. Most readers look for a version on the
           # local system and fallback to a substitute. For now, we go straight to a substitute
-          PDF2::Reader2::WidthCalculator::BuiltIn.new(self)
+          Pdf2::Reader2::WidthCalculator::BuiltIn.new(self)
         end
       elsif @subtype == :CIDFontType0 || @subtype == :CIDFontType2
-        PDF2::Reader2::WidthCalculator::Composite.new(self)
+        Pdf2::Reader2::WidthCalculator::Composite.new(self)
       else
-        PDF2::Reader2::WidthCalculator::TypeOneOrThree.new(self)
+        Pdf2::Reader2::WidthCalculator::TypeOneOrThree.new(self)
       end
     end
 
@@ -153,13 +153,13 @@ class PDF2::Reader2
       if obj[:Encoding].is_a?(Symbol)
         # one of the standard encodings, referenced by name
         # TODO pass in a standard shape, always a Hash
-        PDF2::Reader2::Encoding.new(obj[:Encoding])
-      elsif obj[:Encoding].is_a?(Hash) || obj[:Encoding].is_a?(PDF2::Reader2::Stream)
-        PDF2::Reader2::Encoding.new(obj[:Encoding])
+        Pdf2::Reader2::Encoding.new(obj[:Encoding])
+      elsif obj[:Encoding].is_a?(Hash) || obj[:Encoding].is_a?(Pdf2::Reader2::Stream)
+        Pdf2::Reader2::Encoding.new(obj[:Encoding])
       elsif obj[:Encoding].nil?
         default_encoding(@basefont)
       else
-        raise MalformedPDFError, "Unexpected type for Encoding (#{obj[:Encoding].class})"
+        raise MalformedPdfError, "Unexpected type for Encoding (#{obj[:Encoding].class})"
       end
     end
 
@@ -172,7 +172,7 @@ class PDF2::Reader2
       @last_char = @ohash.deref_integer(obj[:LastChar])
 
       # CID Fonts are not required to have a W or DW entry, if they don't exist,
-      # the default cid width = 1000, see Section 9.7.4.1 PDF 32000-1:2008 pp 269
+      # the default cid width = 1000, see Section 9.7.4.1 Pdf 32000-1:2008 pp 269
       @cid_widths         = @ohash.deref_array(obj[:W])  || []
       @cid_default_width  = @ohash.deref_number(obj[:DW]) || 1000
 
@@ -180,7 +180,7 @@ class PDF2::Reader2
         # ToUnicode is optional for Type1 and Type3
         stream = @ohash.deref_stream(obj[:ToUnicode])
         if stream
-          @tounicode = PDF2::Reader2::CMap.new(stream.unfiltered_data)
+          @tounicode = Pdf2::Reader2::CMap.new(stream.unfiltered_data)
         end
       end
     end
@@ -198,20 +198,20 @@ class PDF2::Reader2
         # create a font descriptor object if we can, in other words, unless this is
         # a CID Font
         fd = @ohash.deref_hash(obj[:FontDescriptor])
-        @font_descriptor = PDF2::Reader2::FontDescriptor.new(@ohash, fd)
+        @font_descriptor = Pdf2::Reader2::FontDescriptor.new(@ohash, fd)
       else
         @font_descriptor = nil
       end
     end
 
     def extract_descendants(obj)
-      # per PDF 32000-1:2008 pp. 280 :DescendentFonts is:
+      # per Pdf 32000-1:2008 pp. 280 :DescendentFonts is:
       # A one-element array specifying the CIDFont dictionary that is the
       # descendant of this Type 0 font.
       if obj[:DescendantFonts]
         descendants = @ohash.deref_array(obj[:DescendantFonts])
         @descendantfonts = descendants.map { |desc|
-          PDF2::Reader2::Font.new(@ohash, @ohash.deref_hash(desc))
+          Pdf2::Reader2::Font.new(@ohash, @ohash.deref_hash(desc))
         }
       else
         @descendantfonts = []
@@ -222,11 +222,11 @@ class PDF2::Reader2
       case params
       when Integer
         [
-          @tounicode.decode(params) || PDF2::Reader2::Encoding::UNKNOWN_CHAR
+          @tounicode.decode(params) || Pdf2::Reader2::Encoding::UNKNOWN_CHAR
         ].flatten.pack("U*")
       when String
         params.unpack(encoding.unpack).map { |c|
-          @tounicode.decode(c) || PDF2::Reader2::Encoding::UNKNOWN_CHAR
+          @tounicode.decode(c) || Pdf2::Reader2::Encoding::UNKNOWN_CHAR
         }.flatten.pack("U*")
       when Array
         params.collect { |param| to_utf8_via_cmap(param) }.join("")

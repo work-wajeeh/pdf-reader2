@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 
-# A sample script that attempts to extract bates numbers from a PDF file.
+# A sample script that attempts to extract bates numbers from a Pdf file.
 # Bates numbers are often used to markup documents being used in legal
 # cases. For more info, see http://en.wikipedia.org/wiki/Bates_numbering
 #
@@ -37,7 +37,7 @@ end
 
 filename = File.expand_path(File.dirname(__FILE__)) + "/../spec/data/cairo-basic.pdf"
 
-PDF2::Reader2.open(filename) do |reader|
+Pdf2::Reader2.open(filename) do |reader|
   reader.pages.each do |page|
     receiver = BatesReceiver.new
     page.walk(receiver)

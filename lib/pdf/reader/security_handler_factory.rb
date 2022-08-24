@@ -2,8 +2,8 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
-  # Examines the Encrypt entry of a PDF trailer (if any) and returns an object that's
+class Pdf2::Reader2
+  # Examines the Encrypt entry of a Pdf trailer (if any) and returns an object that's
   # able to decrypt the file.
   class SecurityHandlerFactory
 
@@ -51,7 +51,7 @@ class PDF2::Reader2
       AesV3SecurityHandler.new(key_builder.key(password))
     end
 
-    # This handler supports all encryption that follows upto PDF 1.5 spec (revision 4)
+    # This handler supports all encryption that follows upto Pdf 1.5 spec (revision 4)
     def self.standard?(encrypt)
       return false if encrypt.nil?
 
@@ -63,8 +63,8 @@ class PDF2::Reader2
     end
 
     # This handler supports both
-    # - AES-256 encryption defined in PDF 1.7 Extension Level 3 ('revision 5')
-    # - AES-256 encryption defined in PDF 2.0 ('revision 6')
+    # - AES-256 encryption defined in Pdf 1.7 Extension Level 3 ('revision 5')
+    # - AES-256 encryption defined in Pdf 2.0 ('revision 6')
     def self.standard_v5?(encrypt)
       return false if encrypt.nil?
 

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-# PDF files may define fonts in a number of ways. Each approach means we must
+# Pdf files may define fonts in a number of ways. Each approach means we must
 # calculate glyph widths differently, so this set of classes conform to an
 # interface that will perform the appropriate calculations.
 

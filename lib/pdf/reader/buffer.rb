@@ -27,14 +27,14 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # A string tokeniser that recognises PDF grammar. When passed an IO stream or a
+  # A string tokeniser that recognises Pdf grammar. When passed an IO stream or a
   # string, repeated calls to token() will return the next token from the source.
   #
   # This is very low level, and getting the raw tokens is not very useful in itself.
   #
-  # This will usually be used in conjunction with PDF:Reader::Parser, which converts
+  # This will usually be used in conjunction with Pdf:Reader::Parser, which converts
   # the raw tokens into objects we can work with (strings, ints, arrays, etc)
   #
   class Buffer
@@ -54,7 +54,7 @@ class PDF2::Reader2
     CRLF = "\r\n"
     WHITE_SPACE = [LF, CR, ' ']
 
-    # Quite a few PDFs have trailing junk.
+    # Quite a few Pdfs have trailing junk.
     # This can be several k of nuls in some cases
     # Allow for this here
     TRAILING_BYTECOUNT = 5000
@@ -146,19 +146,19 @@ class PDF2::Reader2
       @io.seek(-TRAILING_BYTECOUNT, IO::SEEK_END) rescue @io.seek(0)
       data = @io.read(TRAILING_BYTECOUNT)
 
-      raise MalformedPDFError, "PDF does not contain EOF marker" if data.nil?
+      raise MalformedPdfError, "Pdf does not contain EOF marker" if data.nil?
 
-      # the PDF 1.7 spec (section #3.4) says that EOL markers can be either \r, \n, or both.
+      # the Pdf 1.7 spec (section #3.4) says that EOL markers can be either \r, \n, or both.
       lines = data.split(/[\n\r]+/).reverse
       eof_index = lines.index { |l| l.strip[/^%%EOF/] }
 
-      raise MalformedPDFError, "PDF does not contain EOF marker" if eof_index.nil?
-      raise MalformedPDFError, "PDF EOF marker does not follow offset" if eof_index >= lines.size-1
+      raise MalformedPdfError, "Pdf does not contain EOF marker" if eof_index.nil?
+      raise MalformedPdfError, "Pdf EOF marker does not follow offset" if eof_index >= lines.size-1
       offset = lines[eof_index+1].to_i
 
       # a byte offset < 0 doesn't make much sense. This is unlikely to happen, but in theory some
-      # corrupted PDFs might have a line that looks like a negative int preceding the `%%EOF`
-      raise MalformedPDFError, "invalid xref offset" if offset < 0
+      # corrupted Pdfs might have a line that looks like a negative int preceding the `%%EOF`
+      raise MalformedPdfError, "invalid xref offset" if offset < 0
       offset
     end
 
@@ -168,7 +168,7 @@ class PDF2::Reader2
       @io.seek(-1, IO::SEEK_END)
       @io.seek(0)
     rescue Errno::EINVAL
-      raise MalformedPDFError, "PDF file is empty"
+      raise MalformedPdfError, "Pdf file is empty"
     end
 
     # Returns true if this buffer is parsing a content stream
@@ -225,7 +225,7 @@ class PDF2::Reader2
     end
 
     # detect a series of 3 tokens that make up an indirect object. If we find
-    # them, replace the tokens with a PDF2::Reader2::Reference instance.
+    # them, replace the tokens with a Pdf2::Reader2::Reference instance.
     #
     # Merging them into a single string was another option, but that would mean
     # code further up the stack would need to check every token  to see if it looks
@@ -243,7 +243,7 @@ class PDF2::Reader2
       token_one = @tokens[0]
       token_two = @tokens[1]
       if token_one.is_a?(String) && token_two.is_a?(String) && token_one.match(DIGITS_ONLY) && token_two.match(DIGITS_ONLY)
-        @tokens[0] = PDF2::Reader2::Reference.new(token_one.to_i, token_two.to_i)
+        @tokens[0] = Pdf2::Reader2::Reference.new(token_one.to_i, token_two.to_i)
         @tokens.delete_at(2)
         @tokens.delete_at(1)
       end
@@ -288,7 +288,7 @@ class PDF2::Reader2
         prevchr = chr.is_a?(String) ? chr : ''
       end
       unless seeking == ''
-        raise MalformedPDFError, "EI terminator not found"
+        raise MalformedPdfError, "EI terminator not found"
       end
       eiend = @io.pos
       @io.seek(idstart, IO::SEEK_SET)
@@ -419,7 +419,7 @@ class PDF2::Reader2
           tok = "".dup
           break
         when 0x2F
-          # PDF name, start of new token
+          # Pdf name, start of new token
           @tokens << tok if tok.size > 0
           @tokens << byte.chr
           @tokens << "" if byte == 0x2F && ([nil, 0x20, 0x0A] + TOKEN_DELIMITER).include?(peek_byte)

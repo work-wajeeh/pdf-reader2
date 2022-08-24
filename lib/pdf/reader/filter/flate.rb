@@ -5,7 +5,7 @@
 
 require 'zlib'
 
-class PDF2::Reader2
+class Pdf2::Reader2
   module Filter # :nodoc:
     # implementation of the Flate (zlib) stream filter
     class Flate
@@ -23,7 +23,7 @@ class PDF2::Reader2
         deflated = zlib_inflate(data) || zlib_inflate(data[0, data.bytesize-1])
 
         if deflated.nil?
-          raise MalformedPDFError,
+          raise MalformedPdfError,
             "Error while inflating a compressed stream (no suitable inflation algorithm found)"
         end
         Depredict.new(@options).filter(deflated)

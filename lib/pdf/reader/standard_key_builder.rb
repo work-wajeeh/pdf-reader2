@@ -3,9 +3,9 @@
 require 'digest/md5'
 require 'rc4'
 
-class PDF2::Reader2
+class Pdf2::Reader2
 
-  # Processes the Encrypt dict from an encrypted PDF and a user provided
+  # Processes the Encrypt dict from an encrypted Pdf and a user provided
   # password and returns a key that can decrypt the file.
   #
   # This can generate a key compatible with the following standard encryption algorithms:
@@ -18,7 +18,7 @@ class PDF2::Reader2
     ## 7.6.3.3 Encryption Key Algorithm (pp61)
     #
     # needs a document's user password to build a key for decrypting an
-    # encrypted PDF document
+    # encrypted Pdf document
     #
     PassPadBytes = [ 0x28, 0xbf, 0x4e, 0x5e, 0x4e, 0x75, 0x8a, 0x41,
                      0x64, 0x00, 0x4e, 0x56, 0xff, 0xfa, 0x01, 0x08,
@@ -52,7 +52,7 @@ class PDF2::Reader2
       encrypt_key   = auth_owner_pass(pass)
       encrypt_key ||= auth_user_pass(pass)
 
-      raise PDF2::Reader2::EncryptedPDFError, "Invalid password (#{pass})" if encrypt_key.nil?
+      raise Pdf2::Reader2::EncryptedPdfError, "Invalid password (#{pass})" if encrypt_key.nil?
       encrypt_key
     end
 

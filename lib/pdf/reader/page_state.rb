@@ -4,10 +4,10 @@
 
 require 'pdf/reader/transformation_matrix'
 
-class PDF2::Reader2
+class Pdf2::Reader2
     # encapsulates logic for tracking graphics state as the instructions for
     # a single page are processed. Most of the public methods correspond
-    # directly to PDF operators.
+    # directly to Pdf operators.
     class PageState
 
       DEFAULT_GRAPHICS_STATE = {
@@ -34,7 +34,7 @@ class PDF2::Reader2
         state[:ctm]  = identity_matrix
 
         # These are only valid when inside a `BT` block and we re-initialize them on each
-        # `BT`. However, we need the instance variables set so PDFs with the text operators
+        # `BT`. However, we need the instance variables set so Pdfs with the text operators
         # out order don't trigger NoMethodError when these are nil
         @text_matrix      = identity_matrix
         @text_line_matrix = identity_matrix
@@ -199,12 +199,12 @@ class PDF2::Reader2
         save_graphics_state
         xobject = find_xobject(label)
 
-        raise MalformedPDFError, "XObject #{label} not found" if xobject.nil?
+        raise MalformedPdfError, "XObject #{label} not found" if xobject.nil?
         matrix = xobject.hash[:Matrix]
         concatenate_matrix(*matrix) if matrix
 
         if xobject.hash[:Subtype] == :Form
-          form = PDF2::Reader2::FormXObject.new(@page, xobject, :cache => @cache)
+          form = Pdf2::Reader2::FormXObject.new(@page, xobject, :cache => @cache)
           @font_stack.unshift(form.font_objects)
           @xobject_stack.unshift(form.xobjects)
           yield form if block_given?
@@ -302,9 +302,9 @@ class PDF2::Reader2
       # while walking a page.
       #
       # NOTE: some of the variable names in this method are obscure because
-      #       they mirror variable names from the PDF spec
+      #       they mirror variable names from the Pdf spec
       #
-      # NOTE: see Section 9.4.4, PDF 32000-1:2008, pp 252
+      # NOTE: see Section 9.4.4, Pdf 32000-1:2008, pp 252
       #
       # Arguments:
       #
@@ -386,11 +386,11 @@ class PDF2::Reader2
         @stack.last
       end
 
-      # wrap the raw PDF Font objects in handy ruby Font objects.
+      # wrap the raw Pdf Font objects in handy ruby Font objects.
       #
       def build_fonts(raw_fonts)
         wrapped_fonts = raw_fonts.map { |label, font|
-          [label, PDF2::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
+          [label, Pdf2::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
         }
 
         ::Hash[wrapped_fonts]

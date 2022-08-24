@@ -1,17 +1,17 @@
-# RSpec files aren't included, as they depend on the PDF files,
+# RSpec files aren't included, as they depend on the Pdf files,
 # which will make the gem filesize irritatingly large
 Gem::Specification.new do |spec|
   spec.name = "pdf-reader2"
   spec.version = "2.10.0"
-  spec.summary = "A library for accessing the content of PDF files"
-  spec.description = "The PDF2::Reader2 library implements a PDF parser conforming as much as possible to the PDF specification from Adobe"
+  spec.summary = "A library for accessing the content of Pdf files"
+  spec.description = "The Pdf2::Reader2 library implements a Pdf parser conforming as much as possible to the Pdf specification from Adobe"
   spec.license = "MIT"
   spec.files =  Dir.glob("{examples,lib,rbi}/**/**/*") + ["Rakefile"]
   spec.executables << "pdf_object"
   spec.executables << "pdf_text"
   spec.executables << "pdf_callbacks"
   spec.extra_rdoc_files = %w{README.md TODO CHANGELOG MIT-LICENSE }
-  spec.rdoc_options << '--title' << 'PDF2::Reader2 Documentation' <<
+  spec.rdoc_options << '--title' << 'Pdf2::Reader2 Documentation' <<
                        '--main'  << 'README.md' << '-q'
   spec.authors = ["James Healy"]
   spec.email   = ["james@yob.id.au"]

@@ -1,7 +1,7 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::Parser do
+describe Pdf2::Reader2::Parser do
   include ParserHelper
   include EncodingHelper
 
@@ -131,7 +131,7 @@ describe PDF2::Reader2::Parser do
     expect(parser.parse_token).to eql(:James)
   end
 
-  # PDF Spec 7.3.4.2 Table 3
+  # Pdf Spec 7.3.4.2 Table 3
   it "parses reverse solidus (backslash) escapes correctly" do
     expect(parse_string("(\\n)").parse_token).to eql("\x0A")
     expect(parse_string("(\\r)").parse_token).to eql("\x0D")
@@ -177,7 +177,7 @@ describe PDF2::Reader2::Parser do
     it "raises an exception" do
       expect {
         parse_string("<48656C6C6F").parse_token
-      }.to raise_error(PDF2::Reader2::MalformedPDFError, "unterminated hex string")
+      }.to raise_error(Pdf2::Reader2::MalformedPdfError, "unterminated hex string")
     end
   end
 
@@ -207,7 +207,7 @@ describe PDF2::Reader2::Parser do
     it "raises an exception" do
       expect {
         parse_string("<< /Registry (Adobe) ").parse_token
-      }.to raise_error(PDF2::Reader2::MalformedPDFError, "unterminated dict")
+      }.to raise_error(Pdf2::Reader2::MalformedPdfError, "unterminated dict")
     end
   end
 
@@ -219,7 +219,7 @@ describe PDF2::Reader2::Parser do
     it "raises an exception" do
       expect {
         parse_string("[ 1 2 3").parse_token
-      }.to raise_error(PDF2::Reader2::MalformedPDFError, "unterminated array")
+      }.to raise_error(Pdf2::Reader2::MalformedPdfError, "unterminated array")
     end
   end
 

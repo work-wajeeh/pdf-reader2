@@ -1,9 +1,9 @@
 # typed: false
 # coding: utf-8
 
-describe PDF2::Reader2::CidWidths, "#initilize" do
+describe Pdf2::Reader2::CidWidths, "#initilize" do
   context "with an empty array" do
-    subject { PDF2::Reader2::CidWidths.new(500, [])}
+    subject { Pdf2::Reader2::CidWidths.new(500, [])}
 
     it "returns the default width" do
       expect(subject[1]).to eq(500)
@@ -11,7 +11,7 @@ describe PDF2::Reader2::CidWidths, "#initilize" do
   end
 
   context "with an array using the first form" do
-    subject { PDF2::Reader2::CidWidths.new(500, [1, [10, 20, 30]])}
+    subject { Pdf2::Reader2::CidWidths.new(500, [1, [10, 20, 30]])}
 
     it "returns correct width for index 1" do
       expect(subject[1]).to eq(10)
@@ -31,7 +31,7 @@ describe PDF2::Reader2::CidWidths, "#initilize" do
   end
 
   context "with an array using the second form" do
-    subject { PDF2::Reader2::CidWidths.new(500, [1, 3, 10])}
+    subject { Pdf2::Reader2::CidWidths.new(500, [1, 3, 10])}
 
     it "returns correct width for index 1" do
       expect(subject[1]).to eq(10)
@@ -50,7 +50,7 @@ describe PDF2::Reader2::CidWidths, "#initilize" do
     end
 
     context "and the range covers a single number" do
-      subject { PDF2::Reader2::CidWidths.new(500, [3, 3, 10])}
+      subject { Pdf2::Reader2::CidWidths.new(500, [3, 3, 10])}
 
       it "returns correct width for index 3" do
         expect(subject[3]).to eq(10)
@@ -65,7 +65,7 @@ describe PDF2::Reader2::CidWidths, "#initilize" do
         4, 6, 40,
       ]
     }
-    subject       { PDF2::Reader2::CidWidths.new(500, widths)}
+    subject       { Pdf2::Reader2::CidWidths.new(500, widths)}
 
     it "returns correct width for index 1" do
       expect(subject[1]).to eq(10)

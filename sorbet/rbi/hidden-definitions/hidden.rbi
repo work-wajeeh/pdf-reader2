@@ -4472,7 +4472,7 @@ class OptionParser::ParseError
   def additional=(additional); end
 end
 
-class PDF2::Reader2::TransformationMatrix
+class Pdf2::Reader2::TransformationMatrix
   def multiply_with_an_object!(m2); end
 end
 

@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
+class Pdf2::Reader2
   module Filter # :nodoc:
     # implementation of the null stream filter
     class Null

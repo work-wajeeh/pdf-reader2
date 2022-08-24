@@ -1,5 +1,5 @@
-%PDF-1.7
-%„¢¼Ú
+%Pdf-1.7
+%ï¿½ï¿½ï¿½ï¿½
 
 1 0 obj
   <<
@@ -41,11 +41,13 @@ endobj
   <<
   /Length 77
   >>
-streamBT
+stream
+BT
     /F1 18 Tf
-    1 0 0 1 55 600 Tm
+    1 0 0 1 55 600 TmPdf
     (This is a weird PDF file) Tj
-  ETendstreamendobj
+  ETendstream
+endobj
 xref
 0 5
 0000000000 65535 f

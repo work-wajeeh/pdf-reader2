@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF2::Reader2
+class Pdf2::Reader2
   ################################################################################
-  # An internal PDF2::Reader2 class that represents an indirect reference to a PDF Object
+  # An internal Pdf2::Reader2 class that represents an indirect reference to a Pdf Object
   class Reference
     attr_reader :id
     attr_reader :gen
@@ -49,17 +49,17 @@ class PDF2::Reader2
       self.id
     end
     ################################################################################
-    # returns true if the provided object points to the same PDF Object as the
+    # returns true if the provided object points to the same Pdf Object as the
     # current object
     def ==(obj)
-      return false unless obj.kind_of?(PDF2::Reader2::Reference)
+      return false unless obj.kind_of?(Pdf2::Reader2::Reference)
 
       self.hash == obj.hash
     end
     alias :eql? :==
     ################################################################################
-    # returns a hash based on the PDF::Reference this object points to. Two
-    # different Reference objects that point to the same PDF Object will
+    # returns a hash based on the Pdf::Reference this object points to. Two
+    # different Reference objects that point to the same Pdf Object will
     # return an identical hash
     def hash
       "#{self.id}:#{self.gen}".hash

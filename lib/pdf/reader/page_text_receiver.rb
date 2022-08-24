@@ -5,7 +5,7 @@
 require 'forwardable'
 require 'pdf/reader/page_layout'
 
-module PDF
+module Pdf
   class Reader
 
     # Builds a UTF-8 string of all the text on a single page by processing all
@@ -114,7 +114,7 @@ module PDF
       def invoke_xobject(label)
         @state.invoke_xobject(label) do |xobj|
           case xobj
-          when PDF2::Reader2::FormXObject then
+          when Pdf2::Reader2::FormXObject then
             xobj.walk(self)
           end
         end
@@ -123,9 +123,9 @@ module PDF
       private
 
       def internal_show_text(string)
-        PDF2::Reader2::Error.validate_type_as_malformed(string, "string", String)
+        Pdf2::Reader2::Error.validate_type_as_malformed(string, "string", String)
         if @state.current_font.nil?
-          raise PDF2::Reader2::MalformedPDFError, "current font is invalid"
+          raise Pdf2::Reader2::MalformedPdfError, "current font is invalid"
         end
         glyphs = @state.current_font.unpack(string)
         glyphs.each_with_index do |glyph_code, index|

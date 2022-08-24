@@ -3,7 +3,7 @@
 # frozen_string_literal: true
 
 #
-class PDF2::Reader2
+class Pdf2::Reader2
   module Filter # :nodoc:
     # implementation of the LZW stream filter
     class Lzw
@@ -15,7 +15,7 @@ class PDF2::Reader2
       ################################################################################
       # Decode the specified data with the LZW compression algorithm
       def filter(data)
-        data = PDF2::Reader2::LZW.decode(data)
+        data = Pdf2::Reader2::LZW.decode(data)
         Depredict.new(@options).filter(data)
       end
     end

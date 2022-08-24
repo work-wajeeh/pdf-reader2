@@ -1,4 +1,4 @@
-%PDF-1.3
+%Pdf-1.3
 %Ã¢Ã£ÃÃ“
 
 1 0 obj
@@ -23,13 +23,13 @@ endobj
  >>
 endobj
 4 0 obj
-[/PDF /Text ]
+[/Pdf /Text ]
 endobj
 5 0 obj
 <<
 /CreationDate (D:200805060928)
 /Creator (brazil.rb)
-/Producer (PDF::Writer for Ruby)
+/Producer (Pdf::Writer for Ruby)
 >>
 endobj
 6 0 obj
@@ -44,8 +44,8 @@ endobj
 stream
 
 0.000 0.000 0.000 rg
-0.000 0.000 0.0Ð0 RG
-BT 36.000 794.730 Td /F1 10.0 Tf 0 Tr (Goiðs) Tj ET
+0.000 0.000 0.0ï¿½0 RG
+BT 36.000 794.730 Td /F1 10.0 Tf 0 Tr (Goiï¿½s) Tj ET
 endstream
 endobj
 
@@ -70,7 +70,7 @@ xref
 0 10
 0000000000 65535 f 
 0000000019 00000 n 
-0è00000083 00000 n 
+0ï¿½00000083 00000 n 
 0000000120 00000 n 
 0000000264 00000 n 
 0000000293 00000 n 

@@ -2,11 +2,11 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF2::Reader2
+class Pdf2::Reader2
   module WidthCalculator
     # Type0 (or Composite) fonts are a "root font" that rely on a "descendant font"
     # to do the heavy lifting. The "descendant font" is a CID-Keyed font.
-    # see Section 9.7.1, PDF 32000-1:2008, pp 267
+    # see Section 9.7.1, Pdf 32000-1:2008, pp 267
     # so if we are calculating a Type0 font width, we just pass off to
     # the descendant font
     class TypeZero

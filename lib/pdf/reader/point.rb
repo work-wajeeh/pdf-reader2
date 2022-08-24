@@ -2,10 +2,10 @@
 # typed: strict
 # frozen_string_literal: true
 
-module PDF
+module Pdf
   class Reader
 
-    # PDFs are all about positioning content on a page, so there's lots of need to
+    # Pdfs are all about positioning content on a page, so there's lots of need to
     # work with a set of X,Y coordinates.
     #
     class Point
