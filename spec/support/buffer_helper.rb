@@ -3,6 +3,6 @@
 
 module BufferHelper
   def parse_string(r)
-    PDF::Reader::Buffer.new(StringIO.new(r))
+    PDF::Reader2::Buffer.new(StringIO.new(r))
   end
 end

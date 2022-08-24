@@ -1,29 +1,29 @@
 # RSpec files aren't included, as they depend on the PDF files,
 # which will make the gem filesize irritatingly large
 Gem::Specification.new do |spec|
-  spec.name = "pdf-reader"
+  spec.name = "pdf-reader2"
   spec.version = "2.10.0"
   spec.summary = "A library for accessing the content of PDF files"
-  spec.description = "The PDF::Reader library implements a PDF parser conforming as much as possible to the PDF specification from Adobe"
+  spec.description = "The PDF::Reader2 library implements a PDF parser conforming as much as possible to the PDF specification from Adobe"
   spec.license = "MIT"
   spec.files =  Dir.glob("{examples,lib,rbi}/**/**/*") + ["Rakefile"]
   spec.executables << "pdf_object"
   spec.executables << "pdf_text"
   spec.executables << "pdf_callbacks"
   spec.extra_rdoc_files = %w{README.md TODO CHANGELOG MIT-LICENSE }
-  spec.rdoc_options << '--title' << 'PDF::Reader Documentation' <<
+  spec.rdoc_options << '--title' << 'PDF::Reader2 Documentation' <<
                        '--main'  << 'README.md' << '-q'
   spec.authors = ["James Healy"]
   spec.email   = ["james@yob.id.au"]
-  spec.homepage = "https://github.com/yob/pdf-reader"
+  spec.homepage = "https://github.com/yob/pdf-reader2"
   spec.required_ruby_version = ">=2.0"
 
   if spec.respond_to?(:metadata)
     spec.metadata = {
-      "bug_tracker_uri"   => "https://github.com/yob/pdf-reader/issues",
-      "changelog_uri"     => "https://github.com/yob/pdf-reader/blob/v#{spec.version}/CHANGELOG",
-      "documentation_uri" => "https://www.rubydoc.info/gems/pdf-reader/#{spec.version}",
-      "source_code_uri"   => "https://github.com/yob/pdf-reader/tree/v#{spec.version}",
+      "bug_tracker_uri"   => "https://github.com/yob/pdf-reader2/issues",
+      "changelog_uri"     => "https://github.com/yob/pdf-reader2/blob/v#{spec.version}/CHANGELOG",
+      "documentation_uri" => "https://www.rubydoc.info/gems/pdf-reader2/#{spec.version}",
+      "source_code_uri"   => "https://github.com/yob/pdf-reader2/tree/v#{spec.version}",
     }
   end
 

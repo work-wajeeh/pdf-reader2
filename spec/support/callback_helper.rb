@@ -8,8 +8,8 @@ class CallbackHelper
     @registers ||= {}
     if @registers.empty?
       good_files.map { |filename|
-        receiver = PDF::Reader::RegisterReceiver.new
-        PDF::Reader.open(filename) do |reader|
+        receiver = PDF::Reader2::RegisterReceiver.new
+        PDF::Reader2.open(filename) do |reader|
           reader.pages.each do |page|
             page.walk(receiver)
           end

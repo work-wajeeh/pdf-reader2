@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF::Reader
+class PDF::Reader2
   ################################################################################
-  # An internal PDF::Reader class that represents a stream object from a PDF. Stream
+  # An internal PDF::Reader2 class that represents a stream object from a PDF. Stream
   # objects have 2 components, a dictionary that describes the content (size,
   # compression, etc) and a stream of bytes.
   #

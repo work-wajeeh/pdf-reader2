@@ -5,7 +5,7 @@
 
 require 'zlib'
 
-class PDF::Reader
+class PDF::Reader2
   module Filter # :nodoc:
     # implementation of the Flate (zlib) stream filter
     class Flate

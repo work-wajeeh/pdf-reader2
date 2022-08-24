@@ -27,9 +27,9 @@
 #
 ################################################################################
 
-class PDF::Reader
+class PDF::Reader2
   ################################################################################
-  # An internal PDF::Reader class that represents the XRef table in a PDF file as a
+  # An internal PDF::Reader2 class that represents the XRef table in a PDF file as a
   # hash-like object.
   #
   # An Xref table is a map of object identifiers and byte offsets. Any time a particular
@@ -39,7 +39,7 @@ class PDF::Reader
   # Hash keys are object ids, values are either:
   #
   # * a byte offset where the object starts (regular PDF objects)
-  # * a PDF::Reader::Reference instance that points to a stream that contains the
+  # * a PDF::Reader2::Reference instance that points to a stream that contains the
   #   desired object (PDF objects embedded in an object stream)
   #
   # The class behaves much like a standard Ruby hash, including the use of
@@ -71,7 +71,7 @@ class PDF::Reader
     ################################################################################
     # returns the byte offset for the specified PDF object.
     #
-    # ref - a PDF::Reader::Reference object containing an object ID and revision number
+    # ref - a PDF::Reader2::Reference object containing an object ID and revision number
     def [](ref)
       @xref.fetch(ref.id, {}).fetch(ref.gen)
     rescue
@@ -83,7 +83,7 @@ class PDF::Reader
       ids = @xref.keys.sort
       ids.each do |id|
         gen = @xref.fetch(id, {}).keys.sort[-1]
-        yield PDF::Reader::Reference.new(id, gen.to_i)
+        yield PDF::Reader2::Reference.new(id, gen.to_i)
       end
     end
     ################################################################################
@@ -116,11 +116,11 @@ class PDF::Reader
         # Maybe we should be parsing the ObjectHash second argument to the Parser here,
         # to handle the case where an XRef Stream has the Length specified via an
         # indirect object
-        stream = PDF::Reader::Parser.new(buf).object(tok_one.to_i, tok_two.to_i)
+        stream = PDF::Reader2::Parser.new(buf).object(tok_one.to_i, tok_two.to_i)
         return load_xref_stream(stream)
       end
 
-      raise PDF::Reader::MalformedPDFError,
+      raise PDF::Reader2::MalformedPDFError,
         "xref table not found at offset #{offset} (#{tok_one} != xref)"
     end
     ################################################################################
@@ -170,8 +170,8 @@ class PDF::Reader
     # Read an XRef stream from the underlying buffer instead of a traditional xref table.
     #
     def load_xref_stream(stream)
-      unless stream.is_a?(PDF::Reader::Stream) && stream.hash[:Type] == :XRef
-        raise PDF::Reader::MalformedPDFError, "xref stream not found when expected"
+      unless stream.is_a?(PDF::Reader2::Stream) && stream.hash[:Type] == :XRef
+        raise PDF::Reader2::MalformedPDFError, "xref stream not found when expected"
       end
       trailer = Hash[stream.hash.select { |key, value|
         [:Size, :Prev, :Root, :Encrypt, :Info, :ID].include?(key)
@@ -179,7 +179,7 @@ class PDF::Reader
 
       widths = stream.hash[:W]
 
-      PDF::Reader::Error.validate_type_as_malformed(widths, "xref stream widths", Array)
+      PDF::Reader2::Error.validate_type_as_malformed(widths, "xref stream widths", Array)
 
       entry_length = widths.inject(0) { |s, w|
         unless w.is_a?(Integer)
@@ -203,7 +203,7 @@ class PDF::Reader
           if f1 == 1 && f2 > 0
             store(objid, f3, f2 + @junk_offset)
           elsif f1 == 2 && f2 > 0
-            store(objid, 0, PDF::Reader::Reference.new(f2, 0))
+            store(objid, 0, PDF::Reader2::Reference.new(f2, 0))
           end
         end
       end
@@ -240,7 +240,7 @@ class PDF::Reader
     # at the same time without worrying about clearing the buffers contents.
     #
     def new_buffer(offset = 0)
-      PDF::Reader::Buffer.new(@io, :seek => offset)
+      PDF::Reader2::Buffer.new(@io, :seek => offset)
     end
     ################################################################################
     # Stores an offset value for a particular PDF object ID and revision number

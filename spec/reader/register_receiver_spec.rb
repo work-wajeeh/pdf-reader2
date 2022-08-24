@@ -1,8 +1,8 @@
 # typed: false
 # encoding: utf-8
 
-describe PDF::Reader::RegisterReceiver do
-  subject { PDF::Reader::RegisterReceiver.new }
+describe PDF::Reader2::RegisterReceiver do
+  subject { PDF::Reader2::RegisterReceiver.new }
 
   context "instance" do
     it "responds to any method" do

@@ -3,9 +3,9 @@
 
 require 'pdf/reader/synchronized_cache'
 
-describe PDF::Reader::SynchronizedCache do
+describe PDF::Reader2::SynchronizedCache do
   describe "#[]=" do
-    let(:cache) { PDF::Reader::SynchronizedCache.new }
+    let(:cache) { PDF::Reader2::SynchronizedCache.new }
 
     it "stores a value" do
       cache[:foo] = :bar
@@ -14,7 +14,7 @@ describe PDF::Reader::SynchronizedCache do
   end
 
   describe "#[]" do
-    let(:cache) { PDF::Reader::SynchronizedCache.new }
+    let(:cache) { PDF::Reader2::SynchronizedCache.new }
 
     it "returns a stored value" do
       cache[:foo] = :bar

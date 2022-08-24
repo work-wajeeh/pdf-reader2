@@ -4,7 +4,7 @@
 # These specs are an integration safety net to ensure all of our callbacks provide a consistant
 # interface across as many files as possible.
 
-describe PDF::Reader do
+describe PDF::Reader2 do
   include EncodingHelper
 
   describe  "begin_inline_image callback" do

@@ -27,7 +27,7 @@
 #
 ################################################################################
 
-class PDF::Reader
+class PDF::Reader2
   # Util class for working with string encodings in PDF files. Mostly used to
   # convert strings of various PDF-dialect encodings into UTF-8.
   class Encoding # :nodoc:
@@ -69,7 +69,7 @@ class PDF::Reader
     #
     #   [25, :A, :B]
     def differences=(diff)
-      PDF::Reader::Error.validate_type(diff, "diff", Array)
+      PDF::Reader2::Error.validate_type(diff, "diff", Array)
 
       @differences = {}
       byte = 0
@@ -160,7 +160,7 @@ class PDF::Reader
     end
 
     def little_boxes(times)
-      codepoints = [ PDF::Reader::Encoding::UNKNOWN_CHAR ] * times
+      codepoints = [ PDF::Reader2::Encoding::UNKNOWN_CHAR ] * times
       ret = codepoints.pack("U*")
       ret.force_encoding("UTF-8")
       ret
@@ -203,7 +203,7 @@ class PDF::Reader
     end
 
     def glyphlist
-      @glyphlist ||= PDF::Reader::GlyphHash.new
+      @glyphlist ||= PDF::Reader2::GlyphHash.new
     end
 
     def load_mapping(file)

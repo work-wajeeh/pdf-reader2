@@ -4,7 +4,7 @@
 
 require 'ascii85'
 
-class PDF::Reader
+class PDF::Reader2
   module Filter # :nodoc:
     # implementation of the Ascii85 filter
     class Ascii85

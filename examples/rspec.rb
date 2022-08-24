@@ -23,7 +23,7 @@ describe "My generated PDF" do
     io = StringIO.new(pdf.render)
 
     # process the PDF
-    PDF::Reader.open(io) do |reader|
+    PDF::Reader2.open(io) do |reader|
       reader.page_count.should eql(2)          # correct page count
 
       reader.page(1).text.should eql("Chunky") # correct content

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 ###################################################
 # ----------------------------------------------- #
-# Fuzz pdf-reader Ruby gem with mutated PDF files #
+# Fuzz pdf-reader2 Ruby gem with mutated PDF files #
 # ----------------------------------------------- #
 #                                                 #
 # Each test case is written to 'fuzz.pdf' in the  #
@@ -15,7 +15,7 @@
 # ~ bcoles
 
 require 'date'
-require 'pdf-reader'
+require 'pdf-reader2'
 require 'colorize'
 require 'fileutils'
 require 'timeout'
@@ -145,12 +145,12 @@ end
 def read(f)
   print_status "Processing '#{f}'"
   begin
-    reader = PDF::Reader.new f
-  rescue PDF::Reader::MalformedPDFError
+    reader = PDF::Reader2.new f
+  rescue PDF::Reader2::MalformedPDFError
     print_status "Could not parse PDF '#{f}': PDF is malformed"
     return
-  rescue PDF::Reader::UnsupportedFeatureError
-    print_status "Could not parse PDF '#{f}': PDF::Reader::UnsupportedFeatureError"
+  rescue PDF::Reader2::UnsupportedFeatureError
+    print_status "Could not parse PDF '#{f}': PDF::Reader2::UnsupportedFeatureError"
     return
   end
   print_good 'Processing complete'
@@ -158,10 +158,10 @@ def read(f)
   print_status "Parsing '#{f}'"
   begin
     parse reader
-  rescue PDF::Reader::UnsupportedFeatureError
-    print_status "Could not parse PDF '#{f}': PDF::Reader::UnsupportedFeatureError"
+  rescue PDF::Reader2::UnsupportedFeatureError
+    print_status "Could not parse PDF '#{f}': PDF::Reader2::UnsupportedFeatureError"
     return
-  rescue PDF::Reader::MalformedPDFError
+  rescue PDF::Reader2::MalformedPDFError
     print_status "Could not parse PDF '#{f}': PDF is malformed"
     return
   end
@@ -213,7 +213,7 @@ def report_crash(e)
 end
 
 #
-# Test pdf-reader with the mutated file
+# Test pdf-reader2 with the mutated file
 #
 def test
   Timeout.timeout(@timeout) do
@@ -226,7 +226,7 @@ rescue Timeout::Error => e
 rescue SyntaxError => e
   report_crash e
 rescue => e
-  raise e unless e.backtrace.join("\n") =~ %r{pdf-reader}
+  raise e unless e.backtrace.join("\n") =~ %r{pdf-reader2}
   report_crash e
 end
 
@@ -265,7 +265,7 @@ def fuzz_strings(f)
 end
 
 puts '-' * 60
-puts '% Fuzzer for pdf-reader Ruby gem'
+puts '% Fuzzer for pdf-reader2 Ruby gem'
 puts '-' * 60
 puts
 

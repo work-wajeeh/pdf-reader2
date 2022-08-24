@@ -12,9 +12,9 @@
 
 require 'thread'
 
-class PDF::Reader
+class PDF::Reader2
 
-  # Throughout the pdf-reader codebase, repeated calculations which can benefit
+  # Throughout the pdf-reader2 codebase, repeated calculations which can benefit
   # from caching are made In some cases, caching and reusing results can not
   # only save CPU cycles but also greatly reduce memory requirements But at the
   # same time, we don't want to throw away thread safety We have two

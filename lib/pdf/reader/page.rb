@@ -6,7 +6,7 @@ module PDF
   class Reader
 
     # high level representation of a single PDF page. Ties together the various
-    # low level classes in PDF::Reader and provides access to the various
+    # low level classes in PDF::Reader2 and provides access to the various
     # components of the page (text, images, fonts, etc) in convenient formats.
     #
     # If you require access to the raw PDF objects for this page, you can access
@@ -60,7 +60,7 @@ module PDF
       # return a friendly string representation of this page
       #
       def inspect
-        "<PDF::Reader::Page page: #{@pagenum}>"
+        "<PDF::Reader2::Page page: #{@pagenum}>"
       end
 
       # Returns the attributes that accompany this page, including
@@ -144,7 +144,7 @@ module PDF
       # in the page header - think images, fonts, etc. To facilitate these
       # operators, the first available callback is page=. If your receiver
       # accepts that callback it will be passed the current
-      # PDF::Reader::Page object. Use the Page#resources method to grab any
+      # PDF::Reader2::Page object. Use the Page#resources method to grab any
       # required resources.
       #
       # It may help to think of each page as a self contained program made up of

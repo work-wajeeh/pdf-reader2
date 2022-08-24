@@ -1,5 +1,5 @@
 output_file:
-  rbi: rbi/pdf-reader.rbi
+  rbi: rbi/pdf-reader2.rbi
 
 
 parser:

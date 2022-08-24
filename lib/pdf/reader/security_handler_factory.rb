@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader
+class PDF::Reader2
   # Examines the Encrypt entry of a PDF trailer (if any) and returns an object that's
   # able to decrypt the file.
   class SecurityHandlerFactory

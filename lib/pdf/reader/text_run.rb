@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader
+class PDF::Reader2
   # A value object that represents one or more consecutive characters on a page.
   class TextRun
     include Comparable
@@ -15,7 +15,7 @@ class PDF::Reader
     alias :to_s :text
 
     def initialize(x, y, width, font_size, text)
-      @origin = PDF::Reader::Point.new(x, y)
+      @origin = PDF::Reader2::Point.new(x, y)
       @width = width
       @font_size = font_size
       @text = text

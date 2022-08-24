@@ -3,60 +3,60 @@ v2.10.0 (12th May 2022)
 - Expanded sorbet type annotations
 
 v2.9.2 (20th February 2022)
-- Fix PDF::Reader::ObjectHash#page_references to return an Array of PDF::Reader::Reference (http://github.com/yob/pdf-reader/pull/444)
+- Fix PDF::Reader2::ObjectHash#page_references to return an Array of PDF::Reader2::Reference (http://github.com/yob/pdf-reader2/pull/444)
 
 v2.9.1 (4th February 2022)
-- Fix exception in Page#walk introduced in 2.9.0 (http://github.com/yob/pdf-reader/pull/442)
+- Fix exception in Page#walk introduced in 2.9.0 (http://github.com/yob/pdf-reader2/pull/442)
 - Other small bug fixes
 
 v2.9.0 (24th January 2022)
-- Support additional encryption standards (http://github.com/yob/pdf-reader/pull/419)
-- Return CropBox correctly from Page#rectangles (https://github.com/yob/pdf-reader/pull/420)
+- Support additional encryption standards (http://github.com/yob/pdf-reader2/pull/419)
+- Return CropBox correctly from Page#rectangles (https://github.com/yob/pdf-reader2/pull/420)
 - For sorbet users, additional type annotations are included in the gem
 
 v2.8.0 (28th Decemeber 2021)
-- Add PDF::Reader::Page#runs for extracting text from a page with positioning metadata (http://github.com/yob/pdf-reader/pull/411)
-- Add options to PDF::Reader::Page#text to make some behaviour configurable (http://github.com/yob/pdf-reader/pull/411)
+- Add PDF::Reader2::Page#runs for extracting text from a page with positioning metadata (http://github.com/yob/pdf-reader2/pull/411)
+- Add options to PDF::Reader2::Page#text to make some behaviour configurable (http://github.com/yob/pdf-reader2/pull/411)
     - including extracting the text for only part of the page
-- Improve text positioning and extraction for Type3 fonts (http://github.com/yob/pdf-reader/pull/412)
-- Skip extracting text that is positioned outside the page (http://github.com/yob/pdf-reader/pull/413)
-- Fix occasional crash when reading some streams (http://github.com/yob/pdf-reader/pull/405)
+- Improve text positioning and extraction for Type3 fonts (http://github.com/yob/pdf-reader2/pull/412)
+- Skip extracting text that is positioned outside the page (http://github.com/yob/pdf-reader2/pull/413)
+- Fix occasional crash when reading some streams (http://github.com/yob/pdf-reader2/pull/405)
 
 v2.7.0 (13th December 2021)
 - Include RBI type files in the gem
-  - Downstream users of pdf-reader who also use sorbet *should* find many parts of the API will
+  - Downstream users of pdf-reader2 who also use sorbet *should* find many parts of the API will
     now be typed checked by sorbet
-- Fix glyph positioning in some rotation scenarios (http://github.com/yob/pdf-reader/pull/403)
+- Fix glyph positioning in some rotation scenarios (http://github.com/yob/pdf-reader2/pull/403)
   - Improved text extraction on some rotated pages, and rotated text on normal pages
-- Add PDF::Reader::Page#rectangles (http://github.com/yob/pdf-reader/pull/402)
+- Add PDF::Reader2::Page#rectangles (http://github.com/yob/pdf-reader2/pull/402)
   - Returns page boxes (MediaBox, etc) with rotation applied, and as PORO rather than arrays of numbers
-- Add PDF::Reader::Page#origin (http://github.com/yob/pdf-reader/pull/400)
-- Add PDF::Reader::Page#{height,width} (http://github.com/yob/pdf-reader/pull/399)
-- Overlap filter should only drop characters that overlap *and* match (http://github.com/yob/pdf-reader/pull/401)
+- Add PDF::Reader2::Page#origin (http://github.com/yob/pdf-reader2/pull/400)
+- Add PDF::Reader2::Page#{height,width} (http://github.com/yob/pdf-reader2/pull/399)
+- Overlap filter should only drop characters that overlap *and* match (http://github.com/yob/pdf-reader2/pull/401)
 
 v2.6.0 (12th November 2021)
 - Text extraction improvements
-  - Improved text layout on pages with a variety of font sizes (http://github.com/yob/pdf-reader/pull/355)
-  - Fixed text positioning for some rotated pages (http://github.com/yob/pdf-reader/pull/356)
-  - Improved character width calculation for PDFs using built-in (non-embedded) ZapfDingbats (http://github.com/yob/pdf-reader/pull/373)
-  - Skip zero-width characters (http://github.com/yob/pdf-reader/pull/372)
+  - Improved text layout on pages with a variety of font sizes (http://github.com/yob/pdf-reader2/pull/355)
+  - Fixed text positioning for some rotated pages (http://github.com/yob/pdf-reader2/pull/356)
+  - Improved character width calculation for PDFs using built-in (non-embedded) ZapfDingbats (http://github.com/yob/pdf-reader2/pull/373)
+  - Skip zero-width characters (http://github.com/yob/pdf-reader2/pull/372)
 - Performance improvements
-  - Reduced memory pressure when decoding TIFF images (http://github.com/yob/pdf-reader/pull/360)
-  - Optional dependency on ascii81_native gem for faster processing of files using the ascii85 filter (http://github.com/yob/pdf-reader/pull/359)
+  - Reduced memory pressure when decoding TIFF images (http://github.com/yob/pdf-reader2/pull/360)
+  - Optional dependency on ascii81_native gem for faster processing of files using the ascii85 filter (http://github.com/yob/pdf-reader2/pull/359)
 - Successfully parse more files
-  - Gracefully handle some non-spec compliant CR/LF issues (http://github.com/yob/pdf-reader/pull/364)
-  - Fix parsing of some escape sequences in content streams (http://github.com/yob/pdf-reader/pull/368)
+  - Gracefully handle some non-spec compliant CR/LF issues (http://github.com/yob/pdf-reader2/pull/364)
+  - Fix parsing of some escape sequences in content streams (http://github.com/yob/pdf-reader2/pull/368)
   - Increase the amount of junk bytes we detect and skip at the end of a file (382)
-  - Ignore "/Prev 0" in trailers (http://github.com/yob/pdf-reader/pull/383)
-  - Fix parsing of some inline images (BI ID EI tokens) (http://github.com/yob/pdf-reader/pull/389)
-  - Gracefully handle some xref tables that incorrectly start with 1 (http://github.com/yob/pdf-reader/pull/384)
+  - Ignore "/Prev 0" in trailers (http://github.com/yob/pdf-reader2/pull/383)
+  - Fix parsing of some inline images (BI ID EI tokens) (http://github.com/yob/pdf-reader2/pull/389)
+  - Gracefully handle some xref tables that incorrectly start with 1 (http://github.com/yob/pdf-reader2/pull/384)
 
 v2.5.0 (6th June 2021)
 - bump minimum ruby version to 2.0
-- Correctly handle trascoding to UTF-8 from some fonts that use a difference table [#344](https://github.com/yob/pdf-reader/pull/344/) 
-- Fix some character spacing issues with the TJ operator [#343](https://github.com/yob/pdf-reader/pull/343)
-- Fix crash with some encrypted PDFs [#348](https://github.com/yob/pdf-reader/pull/348/)
-- Fix positions of text on some PDFs with pages rotated 90° [#350](https://github.com/yob/pdf-reader/pull/350/)
+- Correctly handle trascoding to UTF-8 from some fonts that use a difference table [#344](https://github.com/yob/pdf-reader2/pull/344/) 
+- Fix some character spacing issues with the TJ operator [#343](https://github.com/yob/pdf-reader2/pull/343)
+- Fix crash with some encrypted PDFs [#348](https://github.com/yob/pdf-reader2/pull/348/)
+- Fix positions of text on some PDFs with pages rotated 90° [#350](https://github.com/yob/pdf-reader2/pull/350/)
 
 v2.4.2 (28th January 2021)
 - relax ASCII85 dependency to allow 1.x
@@ -68,7 +68,7 @@ v.2.4.1 (24th September 2020)
 v2.4.0 (21st November 2019)
 - Optimise overlapping characters code introduced in 2.3.0. Text extraction of pages with
   thousands of characters is still slower than it was in 2.2.1, but it might tolerable
-  for now. See https://github.com/yob/pdf-reader/pull/308 for details.
+  for now. See https://github.com/yob/pdf-reader2/pull/308 for details.
 - Implement very basic font substitution for Type1 and TrueType fonts that aren't embedded
 - Remove PDF::Hash class. It's been deprecated since 2010, and it's hard to believe anyone
   is still using it.
@@ -164,12 +164,12 @@ v0.12.0.alpha (28th August 2011)
 - small breaking changes to the page-based API - it's alpha for a reason
   - resource related methods on Page object return raw PDF objects
   - if the caller wants the resources wrapped in a more convenient
-    Ruby object (like PDF::Reader::Font or PDF::Reader::FormXObject) will
+    Ruby object (like PDF::Reader2::Font or PDF::Reader2::FormXObject) will
     need to do so themselves
 - add support for RunLengthDecode filters (thanks Bernerd Schaefer)
 - add support for standard PDF encryption (thanks Evan Brunner)
 - add support for decoding stream with TIFF prediction
-- new PDF::Reader::FormXObject class to simplify working with form XObjects
+- new PDF::Reader2::FormXObject class to simplify working with form XObjects
 
 v0.11.0.alpha (19th July 2011)
 - introduce experimental new page-based API
@@ -181,7 +181,7 @@ v0.10.0 (6th July 2011)
   - massive time saving when dealing with multiple receivers
 
 v0.9.3 (2nd July 2011)
-- add PDF::Reader::Reference#hash method
+- add PDF::Reader2::Reference#hash method
   - improves behaviour of Reference objects when tehy're used as Hash keys
 
 v0.9.2 (24th April 2011)
@@ -213,7 +213,7 @@ v0.9.0 (19th November 2010)
 - Add support for de-filtering some LZW compressed streams
   - thanks to Jose Ignacio Rubio Iradi for the patch
 - some small speed improvements
-- API CHANGE: PDF::Hash renamed to PDF::Reader::ObjectHash
+- API CHANGE: PDF::Hash renamed to PDF::Reader2::ObjectHash
   - having a class named Hash was confusing for users
 
 v0.8.6 (27th August 2010)
@@ -231,7 +231,7 @@ v0.8.4 (30th March 2010)
 - fix two issues that caused a small number of characters to convert to Unicode
   incorrectly
   - thanks to Andrea Barisani for reporting the issue
-- require 'pdf-reader' now works a well as 'pdf/reader'
+- require 'pdf-reader2' now works a well as 'pdf/reader'
   - good practice to have the require file match the gem name
   - thanks to Chris O'Meara for highlighting this
 
@@ -291,7 +291,7 @@ v0.7.3 (11th June 2008)
 v0.7.2 (20th May 2008)
 - Throw an UnsupportedFeatureError if we try to open an encrypted/secure PDF
 - Correctly handle page content instruction sets with trailing whitespace
-- Represent PDF Streams with a new object, PDF::Reader::Stream
+- Represent PDF Streams with a new object, PDF::Reader2::Stream
   - their really wasn't any point in separating the stream content from it's associated dict. You need both
     parts to correctly interpret the content
 
@@ -301,7 +301,7 @@ v0.7.1 (6th May 2008)
   correctly when translating text into UTF-8
 
 v0.7 (6th May 2008)
-- API INCOMPATIBLE CHANGE: any hashes that are passed to callbacks use symbols as keys instead of PDF::Reader::Name instances.
+- API INCOMPATIBLE CHANGE: any hashes that are passed to callbacks use symbols as keys instead of PDF::Reader2::Name instances.
 - Improved support for converting text in some PDF files to unicode
 - Behave as expected if the Contents key in a Page Dict is a reference
 - Include some basic metadata callbacks
@@ -309,7 +309,7 @@ v0.7 (6th May 2008)
 - Small fixes to improve 1.9 compatibility
 - Improved our Zlib deflating to make it slightly more robust - still some more issues to work out though
 - Throw an UnsupportedFeatureError if a pdf that uses XRef streams is opened
-- Added an option to PDF::Reader#file and PDF::Reader#string to enable parsing of only parts of a PDF file(ie. only metadata, etc)
+- Added an option to PDF::Reader2#file and PDF::Reader2#string to enable parsing of only parts of a PDF file(ie. only metadata, etc)
 
 v0.6.2 (22nd March 2008)
 - Catch low level errors when applying filters to a content stream and raise a MalformedPDFError instead.

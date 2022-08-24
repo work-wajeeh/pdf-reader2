@@ -1,12 +1,12 @@
 # typed: false
 # coding: utf-8
 
-describe PDF::Reader::WidthCalculator::Composite do
+describe PDF::Reader2::WidthCalculator::Composite do
   it_behaves_like "a WidthCalculator duck type" do
     let!(:font)       { double(:cid_default_width => 50,
                                 :cid_widths        => [10,[30,40]])
                       }
-    subject           { PDF::Reader::WidthCalculator::Composite.new(font)}
+    subject           { PDF::Reader2::WidthCalculator::Composite.new(font)}
   end
 
   describe "#glyph_width" do
@@ -14,7 +14,7 @@ describe PDF::Reader::WidthCalculator::Composite do
       let!(:font)       { double(:cid_default_width => 50,
                                   :cid_widths        => [10,[30,40]])
                         }
-      subject           { PDF::Reader::WidthCalculator::Composite.new(font)}
+      subject           { PDF::Reader2::WidthCalculator::Composite.new(font)}
 
       context "when the glyph code is provided in cid_widths" do
         it "returns the correct width" do

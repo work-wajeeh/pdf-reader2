@@ -27,7 +27,7 @@
 #
 ################################################################################
 
-class PDF::Reader
+class PDF::Reader2
 
   # A string tokeniser that recognises PDF grammar. When passed an IO stream or a
   # string, repeated calls to token() will return the next token from the source.
@@ -225,7 +225,7 @@ class PDF::Reader
     end
 
     # detect a series of 3 tokens that make up an indirect object. If we find
-    # them, replace the tokens with a PDF::Reader::Reference instance.
+    # them, replace the tokens with a PDF::Reader2::Reference instance.
     #
     # Merging them into a single string was another option, but that would mean
     # code further up the stack would need to check every token  to see if it looks
@@ -243,7 +243,7 @@ class PDF::Reader
       token_one = @tokens[0]
       token_two = @tokens[1]
       if token_one.is_a?(String) && token_two.is_a?(String) && token_one.match(DIGITS_ONLY) && token_two.match(DIGITS_ONLY)
-        @tokens[0] = PDF::Reader::Reference.new(token_one.to_i, token_two.to_i)
+        @tokens[0] = PDF::Reader2::Reference.new(token_one.to_i, token_two.to_i)
         @tokens.delete_at(2)
         @tokens.delete_at(1)
       end

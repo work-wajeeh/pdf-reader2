@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader
+class PDF::Reader2
 
   # A null object security handler. Used when a PDF is unencrypted.
   class NullSecurityHandler

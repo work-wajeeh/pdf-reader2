@@ -3,7 +3,7 @@
 # A test script to test loading and parsing a PDF file
 #
 
-require 'pdf-reader'
+require 'pdf-reader2'
 require 'colorize'
 
 $QUIET = ARGV.delete('--quiet')
@@ -44,12 +44,12 @@ def read(doc)
   print_status "Processing '#{doc}'"
   begin
     @fname = doc
-    reader = PDF::Reader.new(@fname)
-  rescue PDF::Reader::MalformedPDFError
+    reader = PDF::Reader2.new(@fname)
+  rescue PDF::Reader2::MalformedPDFError
     print_error "Could not parse PDF '#{doc}': PDF is malformed"
     exit 1
-  rescue PDF::Reader::UnsupportedFeatureError 
-    print_error "Could not parse PDF '#{doc}': PDF::Reader::UnsupportedFeatureError"
+  rescue PDF::Reader2::UnsupportedFeatureError 
+    print_error "Could not parse PDF '#{doc}': PDF::Reader2::UnsupportedFeatureError"
     exit 1
   end
   print_good 'Processing complete'
@@ -57,10 +57,10 @@ def read(doc)
   print_status "Parsing '#{@fname}'"
   begin
     parse reader
-  rescue PDF::Reader::UnsupportedFeatureError
-    print_error "Could not parse PDF '#{doc}': PDF::Reader::UnsupportedFeatureError"
+  rescue PDF::Reader2::UnsupportedFeatureError
+    print_error "Could not parse PDF '#{doc}': PDF::Reader2::UnsupportedFeatureError"
     exit 1
-  rescue PDF::Reader::MalformedPDFError
+  rescue PDF::Reader2::MalformedPDFError
     print_error "Could not parse PDF '#{doc}': PDF is malformed"
     exit 1
   end

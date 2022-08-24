@@ -4,7 +4,7 @@
 
 require 'pdf/reader/transformation_matrix'
 
-class PDF::Reader
+class PDF::Reader2
     # encapsulates logic for tracking graphics state as the instructions for
     # a single page are processed. Most of the public methods correspond
     # directly to PDF operators.
@@ -204,7 +204,7 @@ class PDF::Reader
         concatenate_matrix(*matrix) if matrix
 
         if xobject.hash[:Subtype] == :Form
-          form = PDF::Reader::FormXObject.new(@page, xobject, :cache => @cache)
+          form = PDF::Reader2::FormXObject.new(@page, xobject, :cache => @cache)
           @font_stack.unshift(form.font_objects)
           @xobject_stack.unshift(form.xobjects)
           yield form if block_given?
@@ -390,7 +390,7 @@ class PDF::Reader
       #
       def build_fonts(raw_fonts)
         wrapped_fonts = raw_fonts.map { |label, font|
-          [label, PDF::Reader::Font.new(@objects, @objects.deref_hash(font) || {})]
+          [label, PDF::Reader2::Font.new(@objects, @objects.deref_hash(font) || {})]
         }
 
         ::Hash[wrapped_fonts]

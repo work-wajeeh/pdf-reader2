@@ -1,16 +1,16 @@
 # typed: false
 # coding: utf-8
 
-describe PDF::Reader::Stream do
+describe PDF::Reader2::Stream do
   include EncodingHelper
 
   it "decodes streams that use FlateDecode" do
     decoded_stream = "\n0.000 0.000 0.000 rg\n0.000 0.000 0.000 RG\nq\n1 w\nQ\nq\n1 w\nQ\nq\nq\n430.000 0 0 787.000 300.000 50.000 cm\n/I0 Do\nQ\nq\n1.000 0.000 0.000 rg\n1.000 0.000 0.000 RG\n72.000 0.000 81.156 792.000 re f\n1.000 1.000 1.000 rg\n1.000 1.000 1.000 RG\nBT 0.000 1.000 -1.000 0.000 137.303 70.000 Tm /F1 72.0 Tf 0 Tr (PDF::Writer for Ruby) Tj ET\n1 w\nQ\nBT 536.664 711.216 Td /F1 24.0 Tf 0 Tr (\n) Tj ET\nBT 170.016 684.432 Td /F1 24.0 Tf 0 Tr (Native Ruby PDF Document Creation\n) Tj ET\nBT 540.220 662.112 Td /F1 20.0 Tf 0 Tr (\n) Tj ET\nBT 357.440 639.792 Td /F1 20.0 Tf 0 Tr (The Ruby PDF Project\n) Tj ET\nBT 237.480 617.472 Td ET\nq\n0.000 0.000 1.000 rg\n0.000 0.000 1.000 RG\n1.116 w [ ] 0 d\nBT 237.480 617.472 Td 0.000 Tw /F1 20.0 Tf 0 Tr (http://rubyforge.org/projects/ruby-pdf) Tj ET\n237.480 615.798 m\n540.220 615.798 l S\n1 w\nQ\nBT 540.220 617.472 Td /F1 20.0 Tf 0 Tr (\n) Tj ET\nBT 436.340 595.152 Td 0.000 Tw /F1 20.0 Tf 0 Tr (version 1.1.2\n) Tj ET\nBT 541.998 575.064 Td 0.000 Tw /F1 18.0 Tf 0 Tr (\n) Tj ET\nBT 368.748 554.976 Td 0.000 Tw /F1 18.0 Tf 0 Tr (Copyright \251 2003\2262005\n) Tj ET\nBT 437.508 534.888 Td 0.000 Tw ET\nq\n0.000 0.000 1.000 rg\n0.000 0.000 1.000 RG\n1.0044 w [ ] 0 d\nBT 437.508 534.888 Td /F1 18.0 Tf 0 Tr (Austin Ziegler) Tj ET\n437.508 533.381 m\n541.998 533.381 l S\n1 w\nQ\nBT 541.998 534.888 Td /F1 18.0 Tf 0 Tr (\n) Tj ET\n1 w\nQ"
 
     io    = File.new(pdf_spec_file("pdfwriter-manual"))
-    ohash = PDF::Reader::ObjectHash.new(io)
-    obj   = ohash.object(PDF::Reader::Reference.new(7, 0))
-    expect(obj).to be_a_kind_of(PDF::Reader::Stream)
+    ohash = PDF::Reader2::ObjectHash.new(io)
+    obj   = ohash.object(PDF::Reader2::Reference.new(7, 0))
+    expect(obj).to be_a_kind_of(PDF::Reader2::Stream)
     expect(obj.unfiltered_data).to eql(binary_string(decoded_stream))
   end
 
@@ -87,11 +87,11 @@ EOF
     context "with a zlib stream that has a single trailing garbage byte" do
       it "makes an effort to decode the stream anyway" do
         File.open(pdf_spec_file("zlib_stream_issue"), "rb") do |io|
-          ohash = PDF::Reader::ObjectHash.new(io)
-          ref   = PDF::Reader::Reference.new(30,0)
+          ohash = PDF::Reader2::ObjectHash.new(io)
+          ref   = PDF::Reader2::Reference.new(30,0)
           obj   = ohash.object(ref)
 
-          expect(obj).to be_a_kind_of(PDF::Reader::Stream)
+          expect(obj).to be_a_kind_of(PDF::Reader2::Stream)
           expect(obj.unfiltered_data).to eql(decoded_stream.strip)
         end
       end

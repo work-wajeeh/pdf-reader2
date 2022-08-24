@@ -28,7 +28,7 @@ end
 # Generate the RDoc documentation
 desc "Create documentation"
 Rake::RDocTask.new("doc") do |rdoc|
-  rdoc.title = "pdf-reader"
+  rdoc.title = "pdf-reader2"
   rdoc.rdoc_dir = (ENV['CC_BUILD_ARTIFACTS'] || 'doc') + '/rdoc'
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('TODO')

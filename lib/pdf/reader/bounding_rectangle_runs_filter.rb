@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader
+class PDF::Reader2
 
   # Filter our text/characters that are positioned outside a rectangle. Usually the page
   # MediaBox or CropBox, but could be a user specified rectangle too

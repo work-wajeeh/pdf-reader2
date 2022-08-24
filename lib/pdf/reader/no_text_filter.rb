@@ -2,7 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-class PDF::Reader
+class PDF::Reader2
   # There's no point rendering zero-width characters
   class NoTextFilter
 

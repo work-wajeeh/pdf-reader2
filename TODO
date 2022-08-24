@@ -30,5 +30,5 @@ This might be useful, more research required
 - Investigate how R->L text is handled
 
 - fix all callbacks to only ever return basic ruby objects (strings, ints,
-  attays, symbols, hashes, etc). No PDF::Reader::Reference or
-  PDF::Reader::Font, etc.
+  attays, symbols, hashes, etc). No PDF::Reader2::Reference or
+  PDF::Reader2::Font, etc.

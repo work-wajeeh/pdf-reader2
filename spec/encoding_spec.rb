@@ -1,31 +1,31 @@
 # typed: false
 # coding: utf-8
 
-describe PDF::Reader::Encoding do
+describe PDF::Reader2::Encoding do
   describe "initialisation" do
 
     context "when the encoding is unrecognised" do
       it "returns a new encoding object" do
-        expect(PDF::Reader::Encoding.new("FakeEncoding")).to be_a_kind_of(PDF::Reader::Encoding)
-        expect(PDF::Reader::Encoding.new(nil)).to be_a_kind_of(PDF::Reader::Encoding)
+        expect(PDF::Reader2::Encoding.new("FakeEncoding")).to be_a_kind_of(PDF::Reader2::Encoding)
+        expect(PDF::Reader2::Encoding.new(nil)).to be_a_kind_of(PDF::Reader2::Encoding)
       end
     end
 
     context "when the encoding is WinAnsi" do
       it "returns a new encoding object" do
         win =  {:Encoding => :WinAnsiEncoding}
-        expect(PDF::Reader::Encoding.new(win)).to  be_a_kind_of(PDF::Reader::Encoding)
+        expect(PDF::Reader2::Encoding.new(win)).to  be_a_kind_of(PDF::Reader2::Encoding)
       end
     end
 
     context "when the encoding is WinAnsi with an even-count differences table" do
       let!(:enc) do
-        PDF::Reader::Encoding.new(:Encoding    => :WinAnsiEncoding,
+        PDF::Reader2::Encoding.new(:Encoding    => :WinAnsiEncoding,
                                   :Differences => [25, :A, 26, :B]
                                 )
       end
       it "returns a new encoding object" do
-        expect(enc).to be_a_kind_of(PDF::Reader::Encoding)
+        expect(enc).to be_a_kind_of(PDF::Reader2::Encoding)
       end
       it "records the differences" do
         expect(enc.differences).to be_a_kind_of(Hash)
@@ -36,12 +36,12 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is WinAnsi with a odd-count differences table" do
       let!(:enc) do
-        PDF::Reader::Encoding.new(:Encoding    => :WinAnsiEncoding,
+        PDF::Reader2::Encoding.new(:Encoding    => :WinAnsiEncoding,
                                   :Differences => [25, :A, 26, :B]
                                 )
       end
       it "returns a new encoding object" do
-        expect(enc).to be_a_kind_of(PDF::Reader::Encoding)
+        expect(enc).to be_a_kind_of(PDF::Reader2::Encoding)
       end
       it "records the differences" do
         expect(enc.differences).to be_a_kind_of(Hash)
@@ -56,7 +56,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is WinAnsi with an even-count differences table" do
       let!(:enc) do
-        PDF::Reader::Encoding.new(:Encoding    => :WinAnsiEncoding,
+        PDF::Reader2::Encoding.new(:Encoding    => :WinAnsiEncoding,
                                   :Differences => [1, :A]
                                 )
       end
@@ -70,7 +70,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is Identity-H" do
       it "returns utf-8 squares" do
-        e = PDF::Reader::Encoding.new("Identity-H")
+        e = PDF::Reader2::Encoding.new("Identity-H")
         [
           {:expert => "\x22",             :utf8 => ""},
           {:expert => "\x22\xF7",         :utf8 => [0x25AF].pack("U*")},
@@ -87,7 +87,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is Identity-V" do
       it "returns utf-8 squares if to_utf8 is called without a cmap" do
-        e = PDF::Reader::Encoding.new("Identity-V")
+        e = PDF::Reader2::Encoding.new("Identity-V")
         [
           {:expert => "\x22",             :utf8 => ""},
           {:expert => "\x22\xF7",         :utf8 => [0x25AF].pack("U*")},
@@ -105,7 +105,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is MacExpert" do
       it "correctly converts various expert strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:MacExpertEncoding)
+        e = PDF::Reader2::Encoding.new(:MacExpertEncoding)
         [
           {:expert => "\x22", :utf8 => [0xF6F8].pack("U*")},
           {:expert => "\x62", :utf8 => [0xF762].pack("U*")},
@@ -123,7 +123,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is MacExpert with differences" do
       it "correctly converts various mac expert strings" do
-        e = PDF::Reader::Encoding.new(:MacExpertEncoding)
+        e = PDF::Reader2::Encoding.new(:MacExpertEncoding)
         e.differences = [0xEE, :A]
         [
           {:mac => "\x22\xEE", :utf8 => [0xF6F8, 0x41].pack("U*")}
@@ -141,7 +141,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is MacRoman" do
       it "correctly converts various strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:MacRomanEncoding)
+        e = PDF::Reader2::Encoding.new(:MacRomanEncoding)
         [
           {:mac => "abc", :utf8 => "abc"},
           {:mac => "ABC", :utf8 => "ABC"},
@@ -162,7 +162,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is MacRoman with differences" do
       it "correctly converts various strings" do
-        e = PDF::Reader::Encoding.new(:MacRomanEncoding)
+        e = PDF::Reader2::Encoding.new(:MacRomanEncoding)
         e.differences = [0xEE, :A]
         [
           {:mac => "\x24\xEE", :utf8 => [0x24, 0x41].pack("U*")}, # dollar sign, A
@@ -181,7 +181,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is PdfDoc" do
       it "correctly converts various strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:PDFDocEncoding)
+        e = PDF::Reader2::Encoding.new(:PDFDocEncoding)
         [
           {:pdf => "\x22", :utf8 => [0x22].pack("U*")},
           {:pdf => "\x62", :utf8 => [0x62].pack("U*")},
@@ -199,7 +199,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is PdfDoc with differences" do
       it "correctly converts various strings" do
-        e = PDF::Reader::Encoding.new(:PDFDocEncoding)
+        e = PDF::Reader2::Encoding.new(:PDFDocEncoding)
         e.differences = [0xEE, :A]
         [
           {:pdf => "\x22\xEE", :utf8 => [0x22, 0x41].pack("U*")}
@@ -217,7 +217,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is StandardEncoding" do
       it "correctly converts various standard strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:StandardEncoding)
+        e = PDF::Reader2::Encoding.new(:StandardEncoding)
         [
           {:standard => "abc",  :utf8 => "abc"},
           {:standard => "ABC",  :utf8 => "ABC"},
@@ -239,7 +239,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is StandardEncoding with differences" do
       it "correctly converts various strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:StandardEncoding)
+        e = PDF::Reader2::Encoding.new(:StandardEncoding)
         e.differences = [0xEE, :A]
         [
           {:std => "\x60\xEE", :utf8 => [0x2018, 0x41].pack("U*")}, # ", A
@@ -257,7 +257,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is Symbol" do
       it "correctly converts various symbol strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:SymbolEncoding)
+        e = PDF::Reader2::Encoding.new(:SymbolEncoding)
         [
           {:symbol => "\x41", :utf8 => [0x0391].pack("U*")}, # alpha
           {:symbol => "\x42", :utf8 => [0x0392].pack("U*")}, # beta
@@ -277,7 +277,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is Symbol with differences" do
       it "correctly converts various symbol strings when a differences table is specified" do
-        e = PDF::Reader::Encoding.new(:SymbolEncoding)
+        e = PDF::Reader2::Encoding.new(:SymbolEncoding)
         e.differences = [0xEE, :A]
         [
           {:symbol => "\x41\xEE", :utf8 => [0x0391, 0x41].pack("U*")}, # alpha, A
@@ -295,7 +295,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is WinAnsi" do
       it "correctly converts various win-1252 strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:WinAnsiEncoding)
+        e = PDF::Reader2::Encoding.new(:WinAnsiEncoding)
         [
           {:win => "abc", :utf8 => "abc"},
           {:win => "ABC", :utf8 => "ABC"},
@@ -315,7 +315,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is WinAnsi with differences" do
       it "correctly converts various strings" do
-        e = PDF::Reader::Encoding.new(:WinAnsiEncoding)
+        e = PDF::Reader2::Encoding.new(:WinAnsiEncoding)
         e.differences = [0xEE, :A]
         [
           {:win => "abc", :utf8 => "abc"},
@@ -332,7 +332,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is ZaphDingbats" do
       it "correctly converts various dingbats strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:ZapfDingbatsEncoding)
+        e = PDF::Reader2::Encoding.new(:ZapfDingbatsEncoding)
         [
           {:dingbats => "\x22", :utf8 => [0x2702].pack("U*")}, # scissors
           {:dingbats => "\x25", :utf8 => [0x260E].pack("U*")}, # telephone
@@ -351,7 +351,7 @@ describe PDF::Reader::Encoding do
     end
     context "when the encoding is ZaphDingbats with differences" do
       it "correctly converts various dingbats strings when a differences table is specified" do
-        e = PDF::Reader::Encoding.new(:ZapfDingbatsEncoding)
+        e = PDF::Reader2::Encoding.new(:ZapfDingbatsEncoding)
         e.differences = [0xEE, :A]
         [
           {:dingbats => "\x22\xEE", :utf8 => [0x2702, 0x41].pack("U*")}, # scissors
@@ -370,7 +370,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is UTF16" do
       it "correctly converts various PDFDoc strings to utf-8" do
-        e = PDF::Reader::Encoding.new(:UTF16Encoding)
+        e = PDF::Reader2::Encoding.new(:UTF16Encoding)
         [
           {:utf16 => "\x00\x41", :utf8 => [0x41].pack("U*")},
           {:utf16 => "\x20\x22", :utf8 => [0x2022].pack("U*")},
@@ -392,7 +392,7 @@ describe PDF::Reader::Encoding do
 
     context "when the encoding is WinAnsi" do
       let!(:enc) {
-        PDF::Reader::Encoding.new(:Encoding => :WinAnsiEncoding)
+        PDF::Reader2::Encoding.new(:Encoding => :WinAnsiEncoding)
       }
       it "converts a int glyph code to the relevant utf-8 string" do
         expect(enc.int_to_utf8_string(65)).to eq("A")
